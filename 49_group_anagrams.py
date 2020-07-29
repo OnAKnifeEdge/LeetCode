@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    # https://leetcode.com/problems/group-anagrams
     def convert_word(self, word: str):
         words = [0] * 26
         for letter in word:

@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    # https://leetcode.com/problems/maximum-subarray
     def max_sub_array(self, nums: List[int]) -> int:
         if not nums:
             return 0
