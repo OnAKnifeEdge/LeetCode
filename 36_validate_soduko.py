@@ -8,14 +8,16 @@ from typing import List
 class Solution:
 
     def is_valid(self, numbers: List[str]):
+        valid_nums = []
         for num in numbers:
             if num.isdigit() and (1 <= int(num) <= 9):
+                valid_nums.append(num)
                 continue
             elif num == '.':
                 continue
             else:
                 return False
-        return len(set(numbers)) == len(numbers)
+        return len(set(valid_nums)) == len(valid_nums)
 
     def is_row_valid(self, board: List[List[str]]):
         for row in board:
@@ -40,3 +42,17 @@ class Solution:
 
     def is_valid_sudoku(self, board: List[List[str]]) -> bool:
         return self.is_row_valid(board) and self.is_column_valid(board) and self.is_square_valid(board)
+
+
+if __name__ == '__main__':
+    solution = Solution()
+    print(solution.is_valid_sudoku(
+        [["5", "3", ".", ".", "7", ".", ".", ".", "."],
+         ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+         [".", "9", "8", ".", ".", ".", ".", "6", "."],
+         ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+         ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+         ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+         [".", "6", ".", ".", ".", ".", "2", "8", "."],
+         [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+         [".", ".", ".", ".", "8", ".", ".", "7", "9"]]))
