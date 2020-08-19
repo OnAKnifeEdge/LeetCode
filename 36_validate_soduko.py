@@ -9,8 +9,8 @@ class Solution:
 
     def is_valid(self, numbers: List[str]):
         for num in numbers:
-            if num.isdigit() and (int(num) < 1 or int(num) > 9):
-                return False
+            if num.isdigit() and (1 <= int(num) <= 9):
+                continue
             elif num == '.':
                 continue
             else:
