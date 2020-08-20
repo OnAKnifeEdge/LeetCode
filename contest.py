@@ -13,7 +13,7 @@ class Solution:
             index = index + 1
         return False
 
-    def min_oOperations(self, n: int) -> int:
+    def min_operations(self, n: int) -> int:
         # if odd, 加一半
         # if even, 加一半但是是偶数的
         # 项数是 n//2
@@ -26,7 +26,7 @@ class Solution:
         if n % 2 == 0:
             start = 1
             end = c * 2 - 1
-        if n % 2 == 1:
+        else:
             start = 2
             end = n // 2 * 2
         return (start + end) * c // 2
@@ -39,4 +39,4 @@ if __name__ == '__main__':
     # inp = [1, 2, 1, 1]
     # print(solution.three_consecutive_odds(inp))
 
-    solution.min_Operations(6)
+    solution.min_operations(6)
