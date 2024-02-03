@@ -1,4 +1,48 @@
+from collections import deque
 from typing import List
+
+
+class MyQueue:
+
+    def __init__(self):
+        self.q = deque([])
+        self.max_q = deque([])
+
+    def push(self, x):
+        self.q.append(x)
+        while self.max_q:
+            left = self.max_q[-1]
+            if x > left:
+                self.max_q.pop()
+            else:
+                break
+        self.max_q.append(x)
+
+    def pop(self):
+        x = self.q.popleft()
+        if x == self.max_q[0]:
+            self.max_q.popleft()
+        return x
+
+    def max(self):
+        return self.max_q[0]
+
+    def empty(self):
+        return len(self.q) == 0
+
+
+s = MyQueue()
+t = [1, 2, 3, 4, 5]
+for i in t:
+    s.push(i)
+    print(s.max())
+    print(s.empty())
+
+print('====')
+for i in t:
+    print('max', s.max())
+    print(s.pop())
+    print(s.empty())
 
 
 class Solution:
@@ -6,8 +50,8 @@ class Solution:
         index = 0
         while index <= len(arr) - 3:
             a = arr[index]
-            b = arr[index+1]
-            c = arr[index+2]
+            b = arr[index + 1]
+            c = arr[index + 2]
             if a % 2 == 1 and b % 2 == 1 and c % 2 == 1:
                 return True
             index = index + 1
