@@ -9,7 +9,7 @@ class Solution:
             if s - k in d:
                 answer += d[s - k]
             if s in d:
-                d[s] = d[s] + 1
+                d[s] += 1
             else:
                 d[s] = 1
         return answer
