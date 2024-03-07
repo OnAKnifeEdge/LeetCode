@@ -15,22 +15,13 @@ class Solution:
         d = defaultdict(int)
         
         for num in nums:
-            # The current prefix sum
             prefix_sum += num
-            
-            # Situation 1:
-            # Continuous subarray starts 
-            # from the beginning of the array
+
             if prefix_sum == k:
                 count += 1
             
-            # Situation 2:
-            # The number of times the curr_sum − k has occurred already, 
-            # determines the number of times a subarray with sum k 
-            # has occurred up to the current index
             count += d[prefix_sum - k]
             
-            # Add the current sum
             d[prefix_sum] += 1
                 
         return count
