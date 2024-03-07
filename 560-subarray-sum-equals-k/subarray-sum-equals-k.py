@@ -12,7 +12,7 @@ class Solution:
         # return count
 
         count, prefix_sum = 0, 0
-        d = defaultdict(int)
+        d = {}
         
         for num in nums:
             prefix_sum += num
@@ -20,9 +20,9 @@ class Solution:
             if prefix_sum == k:
                 count += 1
             
-            count += d[prefix_sum - k]
+            count += d.get(prefix_sum - k, 0)
             
-            d[prefix_sum] += 1
+            d[prefix_sum] = d.get(prefix_sum, 0) + 1
                 
         return count
 
