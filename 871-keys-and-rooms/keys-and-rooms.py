@@ -1,15 +1,14 @@
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        seen = [False] * len(rooms)
-        seen[0] = True
+        seen = set()
         s = [0]
 
         while s:
-            node = s.pop()
-            for key in rooms[node]:
-                if not seen[key]:
-                    seen[key] = True
+            room = s.pop()
+            seen.add(room)
+            for key in rooms[room]:
+                if key not in seen:
                     s.append(key)
 
-        return all(seen)
+        return len(seen) == len(rooms)
         
