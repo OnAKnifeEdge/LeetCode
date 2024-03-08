@@ -12,7 +12,8 @@ class Solution:
                 for i, j in DIRECTIONS:
                     r = x + i
                     c = y + j
-                    if r + 1 == 0 or r == ROWS or c == COLS or c + 1 == 0 or maze[r][c] != '.':
+                    # if out of bounds or reach a wall
+                    if r + 1 == 0 or r == ROWS or c == COLS or c + 1 == 0 or maze[r][c] == '+':
                         continue
                     if r == 0 or r == ROWS - 1 or c == 0 or c == COLS - 1:
                         return d + 1
