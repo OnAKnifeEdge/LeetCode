@@ -9,14 +9,13 @@ class Solution:
         while q:
             for i in range(len(q)):
                 x, y, d = q.popleft()
-
                 for i, j in DIRECTIONS:
                     r = x + i
                     c = y + j
-                    if 0 <= r < ROWS and 0 <= c < COLS and maze[r][c] == '.': 
-                        if r == 0 or r == ROWS - 1 or c == 0 or c == COLS - 1:
-                            return d + 1
-                        maze[r][c] = '+'
-                        q.append((r, c, d + 1))
-
+                    if r + 1 == 0 or r == ROWS or c == COLS or c + 1 == 0 or maze[r][c] != '.':
+                        continue
+                    if r == 0 or r == ROWS - 1 or c == 0 or c == COLS - 1:
+                        return d + 1
+                    maze[r][c] = '+'
+                    q.append((r, c, d + 1))
         return -1
