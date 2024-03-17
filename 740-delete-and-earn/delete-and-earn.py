@@ -19,12 +19,23 @@ class Solution:
         
         # return dp(max_number)
         # bottom up case
-        dp = [0] * (max_number + 1)
-        dp[1] = points[1]
 
+        # dp = [0] * (max_number + 1)
+        # dp[1] = points[1]
+
+        # for i in range(2, max_number + 1):
+        #     dp[i] = max(dp[i - 1], dp[i - 2] + points[i])
+        # return dp[max_number]
+
+        # space optimazation
+
+        two = 0
+        one = points[1]
         for i in range(2, max_number + 1):
-            dp[i] = max(dp[i - 1], dp[i - 2] + points[i])
-        return dp[max_number]
+            two, one = one, max(one, two + points[i])
+        return one
+
+
 
 
 
