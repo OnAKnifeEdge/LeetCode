@@ -29,12 +29,27 @@ class Solution:
 
         # space optimazation
 
-        two = 0
-        one = points[1]
-        for i in range(2, max_number + 1):
-            two, one = one, max(one, two + points[i])
-        return one
+        # two = 0
+        # one = points[1]
+        # for i in range(2, max_number + 1):
+        #     two, one = one, max(one, two + points[i])
+        # return one
 
+
+        # optimization with sorting
+        elements = sorted(points.keys())
+        if not elements:
+            return 0
+        two = 0
+        one = points[elements[0]]
+        # loop elements
+        for i in range(1, len(elements)):
+            current = elements[i]
+            if current == elements[i - 1] + 1:
+                two, one = one, max(one, two + points[current])
+            else:
+                two, one = one, one + points[current]
+        return one
 
 
 
