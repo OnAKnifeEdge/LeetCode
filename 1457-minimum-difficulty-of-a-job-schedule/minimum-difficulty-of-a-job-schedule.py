@@ -11,7 +11,7 @@ class Solution:
             if k == d: 
                 return max(jobDifficulty[i:])
             # init min difficulty with inf 
-            res = float('inf')
+            best = float('inf')
             # cur is the max difficulty we've seen so far on day `k`
             # init current max with 0
             cur = 0
@@ -32,8 +32,8 @@ class Solution:
                 # and we need to start (j + 1)-th job on the next day
                 # the result would be `cur + dp(j + 1, k + 1)`
                 # then we take the min
-                res = min(res, cur + dp(j + 1, k + 1))
-            return res
+                best = min(best, cur + dp(j + 1, k + 1))
+            return best
         # n < d : you will have free days. hence you cannot find a schedule for the given jobs
         # e.g. Example 2
         # otherwise, we start working on 0-th job at day 1
