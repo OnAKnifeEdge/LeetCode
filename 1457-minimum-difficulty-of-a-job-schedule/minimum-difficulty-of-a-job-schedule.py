@@ -25,7 +25,7 @@ class Solution:
             # notice that each day we must have at least one task
             # given the starting index `i`, 
             # we can only at most choose the jobs till the position `n - d + k - 1`
-            for j in range(i, n - d + k):
+            for j in range(i, n - (d - k)):
                 hardest = max(hardest, jobDifficulty[j])
                 # if j-th job is the last job on day `k`, 
                 # the max difficulty for day `k` is `cur`
