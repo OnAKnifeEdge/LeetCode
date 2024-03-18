@@ -1,6 +1,9 @@
 class Solution:
     def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
         n = len(jobDifficulty)
+
+        if n < d:
+            return -1
     
         @cache
         # dp(i, k): min difficulty when you start working on i-th job at day `k`
@@ -37,4 +40,4 @@ class Solution:
         # n < d : you will have free days. hence you cannot find a schedule for the given jobs
         # e.g. Example 2
         # otherwise, we start working on 0-th job at day 1
-        return -1 if n < d else dp(0, 1)
+        return dp(0, 1)
