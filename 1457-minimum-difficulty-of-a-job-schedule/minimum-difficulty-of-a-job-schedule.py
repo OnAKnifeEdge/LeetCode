@@ -28,9 +28,9 @@ class Solution:
             for j in range(i, n - (d - k)):
                 hardest = max(hardest, jobDifficulty[j])
                 # if j-th job is the last job on day `k`, 
-                # the max difficulty for day `k` is `cur`
+                # the max difficulty for day `k` is `hardest`
                 # and we need to start (j + 1)-th job on the next day
-                # the result would be `cur + dp(j + 1, k + 1)`
+                # the result would be `hardest + dp(j + 1, k + 1)`
                 # then we take the min
                 best = min(best, hardest + dp(j + 1, k + 1))
             return best
