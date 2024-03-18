@@ -8,7 +8,8 @@ class Solution:
             # reach the last day
             # we put all the remaining jobs on this day
             # so we return the one with max difficulty
-            if k == d: return max(jobDifficulty[i:])
+            if k == d: 
+                return max(jobDifficulty[i:])
             # init min difficulty with inf 
             res = float('inf')
             # cur is the max difficulty we've seen so far on day `k`
