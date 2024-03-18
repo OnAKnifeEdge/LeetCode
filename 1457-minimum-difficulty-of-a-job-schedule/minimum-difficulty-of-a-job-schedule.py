@@ -12,7 +12,7 @@ class Solution:
                 return max(jobDifficulty[i:])
             # init min difficulty with inf 
             best = float('inf')
-            # cur is the max difficulty we've seen so far on day `k`
+            # hardest is the max difficulty we've seen so far on day `k`
             # init current max with 0
             hardest = 0
             # for jobDifficulty like 6 5 4 3 2 1, 
