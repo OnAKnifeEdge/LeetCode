@@ -26,17 +26,8 @@ class Solution:
         # return dp(0, amount)
 
         # # BOTTOM UP Approach
-        n = len(coins)
-
-        dp = [[0] * (amount + 1) for _ in range(n + 1)]
-        for i in range(n):
-            dp[i][0] = 1
-
-        for i in reversed(range(n)):
-            for a in range(1, amount + 1):
-                if coins[i] > a:
-                    dp[i][a] = dp[i + 1][a]
-                else:
-                    dp[i][a] = dp[i][a - coins[i]] + dp[i + 1][a]
-
-        return dp[0][amount]
+        dp = [1] + [0 for _ in range(amount)]
+        for coin in coins:
+            for a in range(coin, amount + 1):
+                dp[a] += dp[a - coin]
+        return dp[amount]
