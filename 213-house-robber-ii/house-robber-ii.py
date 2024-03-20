@@ -17,11 +17,3 @@ class Solution:
         for num in nums:
             two_back, one_back = one_back, max(two_back + num, one_back)
         return one_back
-        # t1 = 0
-        # t2 = 0
-        # for num in nums:
-        #     # t1, t2 = max(num + t2, t1), t1
-        #     temp = t1
-        #     t1 = max(num + t2, t1)
-        #     t2 = temp
-        # return t1
