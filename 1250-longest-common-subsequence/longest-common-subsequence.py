@@ -23,14 +23,14 @@ class Solution:
             text1, text2 = text2, text1
             m, n = n, m
 
-        previous = [0] * (n + 1) # 给 text1 
+        previous = [0] * (n + 1) # 给 text2 用长的
 
         for c in reversed(range(n)):
             current = [0] * (n + 1)
             for r in reversed(range(m)):
-                if text2[c] == text1[r]:
+                if text2[c] == text1[r]: # 要。之前最长的 + 1
                     current[r] = 1 + previous[r + 1]
-                else:
+                else: # 不要。之前的，或者下一个。
                     current[r] = max(previous[r], current[r + 1])
             previous = current
 
