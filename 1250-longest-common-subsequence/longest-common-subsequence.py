@@ -1,7 +1,7 @@
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
 
-        # m, n = len(text1), len(text2)
+          # m, n = len(text1), len(text2)
         # dp = [[0] * (n + 1) for _ in range(m + 1)]
         # # 竖着的是 text1, 横着的是 text2t
         # for r in reversed(range(m)):
@@ -34,4 +34,26 @@ class Solution:
                     current[r] = max(previous[r], current[r + 1])
             previous = current
 
-        return previous[0]
+        return current[0]
+
+        # m, n = len(text1), len(text2)
+        # if m > n:
+        #     m, n = n, m
+        #     text1, text2 = text2, text1
+
+        # previous = [0] * (n + 1)
+
+        # for i in reversed(range(n)): # loop long text2
+        #     current = [0] * (n + 1)
+        #     for j in reversed(range(m)):
+        #         if text2[i] == text1[j]:
+        #             current[j] = 1 + previous[j]
+        #         else:
+        #             current[j] = max(previous[j], current[j + 1])
+
+        #     previous = current
+
+        # return current[0]
+
+
+        
