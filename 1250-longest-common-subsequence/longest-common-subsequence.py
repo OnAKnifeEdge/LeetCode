@@ -8,13 +8,13 @@ class Solution:
 
         previous = [0] * (m + 1)
 
-        for c in reversed(range(n)): # loop long text2
+        for r in reversed(range(n)): # loop long text2
             current = [0] * (m + 1)
-            for r in reversed(range(m)):
-                if text2[c] == text1[r]:
-                    current[r] = 1 + previous[r + 1]
+            for c in reversed(range(m)):
+                if text2[r] == text1[c]:
+                    current[c] = 1 + previous[c + 1]
                 else:
-                    current[r] = max(previous[r], current[r + 1])
+                    current[c] = max(previous[c], current[c + 1])
 
             previous = current
 
