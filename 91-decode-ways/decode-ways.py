@@ -19,6 +19,8 @@ class Solution:
 
         # return one_back
 
+
+        # where dp[i] represents the number of ways to decode the substring s[:i]
         n = len(s)
         dp = [0] * (n + 1)
         dp[0] = 1
