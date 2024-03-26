@@ -11,7 +11,7 @@ class Solution:
             # Therefore, we need (right - left + 1)) subtract 2. Return right - left - 1
             return s[left + 1: right]
         result = ""
-        for i in range(len(s) - 1):
+        for i in range(len(s)):
             odd = expand(i, i)
             even = expand(i, i + 1)
             if len(odd) > len(result):
