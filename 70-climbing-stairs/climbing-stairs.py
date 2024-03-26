@@ -1,6 +1,10 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        one, two = 1, 1,
-        for i in range(n - 1):
-            one, two = one + two, one
-        return one
+        one_back, two_back = 1, 1
+        for i in reversed(range(n - 1)):
+            temp = one_back + two_back
+            one_back = two_back
+            two_back = temp
+        return two_back
+
+        
