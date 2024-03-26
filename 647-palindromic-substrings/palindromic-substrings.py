@@ -5,8 +5,6 @@ class Solution:
         for i in range(len(s)):
 
             result += self.count(s, i, i)
-        
-            # even length
             result += self.count(s, i, i + 1)
         return result
 
