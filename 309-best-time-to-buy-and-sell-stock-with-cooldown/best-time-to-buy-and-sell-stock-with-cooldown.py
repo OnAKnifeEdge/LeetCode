@@ -1,26 +1,13 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        # state: buying or selling
-        # if buy => i + 1
-        # if sell => i + 2 we have to take a cooldown day
+        cooldown, sell, hold = 0, 0, float('-inf') # 股票不可能無中生有，免費獲得利潤，所以 hold 要記得初始化成負無窮大。
 
-        dp = {} # key = {i, buying} val=max_profit
+        for price in prices:
+            prev_cooldown, prev_sell, prev_hold = cooldown, sell, hold
 
-        def dfs(i, buying):
-            if i >= len(prices):
-                return 0
-            if (i, buying) in dp:
-                return dp[(i, buying)] 
+            cooldown = max(prev_cooldown, prev_sell)
+            sell = prev_hold + price
+            hold = max(prev_hold, prev_cooldown - price)
 
-            cooldown = dfs(i + 1, buying)
-            if buying:
-                buy = dfs(i + 1, False) - prices[i]       
-                dp[(i, buying)] = max(buy, cooldown)
-            else:
-                sell = dfs(i + 2, True) + prices[i]
-                dp[(i, buying)] = max(sell, cooldown)
-
-            return dp[(i, buying)]
-
-        return dfs(0, True)
-
+        return max(sell, cooldown)
+        
