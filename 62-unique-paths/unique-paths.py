@@ -1,10 +1,9 @@
 class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        row = [1] * n
-        for i in reversed(range(m - 1)):
-            new_row = [1] * n
-            for j in reversed(range(n - 1)):
-                new_row[j] = row[j] + new_row[j + 1]
-            row = new_row
-        return row[0]
-        
+    def uniquePaths(self, m: int, n: int) -> int:       
+        prev_row = [1] * n
+        for i in range(1, m):
+            curr_row = [1] * n
+            for j in range(1, n):
+                curr_row[j] = curr_row[j - 1] + prev_row[j]
+            prev_row = curr_row
+        return prev_row[-1]
