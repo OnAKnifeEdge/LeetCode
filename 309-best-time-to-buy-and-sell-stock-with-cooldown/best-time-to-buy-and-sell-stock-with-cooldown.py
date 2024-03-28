@@ -5,7 +5,8 @@ class Solution:
         for price in prices:
             prev_cooldown, prev_sell, prev_hold = cooldown, sell, hold
 
-            cooldown = max(prev_cooldown, prev_sell)
+            # cooldown on day i: cooldown of day (i - 1), or sell out of day (i - 1). day i is a cooling day 
+            cooldown = max(prev_cooldown, prev_sell, prev_hold)
             sell = prev_hold + price
             hold = max(prev_hold, prev_cooldown - price)
 
