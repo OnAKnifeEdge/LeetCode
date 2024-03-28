@@ -18,8 +18,8 @@ class Solution:
                 for i in range(left, right + 1):
                     # nums[i] is the last burst one
                     gain = nums[left - 1] * nums[i] * nums[right + 1]
-                    # recursively call left side and right side
+                    # we burst all balloons except the ith balloon. What we gain is
                     remaining = dp[left][i - 1] + dp[i + 1][right]
                     dp[left][right] = max(remaining + gain, dp[left][right])
 
-        return dp[1][n - 2]
+        return dp[1][-2]
