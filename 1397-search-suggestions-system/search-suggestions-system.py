@@ -3,8 +3,8 @@ class TrieNode:
         self.children = {}
         self.candidates = []
 
-    def __str__(self):
-        return repr(self.children), repr(self.candidates)
+    # def __str__(self):
+    #     return repr(self.children), repr(self.candidates)
 
 
 class Trie:
