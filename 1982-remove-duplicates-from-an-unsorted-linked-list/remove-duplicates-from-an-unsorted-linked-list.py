@@ -12,8 +12,8 @@ class Solution:
             p = p.next
         
         dummy = ListNode(0, head)
-        p = dummy
         
+        p = dummy
         while p:
            unique = p.next
            while unique and c[unique.val] > 1:
