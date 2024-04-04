@@ -10,12 +10,15 @@ class Solution:
         while fast and fast.next:
             fast = fast.next.next
             left, left.next, slow = slow, left, slow.next
+            # tmp = left
+            # left = slow
+            # slow = slow.next
+            # left.next = tmp
         if fast:
             slow = slow.next
         while left and left.val == slow.val:
             slow = slow.next
             left = left.next
-        
         return not left
 
 
