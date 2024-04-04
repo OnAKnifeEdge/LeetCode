@@ -3,21 +3,20 @@ class Solution:
         if len(s) <= 1:
             return s
         
-        def expand(left, right) -> int:
+        def expand(s, left, right):
             while left >= 0 and right < len(s) and s[left] == s[right]:
                 left -= 1
-                right +=1
-            # When the while loop ends, it implies s[left] != s[right]. 
-            # Therefore, we need (right - left + 1)) subtract 2. Return right - left - 1
+                right += 1
+            # no longer equals
             return s[left + 1: right]
+
         result = ""
         for i in range(len(s)):
-            odd = expand(i, i)
-            even = expand(i, i + 1)
+            odd = expand(s, i, i)
+            even = expand(s, i, i + 1)
             if len(odd) > len(result):
                 result = odd
             if len(even) > len(result):
                 result = even
         return result
-
         
