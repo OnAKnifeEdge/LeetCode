@@ -11,14 +11,15 @@ class Solution:
             fast = fast.next.next
             slow = slow.next
 
-
         left, right = head, self.reverse(slow)
+
 
         while right:
             if left.val != right.val:
                 return False
             left = left.next
             right = right.next
+
         return True
 
 
