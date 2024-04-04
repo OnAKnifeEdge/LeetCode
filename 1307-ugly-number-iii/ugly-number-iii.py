@@ -8,7 +8,7 @@ class Solution:
         
         lo, hi = 1, n*min(a, b, c)
         while lo < hi: 
-            mid = lo + hi >> 1
+            mid = (lo + hi) // 2
             if mid//a + mid//b + mid//c - mid//ab - mid//bc - mid//ca + mid//abc < n: 
                 lo = mid + 1
             else: hi = mid 
