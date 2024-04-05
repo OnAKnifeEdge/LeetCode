@@ -3,4 +3,8 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        matrix[:] = map(list, zip(*matrix[::-1]))
+        # matrix[:] = map(list, zip(*matrix[::-1]))
+        matrix.reverse()
+        for i in range(len(matrix)):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
