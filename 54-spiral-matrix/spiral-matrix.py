@@ -4,7 +4,7 @@ class Solution:
 
         while matrix:
             result.extend(matrix.pop(0))
-            matrix = [*zip(*matrix)][::-1]
+            matrix = list(reversed([*zip(*matrix)]))
         
         return result
         
