@@ -22,8 +22,8 @@ class Solution:
             result.append([nums[i], left, right])
             while lo < hi and nums[lo] == left:
                 lo += 1
-            while lo < hi and nums[hi] == right:
-                hi -= 1
+            # while lo < hi and nums[hi] == right:
+            #     hi -= 1
         return result
             
 
