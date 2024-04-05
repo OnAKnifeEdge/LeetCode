@@ -1,5 +1,8 @@
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        # https://leetcode.com/problems/longest-well-performing-interval/submissions/1224328300/
+        # https://leetcode.com/problems/contiguous-array/description/
+        # 325
         d = {}
         prefix_sum = 0
 
@@ -14,5 +17,5 @@ class Solution:
 
             if mod_k in d and i - d[mod_k] > 1:
                 return True
-                
+
         return False
