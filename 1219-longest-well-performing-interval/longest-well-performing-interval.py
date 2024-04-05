@@ -9,11 +9,12 @@ class Solution:
 
             if diff > 0: # well-performing
                 result = max(result, i + 1)
-            else:
-                if diff not in d:
-                    d[diff] = i
-                if diff - 1 in d:
-                    result = max(result, i - d[diff - 1])
+                continue
+
+            if diff not in d:
+                d[diff] = i
+            if diff - 1 in d:
+                result = max(result, i - d[diff - 1])
 
         return result
 
