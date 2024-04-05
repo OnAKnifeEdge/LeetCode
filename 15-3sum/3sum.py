@@ -8,13 +8,17 @@ class Solution:
             left, right = nums[lo], nums[hi]
             s = left + right + nums[i]
             if s < 0:
-                while lo < hi and nums[lo] == left:
-                    lo += 1
+                lo += 1
                 continue
+                # while lo < hi and nums[lo] == left:
+                #     lo += 1
+                # continue
             elif s > 0:
-                while lo < hi and nums[hi] == right:
-                    hi -= 1
+                hi -= 1
                 continue
+                # while lo < hi and nums[hi] == right:
+                #     hi -= 1
+                # continue
             result.append([nums[i], left, right])
             while lo < hi and nums[lo] == left:
                 lo += 1
