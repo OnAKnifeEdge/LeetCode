@@ -17,6 +17,7 @@ class Solution:
             for j in range(i):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
+        #  ~i is the same as -i-1
         # flip
         for row in matrix:
             for j in range(n // 2):
