@@ -6,4 +6,4 @@ class Solution:
             if left_sum == s - left_sum - num:
                 return i
             left_sum += num
-        return -1 
+        return -1
