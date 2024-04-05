@@ -13,7 +13,6 @@ class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         n = len(nums)
         answer = [1] * n
-        prefix = suffix = 1
 
         # [1, 2, 3, 4]
 
@@ -21,9 +20,10 @@ class Solution:
             answer[i] = nums[i - 1] * answer[i - 1]
             # [1, 1, 2, 6]
         
+        suffix = 1
         for i in reversed(range(n)):
             answer[i] *= suffix
-            #suffix= [1, 4, 12, 24]
             suffix *= nums[i]
+
         
         return answer
