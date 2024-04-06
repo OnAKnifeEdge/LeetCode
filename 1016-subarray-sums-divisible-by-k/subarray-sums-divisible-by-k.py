@@ -7,17 +7,15 @@ class Solution:
 
         for i, num in enumerate(nums):
             prefix_sum += num
-            mod = prefix_sum % k
+            mod = (prefix_sum % k + k) % k # handle the negative cases
+
 
             if mod == 0:
                 cnt += 1
 
-            if mod < 0:
-                mod += k
-
             if mod in d:
                 cnt += d[mod]
-                
+
             d[mod] = d.get(mod, 0) + 1
 
         return cnt
