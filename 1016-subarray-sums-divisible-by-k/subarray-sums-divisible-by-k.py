@@ -9,7 +9,6 @@ class Solution:
             prefix_sum += num
             mod = (prefix_sum % k + k) % k # handle the negative cases
 
-
             if mod == 0:
                 cnt += 1
 
