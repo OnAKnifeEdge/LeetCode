@@ -30,14 +30,16 @@ class Solution:
                 if need[c] == have[c]:
                     formed += 1
 
+            right += 1
+
             # Try and contract the window till the point where it ceases to be 'desirable'.
-            while left <= right and formed == required:
+            while left < right and formed == required:
                 c = s[left]
 
                 # Save the smallest window until now.
-                if right - left + 1 < l:
+                if right - left < l:
                     start = left
-                    l = right - left + 1
+                    l = right - left
 
                 if c in need:
                     if have[c] == need[c]:
@@ -47,6 +49,5 @@ class Solution:
 
                 left += 1
             
-            right += 1
 
         return s[start: start + l] if l != float('inf') else ""
