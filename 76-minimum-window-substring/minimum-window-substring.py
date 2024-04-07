@@ -5,22 +5,21 @@ class Solution:
         if not t or not s:
             return ""
 
-        # need keeps a count of all the unique characters in t.
-        need = defaultdict(int)
+        have = defaultdict(int)
+        need = defaultdict(int) # need keeps a count of all the unique characters in t.
         for c in t:
             need[c] = need.get(c, 0) + 1
-
-        # Number of unique characters in t, which need to be present in the desired window.
+        
+        # number of unique characters in t, which need to be present in the desired window.
         required = len(need)
-
-        left, right = 0, 0
-
         # keep track of how many unique characters in t are present in the current window in its desired frequency.
         formed = 0
+        
 
-        have = defaultdict(int)
+        # for window
+        left, right = 0, 0
 
-        # for result
+        # for smallerst window
         l, start = float('inf'), 0
 
         while right < len(s):
