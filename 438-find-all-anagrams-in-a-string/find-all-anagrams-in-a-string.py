@@ -18,7 +18,7 @@ class Solution:
                     formed += 1
             right += 1
 
-            while right - left >= len(p):
+            if right - left >= len(p):
                 if formed == len(need):
                     result.append(left)
 
