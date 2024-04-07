@@ -9,7 +9,7 @@ class Solution:
         have = defaultdict(int)
         need = defaultdict(int) # need keeps a count of all the unique characters in t.
         for c in t:
-            need[c] = need.get(c, 0) + 1
+            need[c] += 1
         
         # number of unique characters in t, which need to be present in the desired window.
         required = len(need)
@@ -39,10 +39,11 @@ class Solution:
                     start = left
                     l = right - left + 1
 
-                have[c] -= 1
+                if c in need:
+                    if have[c] == need[c]:
+                        formed -= 1
+                    have[c] -= 1
 
-                if c in need and have[c] < need[c]:
-                    formed -= 1
 
                 left += 1
             
