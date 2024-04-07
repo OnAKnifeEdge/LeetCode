@@ -32,12 +32,14 @@ class Solution:
                 if formed == len(need):
                     return True
 
-                c = s2[left]
+                d = s2[left]
 
-                if c in need:
-                    if have[c] == need[c]:
+
+                if d in need:
+                    if have[d] == need[d]:
                         formed -= 1
-                    have[c] -= 1
+                    have[d] -= 1
+
                 
                 left += 1
         return False
