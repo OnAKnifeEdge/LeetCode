@@ -33,18 +33,18 @@ class Solution:
             right += 1
 
             # Try and contract the window till the point where it ceases to be 'desirable'.
-            while left < right and formed == required:
-                c = s[left]
+            while formed == len(need):
+                d = s[left]
 
                 # Save the smallest window until now.
                 if right - left < l:
                     start = left
                     l = right - left
 
-                if c in need:
-                    if have[c] == need[c]:
+                if d in need:
+                    if have[d] == need[d]:
                         formed -= 1
-                    have[c] -= 1
+                    have[d] -= 1
 
 
                 left += 1
