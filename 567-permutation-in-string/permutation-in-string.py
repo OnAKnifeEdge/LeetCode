@@ -28,7 +28,7 @@ class Solution:
 
             right += 1
             
-            while (right - left) >= len(s1):
+            if (right - left) >= len(s1):
                 if formed == len(need):
                     return True
 
