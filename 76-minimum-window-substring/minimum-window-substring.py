@@ -24,10 +24,10 @@ class Solution:
 
         while right < len(s):
             c = s[right]
-            have[c] += 1
-
-            if c in need and need[c] == have[c]:
-                formed += 1
+            if c in need:
+                have[c] += 1
+                if need[c] == have[c]:
+                    formed += 1
 
             # Try and contract the window till the point where it ceases to be 'desirable'.
             while left <= right and formed == required:
