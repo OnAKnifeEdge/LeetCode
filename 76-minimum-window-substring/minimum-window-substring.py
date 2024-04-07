@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 class Solution:
-    # https://leetcode.com/problems/permutation-in-string/ 567
+    # https://leetcode.com/problems/permutation-in-string/
     def minWindow(self, s: str, t: str) -> str:
         if not t or not s:
             return ""
