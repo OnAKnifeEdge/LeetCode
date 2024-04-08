@@ -1,5 +1,6 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
+        # https://leetcode.com/problems/max-consecutive-ones-iii/ 1004
         left = 0
         d = collections.defaultdict(int)
         max_frequency = 0
