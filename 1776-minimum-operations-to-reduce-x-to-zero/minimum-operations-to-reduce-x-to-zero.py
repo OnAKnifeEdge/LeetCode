@@ -17,7 +17,7 @@ class Solution:
         for right in range(n):
             prefix_sum += nums[right]
 
-            while left <= right and prefix_sum > target:
+            while left < right and prefix_sum > target:
                 prefix_sum -= nums[left]
                 left += 1
 
