@@ -12,14 +12,14 @@ class Solution:
             num = nums[i]
 
             # Use bisect_left to find the insertion point for nums[i] in the window
-            left = bisect.bisect_left(window, num)
+            p = bisect.bisect_left(window, num)
 
             # Check for the ceiling (the next larger element or equal)
-            if left < len(window) and window[left] - num <= t:
+            if p < len(window) and window[p] - num <= t:
                 return True
 
             # Check for the floor (the next smaller element)
-            if left > 0 and num - window[left - 1] <= t:
+            if p > 0 and num - window[p - 1] <= t:
                 return True
 
             # Add the current element to the window
