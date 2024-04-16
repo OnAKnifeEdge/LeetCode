@@ -9,15 +9,25 @@ class Solution:
         if not preorder or not inorder:
             return None
 
-        root_val = preorder[0]
-        inorder_index = inorder.index(root_val)
+        d = {val: idx for idx, val in enumerate(inorder)}
 
-        root = TreeNode(root_val)
+        idx = 0
 
-        root.left = self.buildTree(
-            preorder[1 : 1 + inorder_index], inorder[:inorder_index]
-        )
-        root.right = self.buildTree(
-            preorder[1 + inorder_index :], inorder[inorder_index + 1 :]
-        )
-        return root
+        def build_subtree(start, end):
+            nonlocal idx
+            if start > end:
+                return
+
+            root_val = preorder[idx]
+            root = TreeNode(root_val)
+
+            idx += 1
+
+            root_idx = d[root_val]
+
+            root.left = build_subtree(start, root_idx - 1)
+            root.right = build_subtree(root_idx + 1, end)
+
+            return root
+        
+        return build_subtree(0, len(preorder) - 1)
