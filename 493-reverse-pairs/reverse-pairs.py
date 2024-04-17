@@ -15,17 +15,17 @@ class Solution:
             merged = []
             i, j = 0, 0
             nonlocal count
-            # First, let's count the reverse pairs before merging
+
             while i < len(left) and j < len(right):
                 if left[i] <= 2 * right[j]:
                     i += 1
                 else:
-                    # Every item left in left[] forms a reverse pair with right[j]
+
                     count += len(left) - i
                     j += 1
-            # Reset counters for merging purposes
+
             i, j = 0, 0
-            # Now proceed with actual merge logic
+
             while i < len(left) and j < len(right):
                 if left[i] <= right[j]:
                     merged.append(left[i])
@@ -36,13 +36,6 @@ class Solution:
 
             merged.extend(left[i:]) 
             merged.extend(right[j:])  
-            # while i < len(left):
-            #     merged.append(left[i])
-            #     i += 1
-            # while j < len(right):
-            #     merged.append(right[j])
-            #     j += 1
-
             return merged
 
         merge_sort(nums)
