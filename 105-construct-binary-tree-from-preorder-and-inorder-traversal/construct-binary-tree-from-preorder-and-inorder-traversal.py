@@ -19,10 +19,8 @@ class Solution:
                 return
 
             root_val = preorder[idx]
-            root = TreeNode(root_val)
-
             idx += 1
-
+            root = TreeNode(root_val)
             root_idx = d[root_val]
 
             root.left = build_subtree(start, root_idx - 1)
