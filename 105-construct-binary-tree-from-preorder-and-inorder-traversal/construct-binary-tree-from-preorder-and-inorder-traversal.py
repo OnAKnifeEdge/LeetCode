@@ -11,15 +11,13 @@ class Solution:
 
         d = {val: idx for idx, val in enumerate(inorder)}
 
-        idx = 0
 
         def build_subtree(start, end):
-            nonlocal idx
             if start > end:
                 return
 
-            root_val = preorder[idx]
-            idx += 1
+            root_val = preorder.pop(0)
+
             root = TreeNode(root_val)
             root_idx = d[root_val]
 
