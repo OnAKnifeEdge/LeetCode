@@ -33,12 +33,15 @@ class Solution:
                 else:
                     merged.append(right[j])
                     j += 1
-            while i < len(left):
-                merged.append(left[i])
-                i += 1
-            while j < len(right):
-                merged.append(right[j])
-                j += 1
+
+            merged.extend(left[i:]) 
+            merged.extend(right[j:])  
+            # while i < len(left):
+            #     merged.append(left[i])
+            #     i += 1
+            # while j < len(right):
+            #     merged.append(right[j])
+            #     j += 1
 
             return merged
 
