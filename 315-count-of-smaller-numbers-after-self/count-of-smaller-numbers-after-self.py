@@ -11,6 +11,12 @@ class Solution:
             right = merge_sort(arr[pivot:])
             return merge(left, right)
 
+
+        # The crucial part where the logic for counting smaller numbers is implemented. 
+        # As left and right halves are merged, for each element in left that is placed into the merged list, 
+        # the number of elements already placed from right indicates how many smaller elements there are to the right.
+        #  This number is recorded in the count array using the original indices stored alongside each number.
+
         def merge(left, right):
             merged = []
             i, j = 0, 0
