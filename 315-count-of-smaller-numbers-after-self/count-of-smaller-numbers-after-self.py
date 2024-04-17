@@ -27,11 +27,10 @@ class Solution:
                     merged.append(right[j])
                     j += 1
 
-            while i < len(left):
-                left_value, left_idx = left[i]
-                merged.append(left[i])
-                count[left_idx] += j
-                i += 1
+            for l in left[i:]:
+                _, idx = l
+                count[idx] += j
+                merged.append(l)
             
             merged.extend(right[j:])
 
