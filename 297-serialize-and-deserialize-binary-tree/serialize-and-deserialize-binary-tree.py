@@ -17,19 +17,16 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        return self.serialize_helper(root)
 
-    def serialize_helper(self, root, s=""):
-        if not root:
-            s += self.NULL
-            s += self.SEP
-            return s
+        def serialize_helper(node):
+            if not node:
+                yield self.NULL
+                return
+            yield str(node.val)
+            yield from serialize_helper(node.left)
+            yield from serialize_helper(node.right)
 
-        s += str(root.val)
-        s += self.SEP
-        s = self.serialize_helper(root.left, s)
-        s = self.serialize_helper(root.right, s)
-        return s
+        return self.SEP.join(serialize_helper(root))
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -37,21 +34,18 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        nodes = data.split(self.SEP)
-        root = self.deserialize_helper(nodes)
-        return root
+        values = iter(data.split(self.SEP))
 
+        def deserialize_helper():
+            val = next(values)
+            if val == self.NULL:
+                return 
+            node = TreeNode(int(val))
+            node.left = deserialize_helper()
+            node.right = deserialize_helper()
+            return node
 
-    def deserialize_helper(self, nodes):
-        if nodes[0] == self.NULL:
-            nodes.pop(0)
-            return
-
-        root = TreeNode(nodes.pop(0))
-        root.left = self.deserialize_helper(nodes)
-        root.right = self.deserialize_helper(nodes)
-        return root
-        
+        return deserialize_helper()
 
 
 
