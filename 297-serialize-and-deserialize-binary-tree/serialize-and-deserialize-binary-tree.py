@@ -5,49 +5,70 @@
 #         self.left = None
 #         self.right = None
 
-
 class Codec:
 
-    SEP = ","
-    NULL = "#"
+    SEP = ','
+    NULL = '#'
 
     def serialize(self, root):
         """Encodes a tree to a single string.
-
+        
         :type root: TreeNode
         :rtype: str
         """
+        if not root:
+            return self.NULL
 
-        def serialize_helper(node):
-            if not node:
-                yield self.NULL
-                return
-            yield str(node.val)
-            yield from serialize_helper(node.left)
-            yield from serialize_helper(node.right)
+        q = deque([root])
+        r = []
 
-        return self.SEP.join(serialize_helper(root))
+        while q:
+            node = q.popleft()
+
+            if node:
+                r.append(str(node.val))
+                q.append(node.left)
+                q.append(node.right)
+            else:
+                r.append(self.NULL)
+
+        return self.SEP.join(r)
+        
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
-
+        
         :type data: str
         :rtype: TreeNode
         """
-        values = iter(data.split(self.SEP))
+        if data == self.NULL:
+            return
 
-        def deserialize_helper():
-            val = next(values)
-            if val == self.NULL:
-                return 
-            node = TreeNode(int(val))
-            node.left = deserialize_helper()
-            node.right = deserialize_helper()
-            return node
+        nodes = iter(data.split(self.SEP))
+        root_value = next(nodes)
+        root = TreeNode(int(root_value))
 
-        return deserialize_helper()
+        q = deque([root])
 
+        while q:
+            node = q.popleft()
 
+            if not node:
+                continue
+
+            left_val, right_val = next(nodes), next(nodes)
+
+            if left_val != self.NULL:
+                left_node = TreeNode(int(left_val))
+                node.left = left_node
+                q.append(left_node)
+            
+            if right_val != self.NULL:
+                right_node = TreeNode(int(right_val))
+                node.right = right_node
+                q.append(right_node)
+
+        return root
 
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()
