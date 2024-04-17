@@ -10,14 +10,12 @@ class Solution:
             return
 
         d = {val: idx for idx, val in enumerate(inorder)}
-        idx = len(postorder) -  1
+
 
         def build_subtree(left, right):
             if left > right:
                 return
-            nonlocal idx
-            root_val = postorder[idx]
-            idx -= 1  
+            root_val = postorder.pop()
             root = TreeNode(root_val)
             root_idx = d[root_val]
            
