@@ -14,11 +14,16 @@ class Solution:
             if root.right == None:
                 return root.left
             # has left and right: replace with successor or replace with predecessor
+
+            # Node with two children: Get the inorder successor
+            # (smallest in the right subtree)
             successor = self.get_successor(root)
+            root.val = successor.val
             root.right = self.deleteNode(root.right, successor.val)
-            successor.left = root.left
-            successor.right = root.right
-            root = successor
+            # root.right = self.deleteNode(root.right, successor.val)
+            # successor.left = root.left
+            # successor.right = root.right
+            # return successor
         elif root.val < key:
             root.right = self.deleteNode(root.right, key)
         else:
@@ -26,6 +31,8 @@ class Solution:
         return root
 
     def get_successor(self, node: Optional[TreeNode]) ->  Optional[TreeNode]:
+        # The successor is the smallest node in the right subtree,
+        # which is the leftmost child of the node's right subtree
         node = node.right
         while node.left:
             node = node.left
