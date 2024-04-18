@@ -1,18 +1,11 @@
 class Solution:
     def numTrees(self, n: int) -> int:
-        # numTree[4] = numsTree[0] * numTree[3]
-        #               + numTree[1] * numTree[2]
-        #               + numTree[2] * numTree[1]
-        #               + numTree[3] * numTree[0]
-        numTree = [1] * (n + 1)
-        # 0 nodes = 1 tree empty tree
-        # 1 nodes = 1 tree one node tree
-
+        dp = [1] * (n + 1) # dp[n] will be the result
         for nodes in range(2, n + 1):
             total = 0
             for root in range(1, nodes + 1):
                 left = root - 1
                 right = nodes - root
-                total += numTree[left] * numTree[right]
-            numTree[nodes] = total
-        return numTree[n]
+                total += dp[left] * dp[right]
+            dp[nodes] = total
+        return dp[n]        
