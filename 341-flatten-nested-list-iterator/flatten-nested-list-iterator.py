@@ -22,19 +22,35 @@
 
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.deque = deque(nestedList)
-        
+        self.generator = self._flatten(nestedList)
+        self.next_element = None
+        self.is_end = None
+
+
+    def _flatten(self, nestedList: [NestedInteger]):
+        for nested in nestedList:
+            if nested.isInteger():
+                yield nested.getInteger()
+            else:
+                yield from self._flatten(nested.getList())
+
     
     def next(self) -> int:
-        return self.deque.popleft().getInteger()
+        if self.next_element is None:
+            self.hasNext()
+        result, self.next_element = self.next_element, None
+        return result
         
     
     def hasNext(self) -> bool:
-        while self.deque and not self.deque[0].isInteger():
-            first = self.deque.popleft().getList()
-            for i in reversed(range(len(first))):
-                self.deque.appendleft(first[i])
-        return len(self.deque) > 0
+        if self.next_element:
+            return True
+        try:
+            self.next_element = next(self.generator)
+            return True
+        except StopIteration:
+            self.is_end = True
+            return False
          
 
 # Your NestedIterator object will be instantiated and called as such:
