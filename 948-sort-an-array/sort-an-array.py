@@ -19,7 +19,7 @@ class Solution:
         lt = left
         gt = right
 
-        i = left + 1
+        i = left
 
         while i <= gt:
             if nums[i] < pivot:
