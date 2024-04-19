@@ -7,7 +7,6 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'TreeNode':
-        # nodes = set([n.value for n in nodes])
         nodes = set(nodes)
 
 
