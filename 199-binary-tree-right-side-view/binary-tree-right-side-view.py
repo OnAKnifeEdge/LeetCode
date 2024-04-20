@@ -6,27 +6,45 @@
 #         self.right = right
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+
+        # DFS
         if not root:
             return []
-        q = deque([root, None])
-        node = root
-        rightside = []
-        while q:
-            pre, node = node, q.popleft()
 
-            while node:
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-                pre, node = node, q.popleft()
+        right_side = []
 
-            rightside.append(pre.val)
+        def traverse(node, level):
+            if not node:
+                return
+            if level == len(right_side):
+                right_side.append(node.val)
+            traverse(node.right, level + 1)
+            traverse(node.left, level + 1)
 
-            if q:
-                q.append(None)
+        traverse(root, 0)
+        return right_side
 
-        return rightside
+        # if not root:
+        #     return []
+        # q = deque([root, None])
+        # node = root
+        # rightside = []
+        # while q:
+        #     pre, node = node, q.popleft()
+
+        #     while node:
+        #         if node.left:
+        #             q.append(node.left)
+        #         if node.right:
+        #             q.append(node.right)
+        #         pre, node = node, q.popleft()
+
+        #     rightside.append(pre.val)
+
+        #     if q:
+        #         q.append(None)
+
+        # return rightside
 
 
 
@@ -56,7 +74,7 @@ class Solution:
 
 
 
-        # # levels
+        # levels
         # if not root:
         #     return []
         # q = deque([root])
