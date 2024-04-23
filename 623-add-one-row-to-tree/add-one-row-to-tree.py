@@ -10,11 +10,12 @@ class Solution:
     ) -> Optional[TreeNode]:
 
         if depth == 1:
-            return TreeNode(val, root)
+            return TreeNode(val, left=root)
 
         def dfs(node, d):
             if not node:
                 return
+            # if we're currently at the nodes directly above where the new row should be.
             if depth - 1 == d:
                 node.left = TreeNode(val, left=node.left)
                 node.right = TreeNode(val, right=node.right)
