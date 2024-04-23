@@ -4,6 +4,8 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from bisect import insort
+
 class Solution:
 
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
@@ -15,7 +17,8 @@ class Solution:
         def traverse(node, row, col):
             if not node:
                 return
-            self.d[col].append((row, node.val))
+            # self.d[col].append((row, node.val))
+            insort(self.d[col], (row, node.val))
             self.min = min(col, self.min)
             self.max = max(col, self.max)
             traverse(node.left, row + 1, col - 1)
@@ -28,7 +31,7 @@ class Solution:
         result = []
         for col in range(self.min, self.max + 1):
             # sort first by 'row', then by 'value', in ascending order using a lambda function as the sort key
-            result.append([val for row, val in sorted(self.d[col])])
+            result.append([val for row, val in self.d[col]])
 
         return result
 
