@@ -18,7 +18,8 @@ class Solution:
             if depth - 1 == d:
                 node.left = TreeNode(val, left=node.left)
                 node.right = TreeNode(val, right=node.right)
-            dfs(node.right, d + 1)
             dfs(node.left, d + 1)
+            dfs(node.right, d + 1)
+
         dfs(root, 1)
         return root
