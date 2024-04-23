@@ -7,11 +7,11 @@
 class Solution:
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
         parent_x, parent_y = None, None
-        d_x, d_y = 0, 0
+        d_x, d_y = None, None
 
         def dfs(node, parent, depth):
             nonlocal parent_x, parent_y, d_x, d_y
-            if not node:
+            if not node or (d_x and d_y):
                 return
             if node.val == x:
                 parent_x = parent
