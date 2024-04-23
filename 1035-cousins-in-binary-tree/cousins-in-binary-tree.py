@@ -23,7 +23,6 @@ class Solution:
             dfs(node.right, node, depth + 1)
         
         dfs(root, None, 0)
-        if d_x == d_y and parent_x != parent_y:
-            return True
-        return False
+        return (d_x == d_y) and (parent_x != parent_y)
+
         
