@@ -4,30 +4,26 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
-# https://leetcode.com/problems/subarray-sum-equals-k/solutions/3777004/why-sum-k-read-this-to-understand/
 class Solution:
-    def pathSum(self, root: Optional[TreeNode], k: int) -> int:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         count = 0
-        d = {}
-        def preorder(node: Optional[TreeNode], prefix_sum: int) -> None:
+        d = defaultdict(int)  # {prefix_sum: count}
+
+        def pre_order(node, prefix_sum):
             nonlocal count
             if not node:
-                return None
-            
+                return
             prefix_sum += node.val
 
-            if prefix_sum == k:
+            if prefix_sum == targetSum:
                 count += 1
 
-            count += d.get(prefix_sum - k, 0)
-            d[prefix_sum] = d.get(prefix_sum, 0) + 1
+            count = d[prefix_sum - targetSum] + count
+            d[prefix_sum] = d[prefix_sum] + 1
 
-            preorder(node.left, prefix_sum)
-            preorder(node.right, prefix_sum)
+            pre_order(node.left, prefix_sum)
+            pre_order(node.right, prefix_sum)
 
-            d[prefix_sum] = d.get(prefix_sum, 0) - 1
-
-        preorder(root, 0)
+            d[prefix_sum] = d[prefix_sum] - 1
+        pre_order(root, 0)
         return count
-        
