@@ -5,10 +5,9 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+    def hasPathSum(self, root: Optional[TreeNode], t: int) -> bool:
         if not root:
             return False
-        targetSum -= root.val
         if not root.left and not root.right:
-            return targetSum == 0
-        return self.hasPathSum(root.left, targetSum) or self.hasPathSum(root.right, targetSum)
+            return root.val == t
+        return self.hasPathSum(root.left, t - root.val) or self.hasPathSum(root.right, t - root.val)
