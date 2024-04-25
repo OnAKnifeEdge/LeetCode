@@ -9,21 +9,19 @@ class Solution:
         if not preorder or not inorder:
             return None
 
-        d = {val: idx for idx, val in enumerate(inorder)}
+        d = {v: i for i, v in enumerate(inorder)} # inorder val: index dictionary
 
-
-        def build_subtree(start, end):
+        def build(start, end):
             if start > end:
                 return
-
             root_val = preorder.pop(0)
-
-            root = TreeNode(root_val)
             root_idx = d[root_val]
-
-            root.left = build_subtree(start, root_idx - 1)
-            root.right = build_subtree(root_idx + 1, end)
-
+            root = TreeNode(root_val)
+            root.left = build(start, root_idx - 1)
+            root.right = build(root_idx + 1, end)
             return root
+
+        return build(0, len(preorder) - 1)
         
-        return build_subtree(0, len(preorder) - 1)
+
+        
