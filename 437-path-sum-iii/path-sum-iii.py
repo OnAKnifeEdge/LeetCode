@@ -17,8 +17,8 @@ class Solution:
 
             if prefix_sum == targetSum:
                 count += 1
-
             count = d[prefix_sum - targetSum] + count
+            
             d[prefix_sum] = d[prefix_sum] + 1
 
             pre_order(node.left, prefix_sum)
