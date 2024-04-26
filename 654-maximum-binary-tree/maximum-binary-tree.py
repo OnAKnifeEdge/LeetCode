@@ -9,14 +9,12 @@ class Solution:
     def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
         if not nums:
             return None
-        return self.build(nums)
+        return self.build(nums, 0, len(nums) - 1)
 
-    def build(self, nums: List[int], lo=0, hi=None) -> Optional[TreeNode]:
-        if hi is None:
-            hi = len(nums) - 1
+    def build(self, nums: List[int], lo: int, hi: int) -> Optional[TreeNode]:
         if lo > hi:
             return None
-       
+
         max_index = lo
 
         for i in range(lo + 1, hi + 1):
