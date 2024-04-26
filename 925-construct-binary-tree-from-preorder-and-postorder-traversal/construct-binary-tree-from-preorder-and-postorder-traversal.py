@@ -10,24 +10,23 @@ class Solution:
     ) -> Optional[TreeNode]:
         if not preorder or not postorder:
             return None
+        d = {val: idx for idx, val in enumerate(postorder)}  # {val: idx} for preorder
 
-        d = {val: idx for idx, val in enumerate(postorder)}
-
-        def build_subtree(left, right):
-            if left > right:
+        def build(start, end):
+            if start > end:
                 return None
 
             root_val = preorder.pop(0)
             root = TreeNode(root_val)
 
-            if left == right:
+            if start == end:
                 return root
 
-            left_root_idx = d[preorder[0]]
+            left_root_val = preorder[0]
+            left_root_idx = d[left_root_val]
 
-            root.left = build_subtree(left, left_root_idx)
-            root.right = build_subtree(left_root_idx + 1, right - 1)
-
+            root.left = build(start, left_root_idx)
+            root.right = build(left_root_idx + 1, end - 1)
             return root
 
-        return build_subtree(0, len(postorder) - 1)
+        return build(0, len(preorder) - 1)
