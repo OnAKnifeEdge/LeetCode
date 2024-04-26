@@ -23,9 +23,9 @@ class Solution:
                 left = dp(i)
                 right = dp(j)
 
-                for l in left:
-                    for r in right:
-                        result.append(TreeNode(val=0, left=l, right=r))
+                for l_tree, r_tree in itertools.product(left, right):
+                    result.append(TreeNode(val=0, left=l_tree, right=r_tree))
+
             cache[n] = result
             return result
 
