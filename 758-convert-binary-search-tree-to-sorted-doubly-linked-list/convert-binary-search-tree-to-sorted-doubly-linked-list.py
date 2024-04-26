@@ -10,33 +10,27 @@ class Node:
 
 class Solution:
     def treeToDoublyList(self, root: "Optional[Node]") -> "Optional[Node]":
-
-        def helper(node):
-            head, tail = node, node
-
-            if node.left:
-                head_left, tail_left = helper(node.left)
-                head = head_left
-
-                # tail_left <-> node
-                tail_left.right = node
-                node.left = tail_left
-
-            if node.right:
-                head_right, tail_right = helper(node.right)
-                tail = tail_right
-
-                # node <-> head_right
-                head_right.left = node
-                node.right = head_right
-
-            # connect head and tail
-            head.left = tail
-            tail.right = head
-            return head, tail
-
         if not root:
             return None
+
+        left_head = self.treeToDoublyList(root.left)
+        right_head = self.treeToDoublyList(root.right)
+
+        # Connect root with its left subtree (if it exists)
+        if left_head:
+            left_tail = left_head.left
+            left_tail.right, root.left = root, left_tail
         else:
-            head, tail = helper(root)
-            return head
+            left_head = root  # If no left subtree, root itself is the smallest element
+
+        # Connect root with its right subtree (if it exists)
+        if right_head:
+            right_tail = right_head.left
+            right_head.left, root.right = root, right_head
+        else:
+            right_tail = root  # If no right subtree, root itself is the biggest element
+
+        # Make the list circular by connecting the heads and tails
+        left_head.left, right_tail.right = right_tail, left_head
+
+        return left_head
