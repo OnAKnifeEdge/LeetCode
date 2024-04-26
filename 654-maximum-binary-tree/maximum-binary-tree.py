@@ -9,22 +9,25 @@ class Solution:
     def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
         if not nums:
             return None
-        return self.build(nums, 0, len(nums) - 1)
 
-    def build(self, nums: List[int], lo: int, hi: int) -> Optional[TreeNode]:
-        if lo > hi:
-            return None
+        def build(start, end):
+            if start > end:
+                return None
 
-        max_index = lo
+            idx = start
 
-        for i in range(lo + 1, hi + 1):
-            if nums[i] > nums[max_index]:
-                max_index = i
+            for i in range(start + 1, end + 1):
+                if nums[i] > nums[idx]:
+                    idx = i
 
-        root = TreeNode(nums[max_index])
-        root.left = self.build(nums, lo, max_index - 1)  # Left subtree
-        root.right = self.build(nums, max_index + 1, hi)  # Right subtree
-        return root
+            root_val = nums[idx]
+            root = TreeNode(root_val)
+
+            root.left = build(start, idx - 1)
+            root.right = build(idx + 1, end)
+            return root
+
+        return build(0, len(nums) - 1)
 
     def constructMaximumBinaryTreeOptimal(self, nums: List[int]) -> Optional[TreeNode]:
         node_stack = []
