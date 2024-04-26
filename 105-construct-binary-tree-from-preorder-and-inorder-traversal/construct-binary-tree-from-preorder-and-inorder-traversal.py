@@ -13,7 +13,7 @@ class Solution:
 
         def build(start, end):
             if start > end:
-                return
+                return None
             root_val = preorder.pop(0)
             root_idx = d[root_val]
             root = TreeNode(root_val)
