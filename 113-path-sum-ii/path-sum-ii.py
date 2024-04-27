@@ -10,17 +10,15 @@ class Solution:
 
         def dfs(node, remaining, path):
             if not node:
-                return 
+                return
             path.append(node.val)
-            if not node.left and not node.right and node.val == remaining:
+            remaining -= node.val
+            if not node.left and not node.right and remaining == 0:
                 result.append(path[:])
             else:
-                dfs(node.left, remaining - node.val, path)
-                dfs(node.right, remaining - node.val, path)
+                dfs(node.left, remaining, path)
+                dfs(node.right, remaining, path)
             path.pop()
 
         dfs(root, targetSum, [])
         return result
-
-
-        
