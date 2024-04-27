@@ -10,17 +10,12 @@ class Solution:
     def getTargetCopy(
         self, original: TreeNode, cloned: TreeNode, target: TreeNode
     ) -> TreeNode:
-        t = None
+        if not original:
+            return None
+        if original is target:
+            return cloned
 
-        def inorder(o, c):
-            nonlocal t
-            if not o:
-                return
-            inorder(o.left, c.left)
-            if o is target:
-                t = c
-                return
-            inorder(o.right, c.right)
-
-        inorder(original, cloned)
-        return t
+        left = self.getTargetCopy(original.left, cloned.left, target)
+        if left:
+            return left
+        return self.getTargetCopy(original.right, cloned.right, target)
