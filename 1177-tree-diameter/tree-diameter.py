@@ -3,9 +3,8 @@ class Node:
         self.val = val
         self.children = children if children else []
 
+
 class Solution:
-
-
 
     def treeDiameter(self, edges: List[List[int]]) -> int:
         nodes = {}
