@@ -18,6 +18,21 @@ class FindElements:
         self.traverse(node.left, 2 * val + 1)
         self.traverse(node.right, 2 * val + 2)
 
+    def recover(self, node: Optional[TreeNode], val: int):
+        if not node:
+            return
+        q = deque([(node, 0)])
+        while q:
+            current, val = q.popleft()
+            if not current:
+                continue
+            current.val = val
+            self.values.add(val)
+            if current.left:
+                q.append([(current.left, 2 * val + 1)])
+            if current.right:
+                q.append([(current.right, 2 * val + 2)])
+
     def find(self, target: int) -> bool:
         return target in self.values
 
