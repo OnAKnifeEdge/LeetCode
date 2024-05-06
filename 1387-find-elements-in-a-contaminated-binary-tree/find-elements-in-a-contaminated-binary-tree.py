@@ -9,20 +9,17 @@ class FindElements:
     def __init__(self, root: Optional[TreeNode]):
         self.values = set()
         self.traverse(root, 0)
-        
 
-    def find(self, target: int) -> bool:
-        return target in self.values
-
-    def traverse(self, node: Optional[TreeNode], val: int) -> None:
+    def traverse(self, node: Optional[TreeNode], val: int):
         if not node:
             return
         node.val = val
         self.values.add(val)
         self.traverse(node.left, 2 * val + 1)
         self.traverse(node.right, 2 * val + 2)
-        
-        
+
+    def find(self, target: int) -> bool:
+        return target in self.values
 
 
 # Your FindElements object will be instantiated and called as such:
