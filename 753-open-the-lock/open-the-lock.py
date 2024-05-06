@@ -1,14 +1,18 @@
 class Solution:
 
-    def plus_one(self, s, i) -> str:
-        if s[i] == "9":
-            return s[:i] + "0" + s[i + 1:]
-        return s[:i] + chr(ord(s[i]) + 1) + s[i + 1:]
+    # def plus_one(self, s, i) -> str:
+    #     if s[i] == "9":
+    #         return s[:i] + "0" + s[i + 1:]
+    #     return s[:i] + chr(ord(s[i]) + 1) + s[i + 1:]
 
-    def minus_one(self, s, i) -> str:
-        if s[i] == "0":
-            return s[:i] + "9" + s[i + 1:]
-        return s[:i] + chr(ord(s[i]) - 1) + s[i + 1:]
+    # def minus_one(self, s, i) -> str:
+    #     if s[i] == "0":
+    #         return s[:i] + "9" + s[i + 1:]
+    #     return s[:i] + chr(ord(s[i]) - 1) + s[i + 1:]
+
+    def rotate(self, s, i, direction) -> str:
+        new_digit = (int(s[i]) + direction) % 10
+        return s[:i] + str(new_digit) + s[i + 1:]
 
     def openLock(self, deadends: List[str], target: str) -> int:
 
@@ -28,11 +32,13 @@ class Solution:
             # there are four digits
             for i in range(4):
                 # 1000 9000 0100 0900 0010 0090 0001 0009 (level 1)
-                plus = self.plus_one(current, i)
+                # plus = self.plus_one(current, i)
+                plus = self.rotate(current, i, 1)
                 if plus not in visited and plus not in no:
                     q.append((plus, turn + 1))
                     visited.add(plus)
-                minus = self.minus_one(current, i)
+                # minus = self.minus_one(current, i)
+                minus = self.rotate(current, i, -1)
                 if minus not in visited and minus not in no:
                     q.append((minus, turn + 1))
                     visited.add(minus)
