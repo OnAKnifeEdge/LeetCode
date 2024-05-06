@@ -5,7 +5,7 @@ class Solution:
         def neighbors(state: str) -> List[str]:
             for i in range(4):
                 digit = int(state[i])
-                for move in (-1, 1):
+                for move in [-1, 1]:
                     new_digit = (digit + move) % 10
                     yield state[:i] + str(new_digit) + state[i + 1:]
 
@@ -21,7 +21,7 @@ class Solution:
                 if current in vv:
                     # If current exists in the other visited, 
                     # that means we found an intersection.
-                    # Total turns are the sum of turns from both sides + 1
+                    # Total turns are the sum of turns from both sides
                     return turn + vv[current]
                 for next_state in neighbors(current):
                     if next_state not in v and next_state not in no:
