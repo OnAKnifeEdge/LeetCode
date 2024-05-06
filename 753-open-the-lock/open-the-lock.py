@@ -10,7 +10,12 @@ class Solution:
                     yield state[:i] + str(new_digit) + state[i + 1:]
 
         # Helper method to expand the BFS from one side
-        def expand(
+        """
+        to explore all adjacent combinations (states) of the current lock combination
+        and track the number of moves (or turns) it took to get there.
+        """
+
+        def next_state(
             q: Deque[Tuple[str, int]],
             v: Dict[str, int],
             vv: Dict[str, int],
@@ -19,15 +24,15 @@ class Solution:
             for _ in range(len(q)):
                 current, turn = q.popleft()
                 if current in vv:
-                    # If current exists in the other visited, 
+                    # If current exists in the other visited,
                     # that means we found an intersection.
                     # Total turns are the sum of turns from both sides
                     return turn + vv[current]
-                for next_state in neighbors(current):
-                    if next_state not in v and next_state not in no:
+                for state in neighbors(current):
+                    if state not in v and state not in no:
                         # Keep searching, add next_state to visited and q
-                        v[next_state] = turn + 1
-                        q.append((next_state, turn + 1))
+                        v[state] = turn + 1
+                        q.append((state, turn + 1))
             return -1
 
         no = set(deadends)
@@ -39,11 +44,11 @@ class Solution:
         q1, q2 = deque([("0000", 0)]), deque([(target, 0)])
 
         while q1 and q2:
-            from_start = expand(q1, visited_start, visited_target, no)
+            from_start = next_state(q1, visited_start, visited_target, no)
             if from_start != -1:
                 return from_start
 
-            from_target = expand(q2, visited_target, visited_start, no)
+            from_target = next_state(q2, visited_target, visited_start, no)
             if from_target != -1:
                 return from_target
 
