@@ -9,26 +9,30 @@ class Solution:
 
     def __init__(self):
         self.val_to_parent = {}
+        self.target = None
 
-    def traverse(self, node: Optional[TreeNode], parent: Optional[TreeNode]) -> int:
+    def traverse(
+        self, node: Optional[TreeNode], parent: Optional[TreeNode], k: int
+    ) -> int:
         if not node:
             return
-        self.val_to_parent[node.val] = (node, parent)
-        self.traverse(node.left, node)
-        self.traverse(node.right, node)
+        self.val_to_parent[node.val] = parent
+        self.traverse(node.left, node, k)
+        self.traverse(node.right, node, k)
+        if node.val == k:
+            self.target = node
 
     def findClosestLeaf(self, root: Optional[TreeNode], k: int) -> int:
         if not root:
             return -1
-        self.traverse(root, None)
-        target_node, _ = self.val_to_parent[k]
-        q = deque([target_node])
-        visited = {target_node.val}
+        self.traverse(root, None, k)
+        q = deque([self.target])
+        visited = {self.target.val}
         while q:
             n = len(q)
             for _ in range(n):
                 node = q.popleft()
-                _, parent_node = self.val_to_parent[node.val]
+                parent_node = self.val_to_parent[node.val]
                 if parent_node and parent_node.val not in visited:
                     q.append(parent_node)
                     visited.add(parent_node.val)
