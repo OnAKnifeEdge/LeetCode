@@ -23,9 +23,11 @@ class Solution:
             self.target = node
 
     def findClosestLeaf(self, root: Optional[TreeNode], k: int) -> int:
-        if not root:
-            return -1
+
         self.traverse(root, None, k)
+        if not root or not self.target:
+            return -1
+
         q = deque([self.target])
         visited = {self.target.val}
         while q:
