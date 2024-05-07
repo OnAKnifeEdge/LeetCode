@@ -25,6 +25,7 @@ class Solution:
     def findClosestLeaf(self, root: Optional[TreeNode], k: int) -> int:
 
         self.traverse(root, None, k)
+
         if not root or not self.target:
             return -1
 
