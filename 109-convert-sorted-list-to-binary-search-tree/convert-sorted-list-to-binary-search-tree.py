@@ -10,7 +10,32 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+
     def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        n = 0
+        p = head
+        while p:
+            n += 1
+            p = p.next
+
+        current = head
+
+        def inorder(start: int, end: int) -> Optional[TreeNode]:
+            if start > end:
+                return None
+            nonlocal current
+            mid = (start + end) // 2
+            left = inorder(start, mid - 1)
+            root = TreeNode(current.val)
+            current = current.next
+            right = inorder(mid + 1, end)
+            root.left = left
+            root.right = right
+            return root
+
+        return inorder(0, n - 1)
+
+    def sortedListToBST2(self, head: Optional[ListNode]) -> Optional[TreeNode]:
         if not head:
             return None
         if not head.next:
