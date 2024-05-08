@@ -1,5 +1,6 @@
 class Solution:
     def minInsertions(self, s: str) -> int:
+        # https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
         if not s:
             return 0
         insertions = 0
