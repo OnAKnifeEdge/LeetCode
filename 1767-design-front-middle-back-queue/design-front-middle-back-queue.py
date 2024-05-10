@@ -144,17 +144,18 @@ class FrontMiddleBackQueue:
             nxt.prev = prev
             self.mid = self.mid.next
 
-            # p = self.mid.prev
-            # n = self.mid.next
-            # p.next = n
-            # n.prev = p
-            # self.mid = n
         else:
             # odd to even [1, 2, 3] -> [1, 3] mid = mid.prev
-            n = self.mid.next
+            prev = self.mid.prev
+            nxt = self.mid.next
+            prev.next = nxt
+            nxt.prev = prev
+
             self.mid = self.mid.prev
-            self.mid.next = n
-            n.prev = self.mid
+            # n = self.mid.next
+            # self.mid = self.mid.prev
+            # self.mid.next = n
+            # n.prev = self.mid
 
         self.size -= 1
         return val
