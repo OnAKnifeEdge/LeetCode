@@ -133,19 +133,28 @@ class FrontMiddleBackQueue:
         elif self.size == 2:
             # [1, 2] -> [2]
             self.head = self.tail
-            self.head.prev = None
             self.mid = self.tail
-        elif self.size % 2 == 1:
+            self.head.prev = None
+        elif self.size % 2 == 0:
+            # even to odd [1, 2, 3, 4] -> [1, 3, 4] mid = mid.next
+
+            prev = self.mid.prev
+            nxt = self.mid.next
+            prev.next = nxt
+            nxt.prev = prev
+            self.mid = self.mid.next
+
+            # p = self.mid.prev
+            # n = self.mid.next
+            # p.next = n
+            # n.prev = p
+            # self.mid = n
+        else:
+            # odd to even [1, 2, 3] -> [1, 3] mid = mid.prev
             n = self.mid.next
             self.mid = self.mid.prev
             self.mid.next = n
             n.prev = self.mid
-        else:
-            p = self.mid.prev
-            n = self.mid.next
-            p.next = n
-            n.prev = p
-            self.mid = n
 
         self.size -= 1
         return val
