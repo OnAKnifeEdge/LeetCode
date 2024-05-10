@@ -127,12 +127,14 @@ class FrontMiddleBackQueue:
     def popMiddle(self) -> int:
         if self.size == 0:
             return -1
-        ret = self.mid.val
+        val = self.mid.val
         if self.size == 1:
-            self.head = self.mid = self.tail = None
+            self.create_first_node(None)
         elif self.size == 2:
-            self.head = self.mid = self.tail
+            # [1, 2] -> [2]
+            self.head = self.tail
             self.head.prev = None
+            self.mid = self.tail
         elif self.size % 2 == 1:
             n = self.mid.next
             self.mid = self.mid.prev
@@ -144,9 +146,9 @@ class FrontMiddleBackQueue:
             p.next = n
             n.prev = p
             self.mid = n
+
         self.size -= 1
-        # print('popmiddle',self.head.val if self.head else None,self.mid.val if self.mid else None,self.tail.val if self.tail else None,self.size)
-        return ret
+        return val
 
     def popBack(self) -> int:
         if self.size == 0:
