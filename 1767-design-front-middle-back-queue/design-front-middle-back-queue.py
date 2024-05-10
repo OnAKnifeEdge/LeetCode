@@ -38,6 +38,16 @@ class FrontMiddleBackQueue:
 
         self.mid = node
 
+    def pop_node_from_head(self):
+        nxt = self.head.next
+        self.head = nxt
+        self.head.prev = None
+
+    def pop_node_from_tail(self):
+        prev = self.tail.prev
+        self.tail = prev
+        self.tail.next = None
+
     def pushFront(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
@@ -95,11 +105,6 @@ class FrontMiddleBackQueue:
 
         self.size += 1
 
-    def pop_node_from_head(self):
-        nxt = self.head.next
-        self.head = nxt
-        self.head.prev = None
-
     def popFront(self) -> int:
         if self.size == 0:
             return -1
@@ -113,16 +118,8 @@ class FrontMiddleBackQueue:
             self.mid = self.mid.next
 
         else:
-            self.pop_node_from_head()
             # odd to even, mid is unchanged [1, 2, 3] -> [2, 3]
-
-        # elif self.size % 2 == 1:
-        #     self.head = self.head.next
-        #     self.head.prev = None
-        # else:
-        #     self.head = self.head.next
-        #     self.head.prev = None
-        #     self.mid = self.mid.next
+            self.pop_node_from_head()
 
         self.size -= 1
         return val
@@ -154,22 +151,19 @@ class FrontMiddleBackQueue:
     def popBack(self) -> int:
         if self.size == 0:
             return -1
-        ret = self.tail.val
+        val = self.tail.val
         if self.size == 1:
-            self.head = self.mid = self.tail = None
-        elif self.size == 2:
-            self.tail = self.head
-            self.head.next = None
-        elif self.size % 2 == 1:
-            self.mid = self.mid.prev
-            self.tail = self.tail.prev
-            self.tail.next = None
+            self.create_first_node(None)
+        elif self.size % 2 == 0:
+            # even to odd: [1, 2, 3, 4] -> [1, 2, 3] mid unchanged
+            self.pop_node_from_tail()
         else:
-            self.tail = self.tail.prev
-            self.tail.next = None
+            # odd to even: [1, 2, 3] -> [1, 2] mid = mid.prev
+            self.pop_node_from_tail()
+            self.mid = self.mid.prev
+
         self.size -= 1
-        # print('popback',self.head.val if self.head else None,self.mid.val if self.mid else None,self.tail.val if self.tail else None,self.size)
-        return ret
+        return val
 
 
 # Your FrontMiddleBackQueue object will be instantiated and called as such:
