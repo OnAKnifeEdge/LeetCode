@@ -53,17 +53,28 @@ class FrontMiddleBackQueue:
         if self.size == 0:
             self.create_first_node(node)
 
-        elif self.size % 2 == 0:
-            # even to odd: mid 不变 [1, 2] -> [3, 1, 2]
-            self.push_node_to_head(node)
-
         else:
-            #  self.size % 2 == 1:
-            # odd to even: mid = mid.prev [1] -> [2, 1]
-            self.push_node_to_head(node)
-            self.mid = self.mid.prev
+            node.next = self.head
+            self.head.prev = node
+            self.head = node
 
         self.size += 1
+
+        if self.size % 2 == 0:
+            self.mid = self.mid.prev
+
+
+        # elif self.size % 2 == 0:
+        #     # even to odd: mid 不变 [1, 2] -> [3, 1, 2]
+        #     self.push_node_to_head(node)
+
+        # else:
+        #     #  self.size % 2 == 1:
+        #     # odd to even: mid = mid.prev [1] -> [2, 1]
+        #     self.push_node_to_head(node)
+        #     self.mid = self.mid.prev
+
+        # self.size += 1
 
     def pushMiddle(self, val: int) -> None:
         node = Node(val)
