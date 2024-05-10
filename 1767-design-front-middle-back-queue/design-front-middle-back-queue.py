@@ -16,33 +16,27 @@ class FrontMiddleBackQueue:
     def create_first_node(self, node):
         self.head = self.mid = self.tail = node
 
+    def push_node_to_head(self, node):
+        node.next = self.head
+        self.head.prev = node
+        self.head = node
+
     def pushFront(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
             self.create_first_node(node)
 
-        elif self.size == 1:
-            node.next = self.head
-            self.head.prev = node
-            self.head = node
-            self.mid = node
+        # elif self.size == 1:
+        #     self.push_node_to_head(node)
+        #     self.mid = node
 
-        elif self.size == 2:  # mid 不变
-            node.next = self.head
-            self.head.prev = node
-            # self.mid = self.head  # can i remove it since mid is not changed
-            self.head = node
+        elif self.size % 2 == 0:  # even to odd: mid 不变 [1, 2], [3, 1, 2]
+            self.push_node_to_head(node)
 
-        elif self.size % 2 == 1:  # mid 变前一个
-            node.next = self.head
-            self.head.prev = node
+        else:  # odd to even: mid 变前一个 [1]
+            #  self.size % 2 == 1:
+            self.push_node_to_head(node)
             self.mid = self.mid.prev
-            self.head = node
-
-        else:  # mid 不变
-            node.next = self.head
-            self.head.prev = node
-            self.head = node
 
         self.size += 1
 
