@@ -13,54 +13,19 @@ class FrontMiddleBackQueue:
         self.tail = None
         self.mid = None
 
-    def create_first_node(self, node):
-        self.head = self.mid = self.tail = node
-
-    def push_node_to_head(self, node):
-        node.next = self.head
-        self.head.prev = node
-        self.head = node
-
-    def push_node_to_back(self, node):
-        self.tail.next = node
-        node.prev = self.tail
-        self.tail = node
-
-    def push_node_to_mid(self, node):
-        nxt = self.mid.next
-        curr = self.mid
-
-        curr.next = node
-        node.prev = curr
-
-        node.next = nxt
-        nxt.prev = node
-
-        self.mid = node
-
-    def pop_node_from_head(self):
-        nxt = self.head.next
-        self.head = nxt
-        self.head.prev = None
-
-    def pop_node_from_tail(self):
-        prev = self.tail.prev
-        self.tail = prev
-        self.tail.next = None
-
     def pushFront(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
-            self.create_first_node(node)
+            self._create_first_node(node)
 
         elif self.size % 2 == 0:
             # even to odd: mid 不变 [1, 2] -> [3, 1, 2]
-            self.push_node_to_head(node)
+            self._push_node_to_head(node)
 
         else:
             #  self.size % 2 == 1:
             # odd to even: mid = mid.prev [1] -> [2, 1]
-            self.push_node_to_head(node)
+            self._push_node_to_head(node)
             self.mid = self.mid.prev
 
         self.size += 1
@@ -68,7 +33,7 @@ class FrontMiddleBackQueue:
     def pushMiddle(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
-            self.create_first_node(node)
+            self._create_first_node(node)
 
         elif self.size == 1:  # mid is node
             # [1] -> [2, 1]
@@ -80,28 +45,28 @@ class FrontMiddleBackQueue:
         elif self.size % 2 == 0:
             # even to odd: mid is node. mid is not changed
             # [1, 2] -> [1, 3, 2]
-            self.push_node_to_mid(node)
+            self._push_node_to_mid(node)
 
         else:
             # odd to even
             # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev
             self.mid = self.mid.prev
-            self.push_node_to_mid(node)
+            self._push_node_to_mid(node)
 
         self.size += 1
 
     def pushBack(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
-            self.create_first_node(node)
+            self._create_first_node(node)
         elif self.size % 2 == 0:
             # even to odd: mid = mid.next [1, 2] -> [1, 2, 3]
-            self.push_node_to_back(node)
+            self._push_node_to_back(node)
             self.mid = self.mid.next
 
         else:
             # odd to even: mid 不变 [1, 2, 3] -> [1, 2, 3, 4]
-            self.push_node_to_back(node)
+            self._push_node_to_back(node)
 
         self.size += 1
 
@@ -110,32 +75,26 @@ class FrontMiddleBackQueue:
             return -1
         val = self.head.val
         if self.size == 1:
-            self.create_first_node(None)
+            self._create_first_node(None)
 
         elif self.size % 2 == 0:
             # even to odd, mid = mid.next [1, 2] -> [2]
-            self.pop_node_from_head()
+            self._pop_node_from_head()
             self.mid = self.mid.next
 
         else:
             # odd to even, mid is unchanged [1, 2, 3] -> [2, 3]
-            self.pop_node_from_head()
+            self._pop_node_from_head()
 
         self.size -= 1
         return val
-
-    def pop_node_from_middle(self):
-        prev = self.mid.prev
-        nxt = self.mid.next
-        prev.next = nxt
-        nxt.prev = prev
 
     def popMiddle(self) -> int:
         if self.size == 0:
             return -1
         val = self.mid.val
         if self.size == 1:
-            self.create_first_node(None)
+            self._create_first_node(None)
         elif self.size == 2:
             # [1, 2] -> [2]
             self.head = self.tail
@@ -144,12 +103,12 @@ class FrontMiddleBackQueue:
         elif self.size % 2 == 0:
             # even to odd [1, 2, 3, 4] -> [1, 3, 4] mid = mid.next
 
-            self.pop_node_from_middle()
+            self._pop_node_from_middle()
             self.mid = self.mid.next
 
         else:
             # odd to even [1, 2, 3] -> [1, 3] mid = mid.prev
-            self.pop_node_from_middle()
+            self._pop_node_from_middle()
             self.mid = self.mid.prev
 
         self.size -= 1
@@ -160,17 +119,58 @@ class FrontMiddleBackQueue:
             return -1
         val = self.tail.val
         if self.size == 1:
-            self.create_first_node(None)
+            self._create_first_node(None)
         elif self.size % 2 == 0:
             # even to odd: [1, 2, 3, 4] -> [1, 2, 3] mid unchanged
-            self.pop_node_from_tail()
+            self._pop_node_from_tail()
         else:
             # odd to even: [1, 2, 3] -> [1, 2] mid = mid.prev
-            self.pop_node_from_tail()
+            self._pop_node_from_tail()
             self.mid = self.mid.prev
 
         self.size -= 1
         return val
+
+    def _create_first_node(self, node):
+        self.head = self.mid = self.tail = node
+
+    def _push_node_to_head(self, node):
+        node.next = self.head
+        self.head.prev = node
+        self.head = node
+
+    def _push_node_to_back(self, node):
+        self.tail.next = node
+        node.prev = self.tail
+        self.tail = node
+
+    def _push_node_to_mid(self, node):
+        nxt = self.mid.next
+        curr = self.mid
+
+        curr.next = node
+        node.prev = curr
+
+        node.next = nxt
+        nxt.prev = node
+
+        self.mid = node
+
+    def _pop_node_from_head(self):
+        nxt = self.head.next
+        self.head = nxt
+        self.head.prev = None
+
+    def _pop_node_from_tail(self):
+        prev = self.tail.prev
+        self.tail = prev
+        self.tail.next = None
+
+    def _pop_node_from_middle(self):
+        prev = self.mid.prev
+        nxt = self.mid.next
+        prev.next = nxt
+        nxt.prev = prev
 
 
 # Your FrontMiddleBackQueue object will be instantiated and called as such:
