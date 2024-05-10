@@ -40,75 +40,47 @@ class FrontMiddleBackQueue:
 
     def push_node_to_mid(self, node):
         nxt = self.mid.next
-        self.mid.next = node
-        node.prev = self.mid
+        curr = self.mid
+
+        curr.next = node
+        node.prev = curr
+
         node.next = nxt
         nxt.prev = node
+
+        self.mid = node
 
     def pushMiddle(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
             self.create_first_node(node)
-        elif self.size == 1:
+        elif self.size == 1:  # mid is node
+            # [1] -> [2, 1]
             node.next = self.tail
             self.tail.prev = node
             self.head = node
             self.mid = node
 
-
         elif self.size % 2 == 0:
-            #      even to odd: mid is node
-            #        [1, 2] -> [1, 3, 2]
-            p = self.mid
-            n = self.mid.next
-            self.mid = node
-            self.mid.next = n
-            self.mid.prev = p
-            p.next = self.mid
-            n.prev = self.mid
+            # even to odd: mid is node. mid is not changed
+            # [1, 2] -> [1, 3, 2]
+            self.push_node_to_mid(node)
 
         else:
-            prev = self.mid.prev
-            next = self.mid
-            self.mid = node
-            self.mid.next = next
-            self.mid.prev = prev
-            prev.next = self.mid
-            next.prev = self.mid
+            # odd to even
+            # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev 2 -> 2.prev
+            self.mid = self.mid.prev
+            self.push_node_to_mid(node)
+
+            # prev = self.mid.prev
+            # next = self.mid
+            # self.mid = node
+            # self.mid.next = next
+            # self.mid.prev = prev
+            # prev.next = self.mid
+            # next.prev = self.mid
 
         self.size += 1
-
-    # def pushMiddle(self, val: int) -> None:
-    #     newNode = Node(val)
-    #     if self.size == 0:
-    #         self.head = self.mid = self.tail = newNode
-    #     elif self.size == 1:
-    #         self.head = self.mid = newNode
-    #         self.head.next = self.tail
-    #         self.tail.prev = self.head
-    #     elif self.size == 2:
-    #         self.mid = newNode
-    #         self.mid.next = self.tail
-    #         self.mid.prev = self.head
-    #         self.head.next = self.mid
-    #         self.tail.prev = self.mid
-    #     elif self.size % 2 == 1:
-    #         prev = self.mid.prev
-    #         next = self.mid
-    #         self.mid = newNode
-    #         self.mid.next = next
-    #         self.mid.prev = prev
-    #         prev.next = self.mid
-    #         next.prev = self.mid
-    #     else:
-    #         p = self.mid
-    #         n = self.mid.next
-    #         self.mid = newNode
-    #         self.mid.next = n
-    #         self.mid.prev = p
-    #         p.next = self.mid
-    #         n.prev = self.mid
-    #     self.size += 1
 
     def pushBack(self, val: int) -> None:
         newNode = Node(val)
