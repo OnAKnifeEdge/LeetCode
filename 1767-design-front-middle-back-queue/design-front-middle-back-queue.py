@@ -59,6 +59,7 @@ class FrontMiddleBackQueue:
         node = Node(val)
         if self.size == 0:
             self.create_first_node(node)
+
         elif self.size == 1:  # mid is node
             # [1] -> [2, 1]
             node.next = self.tail
@@ -83,27 +84,6 @@ class FrontMiddleBackQueue:
         node = Node(val)
         if self.size == 0:
             self.create_first_node(node)
-        # elif self.size == 1:
-        #     self.tail = node
-        #     self.tail.prev = self.head
-        #     self.head.next = self.tail
-        # elif self.size == 2:
-        #     self.tail = node
-        #     self.mid = self.head.next
-        #     self.mid.next = self.tail
-        #     self.tail.prev = self.mid
-        # elif self.size % 2 == 1:
-        #     self.tail.next = node
-        #     node.prev = self.tail
-        #     self.tail = node
-        # else:
-        #     self.tail.next = node
-        #     node.prev = self.tail
-        #     self.tail = node
-        #     self.mid = self.mid.next
-
-        # elif self.size == 1:
-        #     self.push_node_to_back(node)
         elif self.size % 2 == 0:
             # even to odd: mid = mid.next [1, 2] -> [1, 2, 3]
             self.push_node_to_back(node)
@@ -118,12 +98,14 @@ class FrontMiddleBackQueue:
     def popFront(self) -> int:
         if self.size == 0:
             return -1
-        ret = self.head.val
+        val = self.head.val
         if self.size == 1:
-            self.head = self.mid = self.tail = None
-        elif self.size == 2:
-            self.head = self.mid = self.tail
-            self.head.prev = None
+            self.create_first_node(None)
+
+        # elif self.size == 2:
+        #     self.head = self.mid = self.tail
+        #     self.head.prev = None
+
         elif self.size % 2 == 1:
             self.head = self.head.next
             self.head.prev = None
@@ -131,9 +113,9 @@ class FrontMiddleBackQueue:
             self.head = self.head.next
             self.head.prev = None
             self.mid = self.mid.next
+
         self.size -= 1
-        # print('popfront',self.head.val if self.head else None,self.mid.val if self.mid else None,self.tail.val if self.tail else None,self.size)
-        return ret
+        return val
 
     def popMiddle(self) -> int:
         if self.size == 0:
