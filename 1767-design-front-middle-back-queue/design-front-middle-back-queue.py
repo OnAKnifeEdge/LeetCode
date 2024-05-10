@@ -95,6 +95,11 @@ class FrontMiddleBackQueue:
 
         self.size += 1
 
+    def pop_node_from_head(self):
+        nxt = self.head.next
+        self.head = nxt
+        self.head.prev = None
+
     def popFront(self) -> int:
         if self.size == 0:
             return -1
@@ -102,17 +107,22 @@ class FrontMiddleBackQueue:
         if self.size == 1:
             self.create_first_node(None)
 
-        # elif self.size == 2:
-        #     self.head = self.mid = self.tail
-        #     self.head.prev = None
-
-        elif self.size % 2 == 1:
-            self.head = self.head.next
-            self.head.prev = None
-        else:
-            self.head = self.head.next
-            self.head.prev = None
+        elif self.size % 2 == 0:
+            # even to odd, mid = mid.next [1, 2] -> [2]
+            self.pop_node_from_head()
             self.mid = self.mid.next
+
+        else:
+            self.pop_node_from_head()
+            # odd to even, mid is unchanged [1, 2, 3] -> [2, 3]
+
+        # elif self.size % 2 == 1:
+        #     self.head = self.head.next
+        #     self.head.prev = None
+        # else:
+        #     self.head = self.head.next
+        #     self.head.prev = None
+        #     self.mid = self.mid.next
 
         self.size -= 1
         return val
