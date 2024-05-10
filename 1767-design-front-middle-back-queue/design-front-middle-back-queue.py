@@ -21,6 +21,23 @@ class FrontMiddleBackQueue:
         self.head.prev = node
         self.head = node
 
+    def push_node_to_back(self, node):
+        self.tail.next = node
+        node.prev = self.tail
+        self.tail = node
+
+    def push_node_to_mid(self, node):
+        nxt = self.mid.next
+        curr = self.mid
+
+        curr.next = node
+        node.prev = curr
+
+        node.next = nxt
+        nxt.prev = node
+
+        self.mid = node
+
     def pushFront(self, val: int) -> None:
         node = Node(val)
         if self.size == 0:
@@ -37,18 +54,6 @@ class FrontMiddleBackQueue:
             self.mid = self.mid.prev
 
         self.size += 1
-
-    def push_node_to_mid(self, node):
-        nxt = self.mid.next
-        curr = self.mid
-
-        curr.next = node
-        node.prev = curr
-
-        node.next = nxt
-        nxt.prev = node
-
-        self.mid = node
 
     def pushMiddle(self, val: int) -> None:
         node = Node(val)
@@ -68,44 +73,47 @@ class FrontMiddleBackQueue:
 
         else:
             # odd to even
-            # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev 2 -> 2.prev
+            # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev
             self.mid = self.mid.prev
             self.push_node_to_mid(node)
-
-            # prev = self.mid.prev
-            # next = self.mid
-            # self.mid = node
-            # self.mid.next = next
-            # self.mid.prev = prev
-            # prev.next = self.mid
-            # next.prev = self.mid
 
         self.size += 1
 
     def pushBack(self, val: int) -> None:
-        newNode = Node(val)
+        node = Node(val)
         if self.size == 0:
-            self.head = self.mid = self.tail = newNode
-        elif self.size == 1:
-            self.tail = newNode
-            self.tail.prev = self.head
-            self.head.next = self.tail
-        elif self.size == 2:
-            self.tail = newNode
-            self.mid = self.head.next
-            self.mid.next = self.tail
-            self.tail.prev = self.mid
-        elif self.size % 2 == 1:
-            self.tail.next = newNode
-            newNode.prev = self.tail
-            self.tail = newNode
-        else:
-            self.tail.next = newNode
-            newNode.prev = self.tail
-            self.tail = newNode
+            self.create_first_node(node)
+        # elif self.size == 1:
+        #     self.tail = node
+        #     self.tail.prev = self.head
+        #     self.head.next = self.tail
+        # elif self.size == 2:
+        #     self.tail = node
+        #     self.mid = self.head.next
+        #     self.mid.next = self.tail
+        #     self.tail.prev = self.mid
+        # elif self.size % 2 == 1:
+        #     self.tail.next = node
+        #     node.prev = self.tail
+        #     self.tail = node
+        # else:
+        #     self.tail.next = node
+        #     node.prev = self.tail
+        #     self.tail = node
+        #     self.mid = self.mid.next
+
+        # elif self.size == 1:
+        #     self.push_node_to_back(node)
+        elif self.size % 2 == 0:
+            # even to odd: mid = mid.next [1, 2] -> [1, 2, 3]
+            self.push_node_to_back(node)
             self.mid = self.mid.next
+
+        else:
+            # odd to even: mid 不变 [1, 2, 3] -> [1, 2, 3, 4]
+            self.push_node_to_back(node)
+
         self.size += 1
-        # print('pushback',self.head.val if self.head else None,self.mid.val if self.mid else None,self.tail.val if self.tail else None,self.size)
 
     def popFront(self) -> int:
         if self.size == 0:
