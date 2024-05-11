@@ -5,16 +5,16 @@
 #         self.next = next
 class Solution:
     def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
-        nodes = []
-        mono_stack = []
+        result = []
+        mono_stack = []  # (i, val)
+        i = 0
+
         while head:
-            nodes.append(head.val)
+            result.append(0)
+            while mono_stack and mono_stack[-1][1] < head.val:
+                idx, val = mono_stack.pop()
+                result[idx] = head.val
+            mono_stack.append((i, head.val))
+            i += 1
             head = head.next
-        result = [0] * len(nodes)
-        for i in reversed(range(len(nodes))):
-            while mono_stack and mono_stack[-1] <= nodes[i]:
-                mono_stack.pop()
-            if mono_stack:
-                result[i] = mono_stack[-1]
-            mono_stack.append(nodes[i])
         return result
