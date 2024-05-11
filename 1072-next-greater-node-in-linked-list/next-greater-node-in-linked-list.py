@@ -7,12 +7,10 @@ class Solution:
     def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
         nodes = []
         mono_stack = []
-        n = 0
         while head:
             nodes.append(head.val)
             head = head.next
-            n += 1
-        result = [0] * n
+        result = [0] * len(nodes)
         for i in reversed(range(len(nodes))):
             while mono_stack and mono_stack[-1] <= nodes[i]:
                 mono_stack.pop()
