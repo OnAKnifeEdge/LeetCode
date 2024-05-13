@@ -6,7 +6,7 @@ class Solution:
 
         for right in range(len(nums)):
             mono_q.push(nums[right])
-            if abs(mono_q.max() - mono_q.min()) > limit:
+            while abs(mono_q.max() - mono_q.min()) > limit:
                 mono_q.pop(nums[left])
                 left += 1
             longest = max(longest, right - left + 1)
