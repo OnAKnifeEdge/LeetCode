@@ -45,7 +45,9 @@ class LFUCache:
         self.delete_key(key)
         self.add_key_value(key, value, frequency + 1)
         if frequency == self.min and not self.frequency_to_keys.get(frequency):
-            self.min = frequency + 1  # update min to the next frequency if it was the last
+            self.min = (
+                frequency + 1
+            )  # update min to the next frequency if it was the last
         return value
 
     def put(self, key: int, value: int) -> None:
@@ -58,7 +60,9 @@ class LFUCache:
             self.delete_key(key)
             self.add_key_value(key, value, frequency + 1)
             if frequency == self.min and not self.frequency_to_keys.get(frequency):
-                self.min = frequency + 1  # update min to the next frequency if it was the last
+                self.min = (
+                    frequency + 1
+                )  # update min to the next frequency if it was the last
         else:
             # Add a new key
             if self.size == self.capacity:
