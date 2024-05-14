@@ -19,16 +19,22 @@ class LRUCache:
         self.d = {}  # key: val
 
     def get_and_make_recent(self, key):
+        if key not in self.d:
+            return -1
         node = self.d[key]
         self.remove(node)
         self.add(node)
         return node.val
 
     def evict(self):
+        if self.size <= self.capacity:
+            return
         node = self.head.next
         self.remove(node)
 
     def remove(self, node):
+        if not node:
+            return
         prev = node.prev
         next = node.next
         prev.next = next
@@ -46,16 +52,12 @@ class LRUCache:
         self.size += 1
 
     def get(self, key: int) -> int:
-        if key not in self.d:
-            return -1
         return self.get_and_make_recent(key)
 
     def put(self, key: int, value: int) -> None:
-        if key in self.d:
-            self.remove(self.d[key])
+        self.remove(self.d.get(key))
         self.add(Node(key, value))
-        if self.size > self.capacity:
-            self.evict()
+        self.evict()
 
 
 # Your LRUCache object will be instantiated and called as such:
