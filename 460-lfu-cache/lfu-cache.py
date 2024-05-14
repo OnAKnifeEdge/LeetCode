@@ -44,7 +44,7 @@ class LFUCache:
         value, frequency = self.key_to_val[key]
         self.delete_key(key)
         self.add_key_value(key, value, frequency + 1)
-        if frequency == self.min and not self.frequency_to_keys.get(frequency):
+        if frequency == self.min and frequency not in self.frequency_to_keys:
             self.min += 1
         return value
 
@@ -57,14 +57,15 @@ class LFUCache:
             _, frequency = self.key_to_val[key]
             self.delete_key(key)
             self.add_key_value(key, value, frequency + 1)
-            if frequency == self.min and not self.frequency_to_keys.get(frequency):
+            if frequency == self.min and frequency not in self.frequency_to_keys:
                 self.min += 1
         else:
             # Add a new key
             if self.size == self.capacity:
                 self.evict()
             self.add_key_value(key, value, 1)
-            self.min = 1  
+            self.min = 1
+
 
 # Your LFUCache object will be instantiated and called as such:
 # obj = LFUCache(capacity)
