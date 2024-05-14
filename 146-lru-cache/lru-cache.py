@@ -16,15 +16,7 @@ class LRUCache:
 
         self.capacity = capacity
         self.size = 0
-        self.d = {}  # key: val
-
-    def get_and_make_recent(self, key):
-        if key not in self.d:
-            return -1
-        node = self.d[key]
-        self.remove(node)
-        self.add(node)
-        return node.val
+        self.cache = {}  # key: val
 
     def evict(self):
         if self.size <= self.capacity:
@@ -33,29 +25,35 @@ class LRUCache:
         self.remove(node)
 
     def remove(self, node):
-        if not node:
-            return
+        # assume node is not in cache
         prev = node.prev
         next = node.next
         prev.next = next
         next.prev = prev
-        del self.d[node.key]
+        del self.cache[node.key]
         self.size -= 1
 
     def add(self, node):
+        # assume node is in cache
         last_node = self.tail.prev
         last_node.next = node
         node.prev = last_node
         node.next = self.tail
         self.tail.prev = node
-        self.d[node.key] = node
+        self.cache[node.key] = node
         self.size += 1
 
     def get(self, key: int) -> int:
-        return self.get_and_make_recent(key)
+        if key not in self.cache:
+            return -1
+        node = self.cache[key]
+        self.remove(node)
+        self.add(node)
+        return node.val
 
     def put(self, key: int, value: int) -> None:
-        self.remove(self.d.get(key))
+        if key in self.cache:
+            self.remove(self.cache[key])
         self.add(Node(key, value))
         self.evict()
 
