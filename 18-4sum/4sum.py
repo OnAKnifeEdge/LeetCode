@@ -15,8 +15,6 @@ class Solution:
             return self.two_sum(nums, target)
 
         for i, num in enumerate(nums):
-            # if num > target:
-            #     break
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
             for subset in self.k_sum(nums[i + 1:], target - nums[i], k - 1):
