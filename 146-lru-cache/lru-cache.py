@@ -53,10 +53,9 @@ class LRUCache:
     def put(self, key: int, value: int) -> None:
         if key in self.d:
             self.remove(self.d[key])
-        elif self.size == self.capacity:
-            self.evict()
-
         self.add(Node(key, value))
+        if self.size > self.capacity:
+            self.evict()
 
 
 # Your LRUCache object will be instantiated and called as such:
