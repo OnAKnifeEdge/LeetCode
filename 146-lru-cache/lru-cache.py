@@ -26,20 +26,19 @@ class LRUCache:
 
     def remove(self, node):
         # assume node is not in cache
-        prev = node.prev
-        next = node.next
-        prev.next = next
-        next.prev = prev
+        node.prev.next = node.next
+        node.next.prev = node.prev
         del self.cache[node.key]
         self.size -= 1
 
     def add(self, node):
         # assume node is in cache
-        last_node = self.tail.prev
-        last_node.next = node
-        node.prev = last_node
+        node.prev = self.tail.prev
         node.next = self.tail
+
+        self.tail.prev.next = node
         self.tail.prev = node
+
         self.cache[node.key] = node
         self.size += 1
 
