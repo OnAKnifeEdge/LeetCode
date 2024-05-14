@@ -35,7 +35,6 @@ class LRUCache:
         # assume node is in cache
         node.prev = self.tail.prev
         node.next = self.tail
-
         self.tail.prev.next = node
         self.tail.prev = node
 
