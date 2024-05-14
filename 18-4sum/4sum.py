@@ -8,10 +8,10 @@ class Solution:
         if not nums:
             return result
 
-        # avg = target / k
+        avg = target / k
 
-        # if avg < nums[0] or nums[-1] < avg:
-        #     return result
+        if avg < nums[0] or nums[-1] < avg:
+            return result
 
         if k == 2:
             return self.two_sum(nums, target)
