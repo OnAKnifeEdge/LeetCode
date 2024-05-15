@@ -58,6 +58,13 @@ class LFUCache:
             del self.frequency_to_keys[frequency]
         return key
 
+    def update_frequency(self, frequency, key):
+        self.pop_from_frequency(frequency, key)
+        if frequency not in self.frequency_to_keys:
+            if self.min and frequency == self.min:
+                self.min += 1
+        self.frequency_to_keys[frequency + 1].add(key)
+
     def get(self, key: int) -> int:
         if key not in self.key_to_value:
             return -1
@@ -67,11 +74,12 @@ class LFUCache:
         self.key_to_value[key] = (value, frequency + 1)
 
         # update frequency_to_keys and self.min
-        self.pop_from_frequency(frequency, key)
-        if frequency not in self.frequency_to_keys:
-            if self.min and frequency == self.min:
-                self.min += 1
-        self.frequency_to_keys[frequency + 1].add(key)
+        self.update_frequency(frequency, key)
+        # self.pop_from_frequency(frequency, key)
+        # if frequency not in self.frequency_to_keys:
+        #     if self.min and frequency == self.min:
+        #         self.min += 1
+        # self.frequency_to_keys[frequency + 1].add(key)
         return value
 
     def evict(self):
@@ -90,11 +98,12 @@ class LFUCache:
             self.key_to_value[key] = (value, frequency + 1)
 
             # update frequency_to_keys and self.min
-            self.pop_from_frequency(frequency, key)
-            if frequency not in self.frequency_to_keys:
-                if self.min and frequency == self.min:
-                    self.min += 1
-            self.frequency_to_keys[frequency + 1].add(key)
+            self.update_frequency(frequency, key)
+            # self.pop_from_frequency(frequency, key)
+            # if frequency not in self.frequency_to_keys:
+            #     if self.min and frequency == self.min:
+            #         self.min += 1
+            # self.frequency_to_keys[frequency + 1].add(key)
 
         # insertion
         else:
