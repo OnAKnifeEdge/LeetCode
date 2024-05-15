@@ -155,6 +155,8 @@ class TrieMap:
         if idx == len(pattern) and node.val is not None: 
             keys.append(path)
             return
+        if idx == len(pattern):
+            return
         c = pattern[idx]
         if c == '.':
             # iterate all children
