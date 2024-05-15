@@ -1,69 +1,110 @@
+class OrderedSet:
+    def __init__(self, iterable=None):
+        self.dict = OrderedDict()
+        if iterable:
+            self.add_all(iterable)
+
+    def add_all(self, iterable):
+        for item in iterable:
+            self.add(item)
+
+    def add(self, item):
+        self.dict[item] = None
+
+    def remove(self, item):
+        self.dict.pop(item, None)
+
+    def peek(self):
+        if not self.dict:
+            raise KeyError("OrderedSet is empty!")
+        return next(iter(self.dict))
+
+    def pop(self):
+        if not self.dict:
+            raise KeyError("OrderedSet is empty!")
+        return self.dict.popitem(last=False)[0]
+
+    def contains(self, item):
+        return item in self.dict
+
+    def __iter__(self):
+        return iter(self.dict)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({list(self.dict.keys())})"
+
+    def __bool__(self):
+        return bool(self.dict)
+
+    def __len__(self):
+        return len(self.dict)
+
+
 class LFUCache:
 
     def __init__(self, capacity: int):
-        self.key_to_val = {}  # key: (value, frequency)
-        self.frequency_to_keys = defaultdict(OrderedDict)  # {frequency: {key: value}}
         self.capacity = capacity
-        self.size = 0
         self.min = None
+        self.key_to_value = {}  # {key: (value, frequency)}
+        # {frequency: {keys}} and keys are in an OrderedSet
+        self.frequency_to_keys = defaultdict(OrderedSet)
 
-    def delete_key(self, key: int):
-        # deletion: when key exists
-        if key not in self.key_to_val:
-            raise Exception(f"{key} does not exist.")
-        _, frequency = self.key_to_val.pop(key)
-
-        del self.frequency_to_keys[frequency][key]
+    def pop_from_frequency(self, frequency, item=None) -> Optional[int]:
+        if not item:
+            key = self.frequency_to_keys[frequency].pop()
+        else:
+            key = self.frequency_to_keys[frequency].remove(item)
         if not self.frequency_to_keys[frequency]:
             del self.frequency_to_keys[frequency]
-
-        self.size -= 1
-
-    def add_key_value(self, key: int, value: int, frequency: int):
-        # insertion: when key does not exist.
-        if key in self.key_to_val:
-            raise Exception(f"Key={key} already exists")
-
-        self.key_to_val[key] = value, frequency
-        self.frequency_to_keys[frequency][key] = value
-
-        self.size += 1
-
-    def evict(self):
-        # Evict the least frequently used key
-        key, _ = self.frequency_to_keys[self.min].popitem(last=False)
-        del self.key_to_val[key]
-        if not self.frequency_to_keys[self.min]:
-            del self.frequency_to_keys[self.min]
-        self.size -= 1
+        return key
 
     def get(self, key: int) -> int:
-        if self.capacity == 0 or key not in self.key_to_val:
+        if key not in self.key_to_value:
             return -1
 
-        value, frequency = self.key_to_val[key]
-        self.delete_key(key)
-        self.add_key_value(key, value, frequency + 1)
-        if frequency == self.min and frequency not in self.frequency_to_keys:
-            self.min += 1
+        # update key_to_value
+        value, frequency = self.key_to_value[key]
+        self.key_to_value[key] = (value, frequency + 1)
+
+        # update frequency_to_keys and self.min
+        self.pop_from_frequency(frequency, key)
+        if frequency not in self.frequency_to_keys:
+            if self.min and frequency == self.min:
+                self.min += 1
+        self.frequency_to_keys[frequency + 1].add(key)
         return value
+
+    def evict(self):
+        # is only used before insertion
+        frequency = self.min
+        key = self.pop_from_frequency(frequency)
+        del self.key_to_value[key]
 
     def put(self, key: int, value: int) -> None:
         if self.capacity == 0:
             return
+        # update
+        if key in self.key_to_value:
+            # update key_to_value
+            _, frequency = self.key_to_value[key]
+            self.key_to_value[key] = (value, frequency + 1)
 
-        if key in self.key_to_val:
-            # Modify an existing key
-            _, frequency = self.key_to_val[key]
-            self.delete_key(key)
-            self.add_key_value(key, value, frequency + 1)
-            if frequency == self.min and frequency not in self.frequency_to_keys:
-                self.min += 1
+            # update frequency_to_keys and self.min
+            self.pop_from_frequency(frequency, key)
+            if frequency not in self.frequency_to_keys:
+                if self.min and frequency == self.min:
+                    self.min += 1
+            self.frequency_to_keys[frequency + 1].add(key)
+
+        # insertion
         else:
-            # Add a new key
-            if self.size == self.capacity:
+            if self.capacity == len(self.key_to_value):
                 self.evict()
-            self.add_key_value(key, value, 1)
+            # add to key_to_value
+            self.key_to_value[key] = (value, 1)
+
+            # add to frequency_to_keys and self.min
+            self.frequency_to_keys[1].add(key)
             self.min = 1
 
 
