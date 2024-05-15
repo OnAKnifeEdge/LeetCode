@@ -4,15 +4,18 @@ class FirstUnique:
         self.count = defaultdict(int)
         self.q = deque()
         for num in nums:
-            self.add(num)
+            self.count[num] += 1
+            self.q.append(num)
 
     def showFirstUnique(self) -> int:
+        if not self.q:
+            return -1
         while self.q:
             val = self.q[0]
-            if self.count[val] > 1:
-                self.q.popleft()
-            else:
+            if self.count[val] == 1:
                 return val
+            else:
+                self.q.popleft()
         return -1
 
     def add(self, value: int) -> None:
