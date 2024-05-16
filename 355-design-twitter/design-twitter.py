@@ -22,7 +22,7 @@ class Twitter:
         """
         Initialize your data structure here.
         """
-        # This will hold a list of tweets for each user
+        # This will hold a linkedlist of tweets for each user
         self.tweets = {}  # user: Tweet
         # This will hold a set of users that each user is following
         self.followees = defaultdict(set)
@@ -37,7 +37,6 @@ class Twitter:
         self.tweets[userId] = tweet
         self.timestamp += 1
 
-
     def getNewsFeed(self, userId: int):
         """
         Retrieve the 10 most recent tweet ids in the user's news feed.
@@ -51,6 +50,7 @@ class Twitter:
             head = self.tweets.get(person)
             if head:
                 heappush(heap, head)
+
         timeline = []
 
         while heap and len(timeline) < 10:
