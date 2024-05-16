@@ -18,25 +18,43 @@ class WordDictionary:
             node = node.children[c]
         node.is_end = True
 
-    def dfs(self, node, word, idx, path, words):
+    # def dfs(self, node, word, idx, path, words):
+    #     if not node:
+    #         return
+    #     if idx == len(word) and node.is_end:
+    #         words.append(path)
+    #         return
+    #     if idx == len(word):
+    #         return
+    #     c = word[idx]
+    #     if c == '.':
+    #         for x in node.children:
+    #             self.dfs(node.children[x], word, idx + 1, path + x, words)
+    #     elif c in node.children:
+    #         self.dfs(node.children[c], word, idx + 1, path + c, words)
+
+    def dfs(self, node, word, idx, path):
         if not node:
-            return
+            return False
         if idx == len(word) and node.is_end:
-            words.append(path)
-            return
+            return True
         if idx == len(word):
-            return
+            return False
         c = word[idx]
-        if c == '.':
+        if c == ".":
             for x in node.children:
-                self.dfs(node.children[x], word, idx + 1, path + x, words)
+                if self.dfs(node.children[x], word, idx + 1, path + x):
+                    return True
         elif c in node.children:
-            self.dfs(node.children[c], word, idx + 1, path + c, words)
+            return self.dfs(node.children[c], word, idx + 1, path + c)
+        return False
 
     def search(self, word: str) -> bool:
-        words = []
-        self.dfs(self.root, word, 0, '', words)
-        return bool(words)
+        return self.dfs(self.root, word, 0, "")
+
+        # self.dfs(self.root, word, 0, "", words)
+        # return bool(words)
+        return self.dfs(self.root, word, 0, "")
 
 
 # Your WordDictionary object will be instantiated and called as such:
