@@ -33,7 +33,6 @@ class Solution:
         for i in range(min(k, len(nums1))):
             heappush(min_heap, Pair(i, 0, nums1, nums2))
             # min_heap.append(Pair(i, 0, nums1, nums2))
-
         # heapify(min_heap)
 
         pairs = []
