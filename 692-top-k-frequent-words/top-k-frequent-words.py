@@ -17,16 +17,16 @@ class Trie:
             node = node.children[i]
         node.is_end = True
 
-    def get_words(self, node=None, word="") -> List[str]:
+    def get_words(self, node=None, prefix=""):
         if node is None:
             node = self.root
         words = []
         if node.is_end:
-            words.append(word)
+            yield prefix
         for i in range(26):
-            if node.children[i]:
-                words.extend(self.get_words(node.children[i], word + chr(i + ord("a"))))
-        return words
+            child = node.children[i]
+            if child is not None:
+                yield from self.get_words(child, prefix + chr(i + ord('a')))
 
 
 class Solution:
@@ -44,7 +44,8 @@ class Solution:
 
         for i in reversed(range(len(words) + 1)):
             trie = bucket[i]
-            result.extend(trie.get_words())
-            if len(result) >= k:
-                return result[:k]
+            for word in bucket[i].get_words():
+                result.append(word)
+                if len(result) == k:
+                    return result
         return result
