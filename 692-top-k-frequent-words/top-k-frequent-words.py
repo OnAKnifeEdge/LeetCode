@@ -1,33 +1,50 @@
-class Pair:
-    def __init__(self, frequency, word):
-        self.frequency = frequency
-        self.word = word
+class TrieNode:
+    def __init__(self):
+        self.children = [None] * 26
+        self.is_end = False
 
-    def __lt__(self, other):
-        if self.frequency < other.frequency:
-            return True
-        # Pair(1, 'b') is lt than Pair(1, 'a') where 'b' > 'a'
-        if self.frequency == other.frequency:
-            return self.word > other.word
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def add(self, word):
+        node = self.root
+        for c in word:
+            i = ord(c) - ord("a")
+            if not node.children[i]:
+                node.children[i] = TrieNode()
+            node = node.children[i]
+        node.is_end = True
+
+    def get_words(self, node=None, word="") -> List[str]:
+        if node is None:
+            node = self.root
+        words = []
+        if node.is_end:
+            words.append(word)
+        for i in range(26):
+            if node.children[i]:
+                words.extend(self.get_words(node.children[i], word + chr(i + ord("a"))))
+        return words
 
 
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        # Option 1
-        # max heap 全部， pop 出来的 k 个最大的就是结果
-        #  heapify frequency and word, then pop the largest frequency (*-1 max heap)
-        # O(n + klogk) 不好 not flexible,
-        # when 'k' is a considerable fraction of 'N' or close to 'N', 'k log N' is less than 'N log k'.
+        result = []
+        if k == 0:
+            return result
 
-        # Option 2
-        #  min_heap: 只维护一个 k 大的 heap，小的都被 pop 掉了
-        # O(n*logk) 很 flexible 而且 k 小的时候 performance 好
-        # O(N)+O(Nlogk)+O(klogk)=O(Nlogk)
         counter = Counter(words)
-        min_heap = []
+        bucket = [Trie() for _ in range(len(words) + 1)]  # n 个 bucket
+        # bucket[i] is the Trie for frequency == i
+
         for word, frequency in counter.items():
-            heappush(min_heap, Pair(frequency, word))
-            if len(min_heap) > k:
-                heappop(min_heap)
-        # now min_heap has the top k words
-        return [p.word for p in sorted(min_heap, reverse=True)]
+            bucket[frequency].add(word)
+
+        for i in reversed(range(len(words) + 1)):
+            trie = bucket[i]
+            result.extend(trie.get_words())
+            if len(result) >= k:
+                return result[:k]
+        return result
