@@ -2,8 +2,8 @@ class Twitter(object):
 
     def __init__(self):
         self.timer = itertools.count(step=-1)
-        self.tweets = collections.defaultdict(collections.deque)
-        self.followees = collections.defaultdict(set)
+        self.tweets = defaultdict(collections.deque)
+        self.followees = defaultdict(set)
 
     def postTweet(self, userId, tweetId):
         self.tweets[userId].appendleft((next(self.timer), tweetId))
