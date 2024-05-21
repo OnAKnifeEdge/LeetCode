@@ -98,9 +98,11 @@ class FrontMiddleBackQueue:
             self._create_first_node(None)
         elif self.size == 2:
             # [1, 2] -> [2]
-            self.head = self.tail
+            # self.head = self.tail
+            # self.mid = self.tail
+            # self.head.prev = None
+            self._pop_node_from_head()
             self.mid = self.tail
-            self.head.prev = None
         elif self.size % 2 == 0:
             # even to odd [1, 2, 3, 4] -> [1, 3, 4] mid = mid.next
 
