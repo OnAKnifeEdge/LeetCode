@@ -37,10 +37,6 @@ class FrontMiddleBackQueue:
 
         elif self.size == 1:  # mid is node
             # [1] -> [2, 1]
-            # node.next = self.tail
-            # self.tail.prev = node
-            # self.head = node
-            # self.mid = node
             self._push_node_to_head(node)
             self.mid = node
         elif self.size % 2 == 0:
@@ -51,7 +47,7 @@ class FrontMiddleBackQueue:
         else:
             # odd to even
             # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev
-            self.mid = self.mid.prev
+            # self.mid = self.mid.prev
             self._push_node_to_mid(node)
 
         self.size += 1
@@ -98,14 +94,10 @@ class FrontMiddleBackQueue:
             self._create_first_node(None)
         elif self.size == 2:
             # [1, 2] -> [2]
-            # self.head = self.tail
-            # self.mid = self.tail
-            # self.head.prev = None
             self._pop_node_from_head()
             self.mid = self.tail
         elif self.size % 2 == 0:
             # even to odd [1, 2, 3, 4] -> [1, 3, 4] mid = mid.next
-
             self._pop_node_from_middle()
             self.mid = self.mid.next
 
@@ -148,16 +140,29 @@ class FrontMiddleBackQueue:
         self.tail = node
 
     def _push_node_to_mid(self, node):
-        nxt = self.mid.next
-        curr = self.mid
+        if self.size % 2 == 1:
+            # mid 前 insert:
+            prev = self.mid.prev
+            nxt = self.mid
 
-        curr.next = node
-        node.prev = curr
+            prev.next = node
+            node.prev = prev
 
-        node.next = nxt
-        nxt.prev = node
+            node.next = nxt
+            nxt.prev = node
+            self.mid = node
+        else:
+            # mid 后 insert
+            prev = self.mid
+            nxt = self.mid.next
 
-        self.mid = node
+            prev.next = node
+            node.prev = prev
+
+            node.next = nxt
+            nxt.prev = node
+
+            self.mid = node
 
     def _pop_node_from_head(self):
         nxt = self.head.next
