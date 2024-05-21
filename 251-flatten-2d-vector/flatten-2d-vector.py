@@ -1,19 +1,24 @@
 class Vector2D:
 
     def __init__(self, vec: List[List[int]]):
-        self.vec = vec
-        self.i = 0  # 2D list row pointer
-        self.j = 0  # 2D list column pointer
+        def generator():
+            for row in vec:
+                for c in row:
+                    yield c
+
+        self._generator = generator()
+        self._next = next(self._generator, None)
 
     def next(self) -> int:
-        if not self.hasNext():
-            return -1
-        val = self.vec[self.i][self.j]
-        self.j += 1  # move column pointer one step to the right
-        return val
+        nxt = self._next
+        self._next = next(self._generator, None)
+        return nxt
 
     def hasNext(self) -> bool:
-        while self.i < len(self.vec) and self.j == len(self.vec[self.i]):
-            self.i += 1  # move to the next non-empty row
-            self.j = 0  # reset column pointer to 0
-        return self.i < len(self.vec)  # check if there are any rows left
+        return self._next is not None
+
+
+# Your Vector2D object will be instantiated and called as such:
+# obj = Vector2D(vec)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
