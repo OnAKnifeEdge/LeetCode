@@ -1,28 +1,24 @@
-class Pair(NamedTuple):
-    val: int
-    smallest: int
-
-
 class MinStack:
 
     def __init__(self):
         self.stack = []
+        self.min_stack = []
 
     def push(self, val: int) -> None:
-        if not self.stack:
-            self.stack.append(Pair(val=val, smallest=val))
-        else:
-            last_smallest = self.getMin()
-            self.stack.append(Pair(val=val, smallest=min(val, last_smallest)))
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
 
     def pop(self) -> None:
-        self.stack.pop()
+        val = self.stack.pop()
+        if self.min_stack and self.min_stack[-1] == val:
+            self.min_stack.pop()
 
     def top(self) -> int:
-        return self.stack[-1].val
+        return self.stack[-1]
 
     def getMin(self) -> int:
-        return self.stack[-1].smallest
+        return self.min_stack[-1]
 
 
 # Your MinStack object will be instantiated and called as such:
