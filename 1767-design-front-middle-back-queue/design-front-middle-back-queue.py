@@ -39,15 +39,12 @@ class FrontMiddleBackQueue:
             # [1] -> [2, 1]
             self._push_node_to_head(node)
             self.mid = node
-        elif self.size % 2 == 0:
+        else:
             # even to odd: mid is node. mid is not changed
             # [1, 2] -> [1, 3, 2]
-            self._push_node_to_mid(node)
 
-        else:
             # odd to even
             # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev
-            # self.mid = self.mid.prev
             self._push_node_to_mid(node)
 
         self.size += 1
