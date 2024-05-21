@@ -97,7 +97,6 @@ class FrontMiddleBackQueue:
             # even to odd [1, 2, 3, 4] -> [1, 3, 4] mid = mid.next
             self._pop_node_from_middle()
             self.mid = self.mid.next
-
         else:
             # odd to even [1, 2, 3] -> [1, 3] mid = mid.prev
             self._pop_node_from_middle()
@@ -137,6 +136,12 @@ class FrontMiddleBackQueue:
         self.tail = node
 
     def _push_node_to_mid(self, node):
+        # even to odd: mid is node. mid is not changed
+        # [1, 2] -> [1, 3, 2]
+
+        # odd to even
+        # [1, 2, 3] -> [1, 4, 2, 3] mid = mid.prev
+
         if self.size % 2 == 1:
             # mid 前 insert:
             prev = self.mid.prev
