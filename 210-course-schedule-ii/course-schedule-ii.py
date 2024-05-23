@@ -4,28 +4,27 @@ class Solution:
         for course, pre_course in prerequisites:
             d[pre_course].append(course)
 
-        visited = [False] * numCourses
-        exploring = [False] * numCourses
+        visited = [0] * numCourses   # 0: unvisited, 1: visiting, 2: visited
         post_order = []
 
         def dfs(course):
-            if exploring[course]:
+            if visited[course] == 1:  # Cycle detected
                 return True
-
-            if visited[course]:
+            if visited[course] == 2:  # Already processed
                 return False
-            visited[course] = True
-            exploring[course] = True
+
+            visited[course] = 1  # Mark as visiting
 
             for next_course in d[course]:
                 if dfs(next_course):
                     return True
+
+            visited[course] = 2  # Mark as processed
             post_order.append(course)
-            exploring[course] = False
             return False
 
         for course in range(numCourses):
-            if not visited[course] and dfs(course):
+            if visited[course] == 0 and dfs(course):  # If cycle found, return []
                 return []
 
         return post_order[::-1]
