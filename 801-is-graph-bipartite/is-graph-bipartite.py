@@ -5,6 +5,7 @@ class Solution:
         # 0 means not colored, 1, -1 means different colors
         color = [0] * n
 
+        # if has same color True
         def dfs(node, c):
             color[node] = c
             for neighbor in graph[node]:
