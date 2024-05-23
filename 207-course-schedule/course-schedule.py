@@ -8,7 +8,7 @@ class Solution:
         visited = [False] * numCourses
         exploring = [False] * numCourses
 
-        def traverse(course):
+        def is_cyclic(course):
             if exploring[course]:
                 return True
             if visited[course]:
@@ -16,13 +16,13 @@ class Solution:
             visited[course] = True
             exploring[course] = True
             for pre_course in d[course]:
-                if traverse(pre_course):
+                if is_cyclic(pre_course):
                     return True
             exploring[course] = False
             return False
 
         for course in range(numCourses):
-            if traverse(course):
+            if is_cyclic(course):
                 return False
         return True
 
