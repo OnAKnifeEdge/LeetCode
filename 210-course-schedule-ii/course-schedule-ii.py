@@ -3,28 +3,23 @@ class Solution:
         d = [[] for _ in range(numCourses)]
         for course, pre_course in prerequisites:
             d[pre_course].append(course)
+        ingree = [0] * numCourses
+        for course, _ in prerequisites:
+            ingree[course] += 1
 
-        visited = [0] * numCourses   # 0: unvisited, 1: visiting, 2: visited
-        post_order = []
+        start = [i for i, x in enumerate(ingree) if x == 0]
 
-        def dfs(course):
-            if visited[course] == 1:  # Cycle detected
-                return True
-            if visited[course] == 2:  # Already processed
-                return False
+        q = deque(start)
 
-            visited[course] = 1  # Mark as visiting
-
-            for next_course in d[course]:
-                if dfs(next_course):
-                    return True
-
-            visited[course] = 2  # Mark as processed
-            post_order.append(course)
-            return False
-
-        for course in range(numCourses):
-            if visited[course] == 0 and dfs(course):  # If cycle found, return []
-                return []
-
-        return post_order[::-1]
+        order = []
+        while q:
+            current = q.popleft()
+            ingree[current] -= 1
+            order.append(current)
+            for nxt in d[current]:
+                ingree[nxt] -= 1
+                if ingree[nxt] == 0:
+                    q.append(nxt)
+        if len(order) != numCourses:
+            return []
+        return order
