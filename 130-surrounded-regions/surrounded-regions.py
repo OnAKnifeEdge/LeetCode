@@ -47,8 +47,9 @@ class Solution:
             else:
                 for dr, dc in directions:
                     nr, nc = r + dr, c + dc
-                    if board[nr][nc] == "O":
-                        uf.union(index(r, c), index(nr, nc))
+                    if board[nr][nc] != "O":
+                        continue
+                    uf.union(index(r, c), index(nr, nc))
 
         for r, c in itertools.product(range(R), range(C)):
             # uf.find(dummy)
