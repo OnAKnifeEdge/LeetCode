@@ -16,14 +16,13 @@ class Solution:
         def union(self, x, y):  # perform union by rank
             rx, ry = self.find(x), self.find(y)
 
-            if rx != ry:  # if they are in different groups
-                if self.rank[rx] < self.rank[ry]:  # include smaller rank to larger rank
-                    self.parent[rx] = ry
-                elif self.rank[rx] > self.rank[ry]:
-                    self.parent[ry] = rx
-                else:
-                    self.parent[ry] = rx
-                    self.rank[rx] += 1
+            if self.rank[rx] < self.rank[ry]:  # include smaller rank to larger rank
+                self.parent[rx] = ry
+            elif self.rank[rx] > self.rank[ry]:
+                self.parent[ry] = rx
+            else:
+                self.parent[ry] = rx
+                self.rank[rx] += 1
 
     def solve(self, board: List[List[str]]) -> None:
         if not board or not board[0]:
