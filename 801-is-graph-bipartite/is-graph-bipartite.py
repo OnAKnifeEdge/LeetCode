@@ -15,8 +15,8 @@ class Solution:
                 current = q.popleft()
                 for neighbor in graph[current]:
                     if color[neighbor] == 0:
-                        color[neighbor] = -color[current]  # a different color
                         q.append(neighbor)
+                        color[neighbor] = -color[current]  # a different color
                     elif color[neighbor] == color[current]:
                         return False
         return True
