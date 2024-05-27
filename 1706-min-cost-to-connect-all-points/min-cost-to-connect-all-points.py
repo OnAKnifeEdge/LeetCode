@@ -12,11 +12,14 @@ class Solution:
 
         while len(visited) < n:
             d, u = heappop(queue)
-            if u not in visited:
-                visited.add(u)
-                total_cost += d
-                for v in range(n):
-                    if v not in visited:
-                        d = manhattan(points[u], points[v])
-                        heappush(queue, (d, v))
+            if u in visited:
+                continue
+
+            visited.add(u)
+            total_cost += d
+            for v in range(n):
+                if v in visited:
+                    continue
+                d = manhattan(points[u], points[v])
+                heappush(queue, (d, v))
         return total_cost
