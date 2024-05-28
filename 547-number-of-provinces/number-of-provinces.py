@@ -7,11 +7,11 @@ class Solution:
 
         n = len(isConnected)
 
-        for i in range(n):
-            for j in range(i + 1, n):
-                if isConnected[i][j] == 1:
-                    graph[i].append(j)
-                    graph[j].append(i)
+        for i, j in itertools.combinations(range(n), 2):
+            if isConnected[i][j] == 0:
+                continue
+            graph[i].append(j)
+            graph[j].append(i)
 
         visited = set()
 
@@ -30,5 +30,3 @@ class Solution:
                 dfs(i)
 
         return count
-
-        
