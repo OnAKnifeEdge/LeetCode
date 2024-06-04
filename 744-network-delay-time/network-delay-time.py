@@ -3,27 +3,21 @@ class Solution:
         graph = defaultdict(list)
         for src, dst, delay in times:
             graph[src].append((delay, dst))
-
         q = [(0, k)]
         visited = set()
         time = 0
 
         while q:
-            delay, dst = heappop(q)
-
-            if dst in visited:
+            delay, node = heappop(q)
+            if node in visited:
                 continue
-
-            visited.add(dst)
-
+            visited.add(node)
             time = max(time, delay)
 
-            neighbors = graph[dst]
+            neighbors = graph[node]
 
-            for new_delay, new_dst in neighbors:
-                if new_dst in visited:
+            for new_delay, new_node in neighbors:
+                if new_node in visited:
                     continue
-
-                heappush(q, (delay + new_delay, new_dst))
-
+                heappush(q, (delay + new_delay, new_node))
         return time if len(visited) == n else -1
