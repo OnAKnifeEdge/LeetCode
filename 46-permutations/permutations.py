@@ -22,6 +22,7 @@ class Solution:
         def backtrack(current: List[int]):
             if len(current) == len(nums):
                 result.append(current[:])
+                
             for num in nums:
                 if num in current:
                     continue
