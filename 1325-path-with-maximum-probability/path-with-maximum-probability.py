@@ -7,23 +7,26 @@ class Solution:
         start: int,
         end: int,
     ) -> float:
+
         graph = defaultdict(list)
+        for (x, y), probability in zip(edges, succProb):
+            graph[x].append((probability, y))
+            graph[y].append((probability, x))
 
-        for (a, b), p in zip(edges, succProb):
-            graph[a].append((p, b))
-            graph[b].append((p, a))
-
-        q = [(-1, start)]
+        max_heap = [(-1, start)]  # max_probability so far and the current node
         probabilities = [0] * n
         probabilities[start] = 1
-        while q:
-            p, node = heappop(q)
-            p *= -1
+
+        while max_heap:
+            p, node = heappop(max_heap)
+
             if node == end:
-                return p
+                return -p
+
             for new_p, new_node in graph[node]:
-                probability = new_p * probabilities[node]
-                if probability > probabilities[new_node]:
-                    probabilities[new_node] = probability
-                    heappush(q, (-probability, new_node))
+                probability = probabilities[node] * new_p
+                if probability <= probabilities[new_node]:
+                    continue
+                heappush(max_heap, (-probability, new_node))
+                probabilities[new_node] = probability
         return 0
