@@ -16,12 +16,13 @@ class Solution:
 
         return result
 
-    def permute(self, nums: List[int]) -> List[List[int]]:
+    def permute_backtrack(self, nums: List[int]) -> List[List[int]]:
         result = []
 
         def backtrack(current: List[int]):
             if len(current) == len(nums):
                 result.append(current[:])
+                return
 
             for num in nums:
                 if num in current:
@@ -32,4 +33,25 @@ class Solution:
 
         backtrack([])
 
+        return result
+
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        used = [False] * len(nums)
+
+        def backtrack(current: List[int]):
+            if len(current) == len(nums):
+                result.append(current[:])
+                return
+
+            for i, num in enumerate(nums):
+                if used[i]:
+                    continue
+                current.append(num)
+                used[i] = True
+                backtrack(current)
+                current.pop()
+                used[i] = False
+
+        backtrack([])
         return result
