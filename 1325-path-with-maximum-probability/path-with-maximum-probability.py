@@ -25,8 +25,7 @@ class Solution:
 
             for new_p, new_node in graph[node]:
                 probability = probabilities[node] * new_p
-                if probability <= probabilities[new_node]:
-                    continue
-                heappush(max_heap, (-probability, new_node))
-                probabilities[new_node] = probability
+                if probability > probabilities[new_node]:
+                    heappush(max_heap, (-probability, new_node))
+                    probabilities[new_node] = probability
         return 0
