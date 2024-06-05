@@ -15,7 +15,12 @@ class Solution:
         and the first and last items also differ by exactly one bit.
 
         """
-        if n == 0:
-            return [0]
-        sequence = self.grayCode(n - 1)
-        return sequence + [(1 << (n - 1)) + x for x in reversed(sequence)]
+        # if n == 0:
+        #     return [0]
+        # sequence = self.grayCode(n - 1)
+        # return sequence + [(1 << (n - 1)) + x for x in reversed(sequence)]
+
+        result = [0]
+        for i in range(n):
+            result += [x + (1 << i) for x in reversed(result)]
+        return result
