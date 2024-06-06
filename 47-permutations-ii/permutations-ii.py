@@ -1,5 +1,5 @@
 class Solution:
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+    def permuteUnique_best(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
 
         result = []
@@ -23,4 +23,24 @@ class Solution:
                 used[i] = False
 
         permute([])
+        return result
+
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        result = []
+
+        def backtrack(idx):
+            if idx == len(nums):
+                result.append(nums[:])
+                return
+
+            lookup = set()
+            for i in range(idx, len(nums)):
+                if nums[i] in lookup:
+                    continue
+                nums[idx], nums[i] = nums[i], nums[idx]
+                backtrack(idx + 1)
+                nums[idx], nums[i] = nums[i], nums[idx]
+                lookup.add(nums[i])
+
+        backtrack(0)
         return result
