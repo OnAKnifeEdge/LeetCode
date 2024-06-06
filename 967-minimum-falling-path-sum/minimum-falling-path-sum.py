@@ -8,15 +8,14 @@ class Solution:
         dp = matrix[0]
 
         for i in range(1, ROWS):
-            new_dp = dp[:]
+            prev_dp = dp[:]
             for j in range(COLS):
                 if j == 0:
-                    new_dp[j] = min(dp[j], dp[j + 1]) + matrix[i][j]
+                    dp[j] = min(prev_dp[j], prev_dp[j + 1]) + matrix[i][j]
                 elif j == COLS - 1:
-                    new_dp[j] = min(dp[j], dp[j - 1]) + matrix[i][j]
+                    dp[j] = min(prev_dp[j], prev_dp[j - 1]) + matrix[i][j]
                 else:
-                    new_dp[j] = min(dp[j], dp[j - 1], dp[j + 1]) + matrix[i][j]
-            dp = new_dp
+                    dp[j] = min(prev_dp[j], prev_dp[j - 1], prev_dp[j + 1]) + matrix[i][j]
 
         return min(dp)
 
