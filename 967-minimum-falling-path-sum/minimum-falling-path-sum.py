@@ -1,5 +1,47 @@
 class Solution:
+
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        dp = [float("inf") for _ in range(COLS)]
+
+        dp = matrix[0]
+
+        for i in range(1, ROWS):
+            new_dp = dp[:]
+            for j in range(COLS):
+                if j == 0:
+                    new_dp[j] = min(dp[j], dp[j + 1]) + matrix[i][j]
+                elif j == COLS - 1:
+                    new_dp[j] = min(dp[j], dp[j - 1]) + matrix[i][j]
+                else:
+                    new_dp[j] = min(dp[j], dp[j - 1], dp[j + 1]) + matrix[i][j]
+            dp = new_dp
+
+        return min(dp)
+
+    def minFallingPathSum_bottomup(self, matrix: List[List[int]]) -> int:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        dp = [[float("inf") for _ in range(COLS)] for _ in range(ROWS)]
+
+        dp[0] = matrix[0]
+
+        for i in range(1, ROWS):
+            for j in range(COLS):
+                if j == 0:
+                    dp[i][j] = min(dp[i - 1][j], dp[i - 1][j + 1]) + matrix[i][j]
+                elif j == COLS - 1:
+                    dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1]) + matrix[i][j]
+                else:
+                    dp[i][j] = (
+                        min(dp[i - 1][j], dp[i - 1][j - 1], dp[i - 1][j + 1])
+                        + matrix[i][j]
+                    )
+
+        return min(dp[ROWS - 1])
+
+    def minFallingPathSum_bottomup(self, matrix: List[List[int]]) -> int:
         ROWS = len(matrix)
         COLS = len(matrix[0])
         dp = [[float("inf") for _ in range(COLS)] for _ in range(ROWS)]
