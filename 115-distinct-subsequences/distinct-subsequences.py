@@ -1,21 +1,21 @@
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
-        M, N = len(s), len(t)  # row and col
 
-        dp = [[0] * (N + 1) for _ in range(M + 1)]
+        @cache
+        def dp(i, j):
+            if j == len(t):  # match empty string t
+                return 1
+            if i == len(s):  # s[i:] is empty
+                return 0
+            if s[i] == t[j]:
+                # aab, ab => a_b, _ab
+                # Two choices: select s[i] or skip s[i]
+                return dp(i + 1, j + 1) + dp(i + 1, j)
+                # 选 s 里的，(i + 1, j + 1)
+                # 不选 s 里的， (i + 1, j)
 
-        for c in range(N + 1):
-            # 最后一行 s[] = "", t[]= t[-1]
-            dp[M][c] = 0
+            else:
+                # Can only skip s[i]
+                return dp(i + 1, j)
 
-        for r in range(M + 1):
-            # 最后一列 s[] = s[-1], t = ""
-            dp[r][N] = 1
-
-        for i in reversed(range(M)):
-            for j in reversed(range(N)):
-                dp[i][j] = dp[i + 1][j]
-
-                if s[i] == t[j]:
-                    dp[i][j] += dp[i + 1][j + 1]
-        return dp[0][0]  
+        return dp(0, 0)
