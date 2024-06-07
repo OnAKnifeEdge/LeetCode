@@ -15,13 +15,24 @@ class Solution:
 
         # Bottom Up Approach
 
-        dp = [[0] * (len(text1) + 1) for _ in range(len(text2) + 1)]
+        # dp = [[0] * (len(text1) + 1) for _ in range(len(text2) + 1)]
 
+        # for i in reversed(range(len(text2))):
+        #     for j in reversed(range(len(text1))):
+        #         if text2[i] == text1[j]:
+        #             dp[i][j] = dp[i + 1][j + 1] + 1
+        #         else:
+        #             dp[i][j] = max(dp[i + 1][j], dp[i][j + 1])
+
+        # return dp[0][0]
+
+        # Bottom Up + Optimization
+        dp = [0] * (len(text1) + 1)
         for i in reversed(range(len(text2))):
+            prev_dp = dp[:]
             for j in reversed(range(len(text1))):
                 if text2[i] == text1[j]:
-                    dp[i][j] = dp[i + 1][j + 1] + 1
+                    dp[j] = prev_dp[j + 1] + 1
                 else:
-                    dp[i][j] = max(dp[i + 1][j], dp[i][j + 1])
-                    
-        return dp[0][0]
+                    dp[j] = max(prev_dp[j], dp[j + 1])
+        return dp[0]
