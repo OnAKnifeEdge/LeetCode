@@ -30,8 +30,8 @@ class Solution:
                 if word1[i - 1] == word2[j - 1]:
                     dp[i][j] = dp[i - 1][j - 1]
                 else:
-                    insert_case = dp[i][j - 1] + 1  # insert the same c to word1
-                    delete_case = dp[i - 1][j] + 1  # delete the same c in word2
+                    insert_case = dp[i][j - 1] + 1  # insert word2[j] to word1
+                    delete_case = dp[i - 1][j] + 1  # delete word1[i] in word1
                     replace_case = dp[i - 1][j - 1] + 1
                     dp[i][j] = min(insert_case, delete_case, replace_case)
         return dp[-1][-1]
