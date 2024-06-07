@@ -1,7 +1,7 @@
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
 
-        # 2D 
+        # 2D
         # not match: max ⬆️⬅️
         # match: 1 + ↖️ 对角线
 
