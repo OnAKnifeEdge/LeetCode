@@ -1,8 +1,10 @@
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        dp = [1] * len(nums)  # dp[i] is the LIS for i
-        for i in range(1, len(nums)):
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    dp[i] = max(dp[j] + 1, dp[i])
-        return max(dp)
+        cards = []
+        for num in nums:
+            idx = bisect_left(cards, num)
+            if idx == len(cards):
+                cards.append(num)
+            else:
+                cards[idx] = num
+        return len(cards)
