@@ -73,16 +73,16 @@ class Solution:
         dp[-1] = True  # base case: empty string is always breakable
 
         # Iteratively fill dp from the end to the start
-        for startIdx in reversed(range(len(s))):
+        for i in reversed(range(len(s))):
             node = root
-            for endIdx in range(startIdx, len(s)):
+            for j in range(i, len(s)):
                 # Starting at startIdx,
-                # we iterate forward through the string with endIdx
-                # to check if the substring s[startIdx:endIdx + 1] is a word.
-                if s[endIdx] in node.children:
-                    node = node.children[s[endIdx]]
-                    if node.is_word and dp[endIdx + 1]:
-                        dp[startIdx] = True
+                # we iterate forward through the string with j
+                # to check if the substring s[i:j + 1] is a word.
+                if s[j] in node.children:
+                    node = node.children[s[j]]
+                    if node.is_word and dp[j + 1]:
+                        dp[i] = True
                         break  # Found a valid word break, no need to check further
                 else:
                     break  # Current character doesn't match, move to next start index
