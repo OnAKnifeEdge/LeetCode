@@ -4,9 +4,11 @@ class Solution:
         dp = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
 
         for c in reversed(range(COLS)):
+            # 最后一行：s2 的 ascii 值倒着累加
             dp[ROWS][c] = dp[ROWS][c + 1] + ord(s2[c])
 
         for r in reversed(range(ROWS)):
+            # 最后一列：s1 的 ascii 值倒着累加
             dp[r][COLS] = dp[r + 1][COLS] + ord(s1[r])
 
         for r in reversed(range(ROWS)):
@@ -20,4 +22,3 @@ class Solution:
                     dp[r][c] = min(deleteFromS1, deleteFromS2)
 
         return dp[0][0]
-
