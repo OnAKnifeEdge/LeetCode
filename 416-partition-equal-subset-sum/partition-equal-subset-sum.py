@@ -13,6 +13,8 @@ class Solution:
         dp[0] = True  # 背包没有空间的时候，就相当于装满了
         for num in nums:
             for i in reversed(range(subset_sum + 1)):
+                # from left to right means dp[i][j] = dp[i][j-nums[i-1]])
+                # form right to left means dp[i][j] = dp[i-1][j-nums[i-1]]
                 if num <= i:
                     dp[i] = dp[i] or dp[i - num]
         return dp[subset_sum]
