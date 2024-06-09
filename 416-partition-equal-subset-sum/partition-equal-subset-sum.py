@@ -1,7 +1,24 @@
 class Solution:
 
-    # 给一个可装载重量为 sum / 2 的背包和 N 个物品，每个物品的重量为 nums[i]。现在让你装物品，是否存在一种装法，能够恰好将背包装满？
     def canPartition(self, nums: List[int]) -> bool:
+        total_sum = sum(nums)
+
+        if total_sum % 2 != 0:
+            return False
+
+        subset_sum = total_sum // 2
+
+        dp = [False] * (subset_sum + 1)
+        # dp[i]: it's possible to get a subset sum of i using numbers seen so far.
+        dp[0] = True  # 背包没有空间的时候，就相当于装满了
+        for num in nums:
+            for i in reversed(range(subset_sum + 1)):
+                if num <= i:
+                    dp[i] = dp[i] or dp[i - num]
+        return dp[subset_sum]
+
+    # 给一个可装载重量为 sum / 2 的背包和 N 个物品，每个物品的重量为 nums[i]。现在让你装物品，是否存在一种装法，能够恰好将背包装满？
+    def canPartition_dp(self, nums: List[int]) -> bool:
         total_sum = sum(nums)
 
         if total_sum % 2 != 0:
