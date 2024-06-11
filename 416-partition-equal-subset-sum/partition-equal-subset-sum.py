@@ -12,7 +12,7 @@ class Solution:
         # dp[i]: it's possible to get a subset sum of i using numbers seen so far.
         dp[0] = True  # 背包没有空间的时候，就相当于装满了
         for num in nums:
-            for i in reversed(range(subset_sum + 1)):
+            for i in reversed(range(num, subset_sum + 1)):
                 # from left to right means dp[i][j] = dp[i][j-nums[i-1]])
                 # form right to left means dp[i][j] = dp[i-1][j-nums[i-1]]
                 if num <= i:
