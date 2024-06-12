@@ -9,26 +9,20 @@ class Solution:
                     )
         """
 
-        indegree = defaultdict(list)
+        visited = {}
+
+        graph = defaultdict(list)
         for f, t, price in flights:
-            indegree[t].append((f, price))
+            graph[f].append((t, price))
 
-        @cache
-        def dp(destination, i):
-            if destination == src:
-                return 0
-            if i == 0:
-                return -1
-
-            if destination not in indegree:
-                return -1
-
-            result = float("inf")
-            for f, price in indegree[destination]:
-                sub_probelm = dp(f, i - 1)
-                if sub_probelm != -1:
-                    result = min(result, sub_probelm + price)
-            return result if result != float("inf") else -1
-
-        result = dp(dst, k + 1)
-        return result
+        min_heap = [(0, 0, src)]  # cost, stops, node
+        while min_heap:
+            cost, stops, node = heappop(min_heap)
+            if node == dst and stops <= k + 1:
+                return cost
+            if node in visited and visited[node] < stops:
+                continue  # Skip if we visited the node with fewer stops
+            visited[node] = stops
+            for next_node, next_cost in graph[node]:
+                heappush(min_heap, (next_cost + cost, stops + 1, next_node))
+        return -1
