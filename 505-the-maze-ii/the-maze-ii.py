@@ -22,9 +22,9 @@ class Solution:
                     new_x += dx
                     new_y += dy
                     count += 1
-
-                if distance[x][y] + count < distance[new_x][new_y]:
-                    distance[new_x][new_y] = distance[x][y] + count
+                new_count = distance[x][y] + count
+                if new_count < distance[new_x][new_y]:
+                    distance[new_x][new_y] = new_count
                     if [new_x, new_y] != destination:
                         q.append([new_x, new_y])
 
