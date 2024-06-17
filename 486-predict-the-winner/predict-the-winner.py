@@ -7,9 +7,8 @@ class Solution:
     def predictTheWinner(self, nums: List[int]) -> bool:
         n = len(nums)
 
-        dp = [
-            [Points(0, 0) for _ in range(n)] for _ in range(n)
-        ]  # nums[i,...j] max points
+        dp = [[Points(0, 0) for _ in range(n)] for _ in range(n)]
+        # nums[i,...j] max points
 
         # Initialize the diagonal (base case: when the player picks the last number)
         for i in range(n):
