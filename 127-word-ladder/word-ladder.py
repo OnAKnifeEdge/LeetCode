@@ -11,7 +11,7 @@ class Solution:
             for i in range(len(word)):
                 prefix = word[:i]
                 suffix = word[i + 1:]
-                for c in "abcdefghijklmnopqrstuvwxyz":
+                for c in string.ascii_lowercase:
                     new_word = prefix + c + suffix
                     if new_word in words_set:
                         words_set.remove(new_word)
