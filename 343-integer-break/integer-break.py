@@ -1,6 +1,5 @@
 class Solution:
     def integerBreak(self, n: int) -> int:
-
         dp = {1: 1}
 
         for num in range(2, n + 1):
@@ -10,7 +9,6 @@ class Solution:
 
         return dp[n]
 
-        
         # def dfs(num):
         #     if num in dp:
         #         return dp[num]
