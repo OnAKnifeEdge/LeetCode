@@ -1,7 +1,14 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        two_back, one_back = 0, 0
-        for num in nums:
-            one_back, two_back = max(two_back + num, one_back), one_back
-        return one_back
-        
+        n = len(nums)
+
+        if not nums:
+            return 0
+        if n == 1:
+            return nums[0]
+        dp = [0] * n
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, n):
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
+        return dp[-1]
