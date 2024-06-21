@@ -10,6 +10,9 @@ class Solution:
 
         for i in reversed(range(n)):
             start, end, p = jobs[i]
-            idx = bisect_left(startTime, end)
-            dp[i] = max(dp[i + 1], dp[idx] + p)
+            # identifies the first non-overlapping job
+            # that could potentially be selected after the current job,
+            # ensuring no time conflicts.
+            next_job_idx = bisect_left(startTime, end)
+            dp[i] = max(dp[i + 1], dp[next_job_idx] + p)
         return dp[0]
