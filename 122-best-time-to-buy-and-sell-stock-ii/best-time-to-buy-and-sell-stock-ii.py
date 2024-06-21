@@ -8,7 +8,7 @@ class Solution:
         # thus cannot have a 'profit' from buying
         # sell is 0 because no transaction is a valid initial state with 0 profit
 
-        buy, sell = -prices[0], 0
+        buy, sell = float('-inf'), 0
         for price in prices:
             # Can we make more money by buying today
             buy = max(buy, sell - price)
