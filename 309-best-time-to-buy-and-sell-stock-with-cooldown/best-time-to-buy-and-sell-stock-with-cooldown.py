@@ -5,7 +5,7 @@ class Solution:
         for price in prices:
             prev_sold = sold
             # Realize profit from selling the stock bought
-            sold = buy + price
+            sold = max(sold, buy + price)
             # Keeping the current bought stock or buying new after cooldown
             buy = max(buy, cooldown - price)
             # Transition into cooldown after selling or stay in cooldown
