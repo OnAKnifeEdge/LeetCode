@@ -4,11 +4,10 @@ class Solution:
             return 0
         # sort intervals by end time
         intervals.sort(key=lambda x: [x[1]])
-        result = 0
+        count = 0  # non overlapping intervals
         earliest_end = float("-inf")
         for start, end in intervals:
             if start >= earliest_end:
                 earliest_end = end
-            else:
-                result += 1  # to be removed
-        return result
+                count += 1
+        return len(intervals) - count
