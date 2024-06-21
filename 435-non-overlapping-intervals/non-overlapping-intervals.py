@@ -10,5 +10,5 @@ class Solution:
             if start >= earliest_end:
                 earliest_end = end
             else:
-                result += 1
+                result += 1  # to be removed
         return result
