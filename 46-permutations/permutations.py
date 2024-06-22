@@ -5,17 +5,19 @@ class Solution:
         used = [False] * n
 
         def backtrack(current):
-            if len(current) == len(nums):
+            if len(current) == n:
                 result.append(current[:])
-
+                return
             for i, num in enumerate(nums):
                 if used[i]:
                     continue
                 current.append(num)
                 used[i] = True
                 backtrack(current)
-                current.remove(num)
+                current.pop()
                 used[i] = False
+            
 
         backtrack([])
         return result
+        
