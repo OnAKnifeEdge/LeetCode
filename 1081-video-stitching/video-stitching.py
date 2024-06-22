@@ -9,8 +9,8 @@ class Solution:
 
         If the clip starts beyond current_end but within the range that farthest_end can extend to,
             we "jump" to this farthest_end by updating current_end and increment the count.
-
             Then, we consider the current clip for further extending farthest_end.
+            
         If the clip starts beyond both current_end and farthest_end,
             there's a gap that cannot be covered, and hence, we return -1.
         """
