@@ -25,8 +25,8 @@ class Solution:
 
         for i in range(ROWS):
             for j in range(COLS):
-                # 如果 grid1 里是陆地，grid2 里是陆地，那么是 sub-island
-                if grid1[i][j] == 1 and grid2[i][j] == 1:
+                # grid2 里剩下的陆地都是 sub-island
+                if grid2[i][j] == 1:
                     dfs(grid2, i, j)
                     count += 1
         return count
