@@ -24,9 +24,9 @@ class Solution:
             if start > current_end:
                 current_end = furtherest_end
                 count += 1
-                if current_end >= time:
-                    # If we already cover the required time interval
-                    return count
+                # if current_end >= time:
+                #     # If we already cover the required time interval
+                #     return count
 
             # Extending furtherest_end that can be reached without making another jump
             # for clips that start within the current coverage (start <= current_end)
