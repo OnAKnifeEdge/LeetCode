@@ -12,7 +12,7 @@ class Solution:
             for i in range(start, n):
                 num = candidates[i]
                 current.append(num)
-                backtrack(current, s + num, i)
+                backtrack(current, s + num, i)  # i means it can be used repeatedly
                 current.pop()
 
         backtrack([], 0, 0)
