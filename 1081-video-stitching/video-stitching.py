@@ -17,7 +17,8 @@ class Solution:
             if start > current_end and start > next_end:
                 # if gap
                 return -1
-            elif start > current_end:
+
+            if start > current_end:
                 # We need to make a jump here
                 current_end = next_end
                 count += 1
