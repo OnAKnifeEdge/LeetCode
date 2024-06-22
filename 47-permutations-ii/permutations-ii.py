@@ -1,46 +1,24 @@
 class Solution:
-    def permuteUnique_best(self, nums: List[int]) -> List[List[int]]:
-        nums.sort()
-
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         result = []
-        used = [False] * len(nums)
+        nums.sort()
+        n = len(nums)
+        used = [False] * n
 
-        def permute(current: List[int]):
-            if len(current) == len(nums):
+        def backtrack(current):
+            if len(current) == n:
                 result.append(current[:])
                 return
-
-            for i in range(len(nums)):
+            for i, num in enumerate(nums):
                 if used[i]:
                     continue
-                if i > 0 and nums[i] == nums[i - 1] and not used[i - 1]:
+                if i > 0 and not used[i - 1] and nums[i] == nums[i - 1]:
                     continue
-                # only when duplicate and prev one has been used
-                current.append(nums[i])
+                current.append(num)
                 used[i] = True
-                permute(current)
+                backtrack(current)
                 current.pop()
                 used[i] = False
 
-        permute([])
-        return result
-
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        result = []
-
-        def backtrack(idx):
-            if idx == len(nums):
-                result.append(nums[:])
-                return
-
-            lookup = set()
-            for i in range(idx, len(nums)):
-                if nums[i] in lookup:
-                    continue
-                nums[idx], nums[i] = nums[i], nums[idx]
-                backtrack(idx + 1)
-                nums[idx], nums[i] = nums[i], nums[idx]
-                lookup.add(nums[i])
-
-        backtrack(0)
+        backtrack([])
         return result
