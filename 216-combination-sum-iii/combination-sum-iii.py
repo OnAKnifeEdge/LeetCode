@@ -1,19 +1,17 @@
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
-        results = []
+        result = []
 
-        def backtrack(remain, combination, i):
-            if remain == 0 and len(combination) == k:
-                results.append(list(combination))
+        def backtrack(current, s, start):
+            if s == n and len(current) == k:
+                result.append(current[:])
                 return
-            elif remain < 0 or len(combination) == k:
+            if s > n or len(current) > k:
                 return
+            for i in range(start, 10):
+                current.append(i)
+                backtrack(current, s + i, i + 1)
+                current.pop()
 
-            for num in range(i, 9):
-                combination.append(num + 1)
-                backtrack(remain - num - 1, combination, num + 1)
-                combination.pop()
-
-        backtrack(n, [], 0)
-        return results
-        
+        backtrack([], 0, 1)
+        return result
