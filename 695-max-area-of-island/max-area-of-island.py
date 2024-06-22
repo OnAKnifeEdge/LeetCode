@@ -1,16 +1,26 @@
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        max_area = 0
         ROWS, COLS = len(grid), len(grid[0])
+        DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-        def is_valid(r, c):
-            return 0 <= r < ROWS and 0 <= c < COLS
-
-        def dfs(r, c):
-            if not is_valid(r, c):
+        def dfs(i, j):
+            if i < 0 or j < 0 or i == ROWS or j == COLS:
                 return 0
-            if grid[r][c] == 0:
+            # skip water or visited
+            if grid[i][j] != 1:
                 return 0
-            grid[r][c] = 0
-            return 1 + dfs(r + 1, c) + dfs(r - 1, c) + dfs(r, c + 1) + dfs(r, c - 1)
+            # mark land as visited:
+            grid[i][j] = -1
+            area = 1
+            for dx, dy in DIRECTIONS:
+                area += dfs(i + dx, j + dy)
+            return area
 
-        return max(dfs(r, c) for r in range(ROWS) for c in range(COLS))
+        for i in range(ROWS):
+            for j in range(COLS):
+                if grid[i][j] == 1:
+                    area = dfs(i, j)
+                    max_area = max(max_area, area)
+
+        return max_area
