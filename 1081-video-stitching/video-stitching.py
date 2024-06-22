@@ -2,7 +2,7 @@ class Solution:
     def videoStitching(self, clips: List[List[int]], time: int) -> int:
         if not clips:
             return 0
-        clips.sort(key=lambda x: (x[0], -x[1]))
+        clips.sort(key=lambda x: x[0])
         current_end, farthest_end = 0, 0
         count = 0
 
