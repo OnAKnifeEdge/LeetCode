@@ -15,7 +15,7 @@ class Solution:
                 break
 
             if start > current_end and start > next_end:
-                # Start is beyond both current and next potential end, impossible to continue
+                # if gap
                 return -1
             elif start > current_end:
                 # We need to make a jump here
@@ -23,7 +23,7 @@ class Solution:
                 count += 1
                 if current_end >= time:
                     # If we already cover the required time interval, break early
-                    break
+                    return count
 
             if start <= current_end:
                 # Extend the furthest reach within the current segment
