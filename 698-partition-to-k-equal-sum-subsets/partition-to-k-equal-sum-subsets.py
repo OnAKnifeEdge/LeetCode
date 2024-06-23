@@ -5,9 +5,9 @@ class Solution:
             return False
         target = s // k
         n = len(nums)
-        nums.sort(reverse=True)  # Sort in descending order
         key = 0
         memo = {}
+        nums.sort(reverse=True)
 
         def use(i):
             nonlocal key
@@ -27,11 +27,12 @@ class Solution:
 
             if bucket == target:
                 result = backtrack(0, k - 1, 0)
-                memo[(key, start)] = result  # Memoize with 'start' as well 
+                memo[key] = result
                 return result
 
-            if (key, start) in memo: # Check memo with 'start'
-                return memo[(key, start)]  
+            if key in memo:
+                # 避免冗余计算
+                return memo[key]
 
             for i in range(start, n):
                 num = nums[i]
@@ -44,7 +45,7 @@ class Solution:
                 if backtrack(bucket + num, k, i + 1):
                     return True
                 reverse_use(i)
-            memo[(key, start)] = False
+            memo[key] = False
             return False
 
         return backtrack(0, k, 0)
