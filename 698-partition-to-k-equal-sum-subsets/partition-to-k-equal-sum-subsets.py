@@ -5,8 +5,6 @@ class Solution:
             return False
         target = s // k
         n = len(nums)
-        nums.sort(reverse=True)  # descending order
-        # used = [False] * n
         key = 0
         memo = {}
 
