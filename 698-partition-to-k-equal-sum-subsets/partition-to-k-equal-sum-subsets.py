@@ -45,6 +45,11 @@ class Solution:
                 if backtrack(bucket + num, k, i + 1):
                     return True
                 reverse_use(i)
+
+                if bucket == 0:
+                    memo[key] = False
+                    return False
+
             memo[key] = False
             return False
 
