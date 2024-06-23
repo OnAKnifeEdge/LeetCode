@@ -8,7 +8,7 @@ class Solution:
     def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
         result = []
 
-        def dfs(node: Optional[TreeNode]) -> int:
+        def dfs(node):
             if not node:
                 return -1
             left = dfs(node.left)
@@ -18,5 +18,6 @@ class Solution:
                 result.append([])
             result[level].append(node.val)
             return level
+
         dfs(root)
         return result
