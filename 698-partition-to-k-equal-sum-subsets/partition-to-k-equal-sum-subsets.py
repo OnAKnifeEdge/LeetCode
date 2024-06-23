@@ -5,6 +5,7 @@ class Solution:
             return False
         target = s // k
         n = len(nums)
+        nums.sort(reverse=True)  # Sort in descending order
         key = 0
         memo = {}
 
@@ -26,12 +27,11 @@ class Solution:
 
             if bucket == target:
                 result = backtrack(0, k - 1, 0)
-                memo[key] = result
+                memo[(key, start)] = result  # Memoize with 'start' as well 
                 return result
 
-            if key in memo:
-                # 避免冗余计算
-                return memo[key]
+            if (key, start) in memo: # Check memo with 'start'
+                return memo[(key, start)]  
 
             for i in range(start, n):
                 num = nums[i]
@@ -44,7 +44,7 @@ class Solution:
                 if backtrack(bucket + num, k, i + 1):
                     return True
                 reverse_use(i)
-            memo[key] = False
+            memo[(key, start)] = False
             return False
 
         return backtrack(0, k, 0)
