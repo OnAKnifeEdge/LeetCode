@@ -5,8 +5,11 @@ class Solution:
             return False
         target = s // k
         n = len(nums)
+        # Optimization: bitmask
         key = 0
+        # Optimization: memoorization
         memo = {}
+        # Optimization: make it faster by pruning and fail early
         nums.sort(reverse=True)
 
         def use(i):
@@ -46,6 +49,7 @@ class Solution:
                     return True
                 reverse_use(i)
 
+                # Optimization
                 if bucket == 0:
                     memo[key] = False
                     return False
