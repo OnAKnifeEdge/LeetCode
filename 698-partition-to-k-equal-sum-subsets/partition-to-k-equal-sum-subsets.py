@@ -7,20 +7,20 @@ class Solution:
         n = len(nums)
         nums.sort(reverse=True)  # descending order
         # used = [False] * n
-        used = 0
+        key = 0
         memo = {}
 
         def use(i):
-            nonlocal used
-            used |= 1 << i
+            nonlocal key
+            key |= 1 << i
 
         def reverse_use(i):
-            nonlocal used
-            used ^= 1 << i
+            nonlocal key
+            key ^= 1 << i
 
         def has_used(i):
-            nonlocal used
-            return (used >> i) & 1
+            nonlocal key
+            return (key >> i) & 1
 
         def backtrack(bucket, k, start):
             if k == 0:
@@ -28,12 +28,12 @@ class Solution:
 
             if bucket == target:
                 result = backtrack(0, k - 1, 0)
-                memo[used] = result
+                memo[key] = result
                 return result
 
-            if used in memo:
+            if key in memo:
                 # 避免冗余计算
-                return memo[used]
+                return memo[key]
 
             for i in range(start, n):
                 num = nums[i]
@@ -46,7 +46,7 @@ class Solution:
                 if backtrack(bucket + num, k, i + 1):
                     return True
                 reverse_use(i)
-            memo[used] = False
+            memo[key] = False
             return False
 
         return backtrack(0, k, 0)
