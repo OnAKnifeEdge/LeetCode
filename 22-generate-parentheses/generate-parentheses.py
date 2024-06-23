@@ -8,7 +8,7 @@ class Solution:
             if left < 0 or right < 0:
                 return
             if left == 0 and right == 0:
-                result.append(path[:])
+                result.append(''.join(path))
                 return
 
             path.append("(")
@@ -20,4 +20,4 @@ class Solution:
             path.pop()
 
         backtrack(n, n, [])
-        return [''.join(r) for r in result]
+        return result
