@@ -49,7 +49,7 @@ class Solution:
                     return True
                 reverse_use(i)
 
-                # Optimization
+                # Optimization: no need to explore further
                 if bucket == 0:
                     memo[key] = False
                     return False
