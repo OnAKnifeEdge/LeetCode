@@ -3,21 +3,21 @@ class Solution:
         result = []
 
         def backtrack(left, right, path):
-            if left > right:
+            if left < right:
                 return
-            if left < 0 or right < 0:
+            if left > n or right > n:
                 return
-            if left == 0 and right == 0:
-                result.append(''.join(path))
+            if left == n and right == n:
+                result.append("".join(path))
                 return
 
             path.append("(")
-            backtrack(left - 1, right, path)
+            backtrack(left + 1, right, path)
             path.pop()
 
             path.append(")")
-            backtrack(left, right - 1, path)
+            backtrack(left, right + 1, path)
             path.pop()
 
-        backtrack(n, n, [])
+        backtrack(0, 0, [])
         return result
