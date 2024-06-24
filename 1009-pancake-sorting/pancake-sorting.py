@@ -14,10 +14,12 @@ class Solution:
 
             idx = cakes.index(max(cakes[:n]))
 
+            # [3,2,4,1]
             reverse(0, idx)
-            result.append(idx + 1)
-
+            # [4,2,3,1]
             reverse(0, n - 1)
+            # [1,3,2,4]
+            result.append(idx + 1)
             result.append(n)
 
             sort(n - 1)
