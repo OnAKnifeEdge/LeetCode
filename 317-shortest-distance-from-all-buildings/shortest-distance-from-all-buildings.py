@@ -1,11 +1,15 @@
-from collections import deque
-from typing import List
-
 class Solution:
     def shortestDistance(self, grid: List[List[int]]) -> int:
-        def bfs(grid, distances, r, c, buildings):
-            DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-            ROWS, COLS = len(grid), len(grid[0])
+        DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        ROWS, COLS = len(grid), len(grid[0])
+
+        buildings = 0
+        min_distance = float("inf")
+
+        # Store { total_dist, houses_count } for each cell.
+        distances = [[[0, 0] for _ in range(COLS)] for _ in range(ROWS)]
+
+        def bfs(r, c):
 
             # Use a queue to do a BFS, starting from each cell located at (r, c).
             q = deque([(r, c)])
@@ -34,19 +38,12 @@ class Solution:
         if not grid or not grid[0]:
             return -1
 
-        ROWS, COLS = len(grid), len(grid[0])
-        buildings = 0
-        min_distance = float("inf")
-
-        # Store { total_dist, houses_count } for each cell.
-        distances = [[[0, 0] for _ in range(COLS)] for _ in range(ROWS)]
-
         # Count houses and start BFS from each house.
         for r in range(ROWS):
             for c in range(COLS):
                 if grid[r][c] == 1:
                     buildings += 1
-                    bfs(grid, distances, r, c, buildings)
+                    bfs(r, c)
 
         # Check all empty lands with house count equal to total houses and find the min ans.
         for r in range(ROWS):
