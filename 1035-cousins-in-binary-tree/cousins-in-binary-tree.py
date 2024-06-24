@@ -7,22 +7,23 @@
 class Solution:
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
         parent_x, parent_y = None, None
-        d_x, d_y = None, None
+        depth_x, depth_y = None, None
 
         def dfs(node, parent, depth):
-            nonlocal parent_x, parent_y, d_x, d_y
-            if not node or (d_x and d_y):
+            nonlocal parent_x, parent_y, depth_x, depth_y
+            if not node:
+                return
+            if depth_x and depth_y:
                 return
             if node.val == x:
                 parent_x = parent
-                d_x = depth
-            elif node.val == y:
+                depth_x = depth
+            if node.val == y:
                 parent_y = parent
-                d_y = depth
+                depth_y = depth
             dfs(node.left, node, depth + 1)
             dfs(node.right, node, depth + 1)
-        
-        dfs(root, None, 0)
-        return (d_x == d_y) and (parent_x != parent_y)
 
-        
+        dfs(root, None, 0)
+
+        return (depth_x == depth_y) and (parent_x != parent_y)
