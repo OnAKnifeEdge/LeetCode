@@ -15,7 +15,7 @@ class Solution:
         current = self.head
         count = 1
         while current:
-            if random.random() < 1 / count:
+            if random.randint(1, count) == 1:
                 val = current.val
             current = current.next
             count += 1
