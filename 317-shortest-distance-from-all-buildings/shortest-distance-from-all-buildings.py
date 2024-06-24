@@ -1,24 +1,25 @@
 class Solution:
     def shortestDistance(self, grid: List[List[int]]) -> int:
-        if not grid or not grid[0]:
+        if not grid:
             return -1
-
+        if not grid[0]:
+            return -1
         DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         ROWS, COLS = len(grid), len(grid[0])
 
         distances = [[0] * COLS for _ in range(ROWS)]
         reached = [[0] * COLS for _ in range(ROWS)]
+
         buildings = 0
 
         def bfs(r, c):
             q = deque([(r, c, 0)])
             visited = [[False] * COLS for _ in range(ROWS)]
             visited[r][c] = True
-
             while q:
                 x, y, distance = q.popleft()
                 for dx, dy in DIRECTIONS:
-                    i, j = x + dx, y + dy
+                    i, j = dx + x, dy + y
                     if i < 0 or j < 0 or i == ROWS or j == COLS:
                         continue
                     if visited[i][j]:
