@@ -11,7 +11,6 @@ class Solution:
 
         def bfs(r, c):
 
-            # Use a queue to do a BFS, starting from each cell located at (r, c).
             q = deque([(r, c, 0)])
             visited = [[False] * COLS for _ in range(ROWS)]
             visited[r][c] = True
@@ -39,14 +38,12 @@ class Solution:
         if not grid or not grid[0]:
             return -1
 
-        # Count houses and start BFS from each house.
         for r in range(ROWS):
             for c in range(COLS):
                 if grid[r][c] == 1:
                     buildings += 1
                     bfs(r, c)
 
-        # Check all empty lands with house count equal to total houses and find the min ans.
         for r in range(ROWS):
             for c in range(COLS):
                 if grid[r][c] == 0 and distances[r][c][1] == buildings:
