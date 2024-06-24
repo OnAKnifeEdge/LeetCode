@@ -25,15 +25,16 @@ class Solution:
 
                     for dx, dy in DIRECTIONS:
                         i, j = x + dx, y + dy
-                        if 0 <= i < ROWS and 0 <= j < COLS and not visited[i][j]:
-                            visited[i][j] = True
+                        if i < 0 or j < 0 or i == ROWS or j == COLS:
+                            continue
+                        if visited[i][j]:
+                            continue
+                        visited[i][j] = True
 
-                            # If we reached an empty cell, then add the distance
-                            # and increment the count of houses reached at this cell.
-                            if grid[i][j] == 0:
-                                distances[i][j][0] += distance
-                                distances[i][j][1] += 1
-                                q.append((i, j))
+                        if grid[i][j] == 0:
+                            distances[i][j][0] += distance
+                            distances[i][j][1] += 1
+                            q.append((i, j))
 
         if not grid or not grid[0]:
             return -1
