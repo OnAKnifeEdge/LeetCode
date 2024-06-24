@@ -1,5 +1,6 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        # https://leetcode.com/problems/remove-covered-intervals/description/
         if not intervals:
             return intervals
 
