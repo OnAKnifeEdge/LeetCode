@@ -12,17 +12,17 @@ class Solution:
         def bfs(r, c):
 
             # Use a queue to do a BFS, starting from each cell located at (r, c).
-            q = deque([(r, c)])
+            q = deque([(r, c, 0)])
             visited = [[False] * COLS for _ in range(ROWS)]
             visited[r][c] = True
 
             distance = 0
 
             while q:
-                distance += 1
-                for _ in range(len(q)):
-                    x, y = q.popleft()
 
+                for _ in range(len(q)):
+                    x, y, distance = q.popleft()
+                    distance += 1
                     for dx, dy in DIRECTIONS:
                         i, j = x + dx, y + dy
                         if i < 0 or j < 0 or i == ROWS or j == COLS:
@@ -34,7 +34,7 @@ class Solution:
                         if grid[i][j] == 0:
                             distances[i][j][0] += distance
                             distances[i][j][1] += 1
-                            q.append((i, j))
+                            q.append((i, j, distance))
 
         if not grid or not grid[0]:
             return -1
