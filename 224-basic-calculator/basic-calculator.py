@@ -14,7 +14,7 @@ class Solution:
                 # 遇到左括号开始递归计算 num
                 elif c == "(":
                     num = process(q)
-                if not c.isdigit() or not q:
+                if c in "+-*/)" or not q:
                     if sign == "+":
                         stack.append(num)
                     elif sign == "-":
@@ -25,9 +25,9 @@ class Solution:
                         stack.append(stack.pop() // num)
                     num = 0
                     sign = c
-                # 遇到右括号返回递归结果
-                if c == ")":
-                    break
+                    # 遇到右括号返回递归结果
+                    if c == ")":
+                        break
             return sum(stack)
 
         return process(deque(s))
