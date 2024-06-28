@@ -1,33 +1,25 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        s = s.replace(" ", "")
+        num = 0
+        sign = 1  # the sign before num
+        result = 0
+        stack = []
 
-        def process(q) -> int:
-            stack = []
-            sign = "+"
-            num = 0
-
-            while q:
-                c = q.popleft()
-                if c.isdigit():
-                    num = 10 * num + int(c)
-                # 遇到左括号开始递归计算 num
-                elif c == "(":
-                    num = process(q)
-                if not c.isdigit() or not q:
-                    if sign == "+":
-                        stack.append(num)
-                    elif sign == "-":
-                        stack.append(-num)
-                    elif sign == "*":
-                        stack.append(stack.pop() * num)
-                    elif sign == "/":
-                        stack.append(stack.pop() // num)
-                    num = 0
-                    sign = c
-                    # 遇到右括号返回递归结果
-                    if c == ")":
-                        break
-            return sum(stack)
-
-        return process(deque(s))
+        for c in s:
+            if c.isdigit():
+                num = num * 10 + int(c)
+            elif c in "+-":
+                result += num * sign
+                sign = -1 if c == "-" else 1
+                num = 0
+            elif c == "(":
+                stack.append(result)
+                stack.append(sign)
+                result = 0
+                sign = 1
+            elif c == ")":
+                result += num * sign
+                result *= stack.pop()
+                result += stack.pop()
+                num = 0
+        return result + num * sign
