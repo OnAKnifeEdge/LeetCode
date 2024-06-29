@@ -1,19 +1,18 @@
 class Solution:
     def minInsertions(self, s: str) -> int:
-        # https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
-        if not s:
-            return 0
-        insertions = 0
-        required_closings = 0
+        inserted_left = 0
+        right_needed = 0
         for c in s:
             if c == "(":
-                required_closings += 2
-                if required_closings % 2 == 1:
-                    insertions += 1
-                    required_closings -= 1
+                right_needed += 2
+
+                if right_needed % 2 == 1:
+                    right_needed -= 1
+                    inserted_left += 1
+
             elif c == ")":
-                required_closings -= 1
-                if required_closings == -1:
-                    insertions += 1
-                    required_closings = 1
-        return insertions + required_closings
+                right_needed -= 1
+                if right_needed == -1:
+                    inserted_left += 1
+                    right_needed = 1
+        return inserted_left + right_needed
