@@ -12,7 +12,7 @@ class Solution:
 
             elif c == ")":
                 right_needed -= 1
-                if right_needed == -1:
+                if right_needed < 0:
                     inserted_left += 1
                     right_needed = 1
         return inserted_left + right_needed
