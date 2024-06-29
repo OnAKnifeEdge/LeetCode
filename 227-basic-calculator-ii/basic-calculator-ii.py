@@ -8,16 +8,15 @@ class Solution:
             c = s[i]
             if c.isdigit():
                 num = num * 10 + int(c)
-            if c in "+-*/" or i == len(s) - 1:
-                # Process num when an operator or end is reached
+            if not c.isdigit() or i == len(s) - 1:
                 if sign == "+":
                     stack.append(num)
                 elif sign == "-":
                     stack.append(-num)
                 elif sign == "*":
-                    stack.append(stack.pop() * num)  # Evaluate * immediately
+                    stack.append(stack.pop() * num)
                 elif sign == "/":
-                    stack.append(int(stack.pop() / num))  # Evaluate / immediately
+                    stack.append(int(stack.pop() / num))
                 sign = c
                 num = 0
         return sum(stack)
