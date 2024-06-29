@@ -1,6 +1,6 @@
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
-        insert_left = 0
+        insertions = 0
         need_right = 0
         for c in s:
             if c == "(":
@@ -9,5 +9,5 @@ class Solution:
                 need_right -= 1
                 if need_right == -1:
                     need_right = 0
-                    insert_left += 1
-        return insert_left + need_right
+                    insertions += 1
+        return insertions + need_right
