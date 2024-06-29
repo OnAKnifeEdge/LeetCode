@@ -1,15 +1,16 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        if not s:
-            return True
-        mapping = {")": "(", "}": "{", "]": "["}
+        parentheses = {")": "(", "}": "{", "]": "["}
         stack = []
+
         for c in s:
-            if c in mapping.values():
+            if c in parentheses.values():
                 stack.append(c)
-            elif c in mapping.keys():
-                if not stack or mapping[c] != stack.pop():
+            elif c in parentheses.keys():
+                if not stack:
+                    return False
+                if stack.pop() != parentheses[c]:
                     return False
             else:
                 return False
-        return len(stack) == 0
+        return not bool(stack)
