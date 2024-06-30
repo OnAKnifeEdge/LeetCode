@@ -1,53 +1,61 @@
 class UnionFind:
+    def __init__(self, size):
+        self.count = size
+        self.parent = [i for i in range(size)]
+        self.rank = [0] * size
 
-    def __init__(self, n: int):
-        self.root = [i for i in range(n)]
-        self.rank = [1 for _ in range(n)]
-        self.group = n
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
 
-    def find(self, x: int) -> int:
-        if self.root[x] != x:
-            self.root[x] = self.find(self.root[x])
-        return self.root[x]
-
-    def union(self, x: int, y: int) -> None:
+    def union(self, x, y):
         root_x, root_y = self.find(x), self.find(y)
         if root_x == root_y:
-            return
-        if self.rank[root_x] > self.rank[root_y]:
-            self.root[root_y] = root_x
-        elif self.rank[root_x] < self.rank[root_y]:
-            self.root[root_x] = root_y
-        else:
-            self.root[root_y] = root_x
-            self.rank[root_x] += 1
-        self.group -= 1
+            return False
+        rank_x = self.rank[root_x]
+        rank_y = self.rank[root_y]
 
-    def are_connected(self, x: int, y: int) -> bool:
+        if rank_x < rank_y:
+            self.parent[root_x] = root_y
+        elif rank_x > rank_y:
+            self.parent[root_y] = root_x
+        else:
+            self.parent[root_x] = root_y
+            self.rank[root_y] += 1
+        self.count -= 1
+        return True
+
+    def connected(self, x, y):
         return self.find(x) == self.find(y)
 
 
 class Solution:
     def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
-        uf_a, uf_b = UnionFind(n), UnionFind(n)
-        res = 0
-        edges.sort(reverse=True)
+        uf_alice = UnionFind(n + 1)
+        uf_bob = UnionFind(n + 1)
+        removable_edges = 0
+
+        # 1. process type 3
         for t, u, v in edges:
             if t == 3:
-                if uf_a.are_connected(u - 1, v - 1) or uf_b.are_connected(u - 1, v - 1):
-                    res += 1
-                else:
-                    uf_a.union(u - 1, v - 1)
-                    uf_b.union(u - 1, v - 1)
-            if t == 2:
-                if uf_b.are_connected(u - 1, v - 1):
-                    res += 1
-                else:
-                    uf_b.union(u - 1, v - 1)
-            if t == 1:
-                if uf_a.are_connected(u - 1, v - 1):
-                    res += 1
-                else:
-                    uf_a.union(u - 1, v - 1)
+                a = uf_alice.union(u, v)
+                b = uf_bob.union(u, v)
+                if not a or not b:
+                    removable_edges += 1
 
-        return res if uf_a.group == uf_b.group == 1 else -1
+        # 2. process type 1 and 2
+        for t, u, v in edges:
+            if t == 1:
+                if uf_alice.find(u) != uf_alice.find(v):
+                    uf_alice.union(u, v)
+                else:
+                    removable_edges += 1
+            if t == 2:
+                if uf_bob.find(u) != uf_bob.find(v):
+                    uf_bob.union(u, v)
+                else:
+                    removable_edges += 1
+        if uf_alice.count != 2 or uf_bob.count != 2:
+            return -1
+        return removable_edges
