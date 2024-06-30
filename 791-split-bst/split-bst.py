@@ -5,18 +5,16 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def splitBST(
-        self, root: Optional[TreeNode], target: int
-    ) -> List[Optional[TreeNode]]:
-        if not root:
+    def splitBST(self, root: Optional[TreeNode], target: int) -> List[Optional[TreeNode]]:
+        if root is None:
             return [None, None]
-
         if root.val > target:
             left, right = self.splitBST(root.left, target)
             root.left = right
             return [left, root]
-
         else:
             left, right = self.splitBST(root.right, target)
             root.right = left
             return [root, right]
+
+        
