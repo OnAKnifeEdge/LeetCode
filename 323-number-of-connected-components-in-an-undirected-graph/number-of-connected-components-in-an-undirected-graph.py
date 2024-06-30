@@ -1,57 +1,37 @@
+class UnionFind:
+    def __init__(self, size):
+        self.parent = [i for i in range(size)]
+        self.rank = [0] * size
+        self.count = size
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        root_x, root_y = self.find(x), self.find(y)
+        if root_x == root_y:
+            return
+        if self.rank[root_x] < self.rank[root_y]:
+            self.parent[root_x] = root_y
+        elif self.rank[root_x] > self.rank[root_y]:
+            self.parent[root_y] = root_x
+        else:
+            self.parent[root_y] = root_x
+            self.rank[root_x] += 1
+        self.count -= 1
+
+    def get_count(self):
+        return self.count
+
+
 class Solution:
-
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        parent = list(range(n))
 
-        def find(x):
-            while x != parent[x]:
-                # path compression
-                parent[x] = parent[parent[x]]
-                x = parent[x]
-            return x
+        uf = UnionFind(n)
 
-        rank = [0] * n
-        count = n
+        for i, j in edges:
+            uf.union(i, j)
 
-        def union(a, b):
-            nonlocal count
-            root_a = find(a)
-            root_b = find(b)
-            if root_a == root_b:
-                return
-            if rank[a] < rank[b]:
-                parent[root_a] = root_b
-            elif rank[a] > rank[b]:
-                parent[root_b] = root_a
-            else:
-                parent[root_a] = root_b
-                rank[root_b] += 1
-            count -= 1
-
-        for a, b in edges:
-            union(a, b)
-
-        return count
-
-    def countComponents_uf(self, n: int, edges: List[List[int]]) -> int:
-        parent = list(range(n))
-        count = n
-
-        def find(x):
-            while x != parent[x]:
-                # path compression
-                parent[x] = find(parent[x])
-            return parent[parent[x]]
-
-        def union(a, b):
-            nonlocal count
-            root_a = find(a)
-            root_b = find(b)
-            if root_a != root_b:
-                parent[root_a] = root_b
-                count -= 1
-
-        for a, b in edges:
-            union(a, b)
-
-        return count
+        return uf.get_count()
