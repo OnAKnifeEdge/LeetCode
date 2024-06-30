@@ -16,9 +16,9 @@ class UnionFind:
         rank_x = self.rank[root_x]
         rank_y = self.rank[root_y]
 
-        if rank_x < rank_y:
+        if rank_x < rank_y:  # x 是 小树， parent 指向 大树 y
             self.parent[root_x] = root_y
-        elif rank_x > rank_y:
+        elif rank_x > rank_y:  # y 是 小树， parent 指向 大树 x
             self.parent[root_y] = root_x
         else:
             self.parent[root_x] = root_y
