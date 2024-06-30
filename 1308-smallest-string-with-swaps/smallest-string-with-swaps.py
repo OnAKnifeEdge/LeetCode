@@ -1,25 +1,24 @@
 class UnionFind:
 
     def __init__(self, size):
-        self.root = list(range(size))
+        self.parent = list(range(size))
         self.rank = [0] * size
 
     def find(self, x):
-        if self.root[x] != x:
-            self.root[x] = self.find(self.root[x])
-        return self.root[x]
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
 
     def union(self, x, y):
         root_x, root_y = self.find(x), self.find(y)
         if root_x == root_y:
-            return
-
+            return 
         if self.rank[root_x] < self.rank[root_y]:
-            self.root[root_x] = self.root[root_y]
-        elif self.rank[root_x] > self.rank[root_y]:
-            self.root[root_y] = self.root[root_x]
+            self.parent[root_x] = root_y
+        elif self.rank[root_y] < self.rank[root_x]:
+            self.parent[root_y] = root_x
         else:
-            self.root[root_x] = self.root[root_y]
+            self.parent[root_x] = root_y
             self.rank[root_y] += 1
 
 
@@ -33,11 +32,16 @@ class Solution:
             uf.union(x, y)
 
         graph = defaultdict(list)
-        for i in range(n):
+
+        for i, c in enumerate(s):
             root = uf.find(i)
-            graph[root].append(s[i])
+            graph[root].append(c)
 
         graph = {k: sorted(v, reverse=True) for k, v in graph.items()}
 
-        result = [graph[uf.find(i)].pop() for i in range(n)]
+        result = []
+        for i in range(n):
+            root = uf.find(i)
+            result.append(graph[root].pop())
+
         return "".join(result)
