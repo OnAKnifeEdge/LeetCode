@@ -19,7 +19,8 @@ class Solution:
             for i in range(n):
                 node = q.popleft()
                 level.append(node.val)
-                if i == n - 1:
-                    level_order.append(level)
+                # if i == n - 1:
+                #     level_order.append(level)
                 q.extend(node.children)
+            level_order.append(level)
         return level_order
