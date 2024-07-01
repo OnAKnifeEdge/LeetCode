@@ -20,18 +20,22 @@ class Solution:
             return neighbors
 
         visited = {source}
-        q = deque([])
-        q.append((source, 1))
-
+        q = deque([source])
+        clear_path = 1
         while q:
-            (i, j), clear_path = q.popleft()
-            if (i, j) == destination:
-                return clear_path
+            n = len(q)
 
-            for x, y in get_neighbors(i, j):
-                if (x, y) in visited:
-                    continue
-                visited.add((x, y))
-                q.append(((x, y), clear_path + 1))
+            for _ in range(n):
+                i, j = q.popleft()
+                if (i, j) == destination:
+                    return clear_path
+
+                for x, y in get_neighbors(i, j):
+                    if (x, y) in visited:
+                        continue
+                    visited.add((x, y))
+                    q.append((x, y))
+
+            clear_path += 1
 
         return -1
