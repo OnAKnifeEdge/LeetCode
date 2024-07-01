@@ -1,30 +1,56 @@
+class UnionFind:
+    def __init__(self):
+        self.parent = {}  # Keeps track of the parent of each node
+        self.weight = {}  # Keeps track of the ratio relative to the parent
+
+    def find(self, x: str) -> Tuple[str, float]:
+        # Path compression with ratio update
+        if self.parent[x] != x:
+            parent = self.parent[x]
+            root, parent_weight = self.find(parent)
+            self.parent[x] = root
+            self.weight[x] *= parent_weight
+        return self.parent[x], self.weight[x]
+
+    def union(self, x: str, y: str, value: float):
+        if x not in self.parent:
+            self.parent[x] = x
+            self.weight[x] = 1.0
+        if y not in self.parent:
+            self.parent[y] = y
+            self.weight[y] = 1.0
+
+        root_x, weight_x = self.find(x)
+        root_y, weight_y = self.find(y)
+
+        if root_x != root_y:
+            self.parent[root_x] = root_y
+            self.weight[root_x] = value * weight_y / weight_x
+        # Explanation: The statement self.weight[root_x] = value * weight_y / weight_x
+        # ensures that when you move root_x to root_y, it keeps the ratio for connected components valid
+
+
 class Solution:
-    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        adj = collections.defaultdict(list) #dict a -> list of [b, value of a/b]
+    def calcEquation(
+        self, equations: List[List[str]], values: List[float], queries: List[List[str]]
+    ) -> List[float]:
+        uf = UnionFind()
 
-        for i, eq in enumerate(equations):
-            a, b = eq
-            adj[a].append((b, values[i]))
-            adj[b].append((a, 1 / values[i]))
+        # Union operation with given equations and values
+        for (a, b), value in zip(equations, values):
+            uf.union(a, b, value)
 
-        # a / b, a -> b
-        def bfs(src, target):
-            if src not in adj or target not in adj:
-                return -1
-            
-            q = deque()
-            q.append((src, 1))
-            visited = {src}
+        result = []
+        # Answer the queries
+        for a, b in queries:
+            if a in uf.parent and b in uf.parent:
+                root_a, ratio_a = uf.find(a)
+                root_b, ratio_b = uf.find(b)
+                if root_a == root_b:
+                    result.append(ratio_a / ratio_b)
+                else:
+                    result.append(-1.0)
+            else:
+                result.append(-1.0)
 
-            while q:
-                n, w = q.popleft() #node and weight
-                if n == target:
-                    return w
-                for neighbor, weight in adj[n]:
-                    if neighbor in visited:
-                        continue
-                    q.append((neighbor, w * weight))
-                    visited.add(neighbor)
-            return -1
-
-        return [bfs(q[0], q[1]) for q in queries]
+        return result
