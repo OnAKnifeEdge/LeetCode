@@ -1,23 +1,22 @@
 class Solution:
-
-    # Input: graph = [[1,2],[3],[3],[]]
-    # Output: [[0,1,3],[0,2,3]]
-    # Explanation: There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
-
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        last_node = len(graph) - 1
-        result = []
+        paths = []
+        if not graph or not graph[0]:
+            return paths
+        n = len(graph)
+        target = n - 1
+        q = deque([[0]])
 
-        def backtrack(current_node, path):
-            if current_node == last_node:
-                result.append(path[:])
-                result
+        while q:
+            path = q.popleft()
+            node = path[-1]
+            for neighbor in graph[node]:
+                new_path = path[:]
+                new_path.append(neighbor)
 
-            for next_node in graph[current_node]:
-                path.append(next_node)
-                backtrack(next_node, path)
-                path.pop()
+                if neighbor == target:
 
-        path = [0]
-        backtrack(0, path)
-        return result
+                    paths.append(new_path)
+                else:
+                    q.append(new_path)
+        return paths
