@@ -2,24 +2,24 @@ class Solution:
     def leadsToDestination(
         self, n: int, edges: List[List[int]], source: int, destination: int
     ) -> bool:
-        color = {i: "white" for i in range(n)}
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color = {i: WHITE for i in range(n)}
         graph = defaultdict(list)
         for u, v in edges:
             graph[u].append(v)
 
         def dfs(node):
-            if color[node] == "gray":
+            if color[node] == GRAY:
                 return False
-            if color[node] == "black":
+            if color[node] == BLACK:
                 return True
             if not graph[node] and node != destination:
-                # Terminal node and NOT the destination
                 return False
-            color[node] = "gray"
+            color[node] = GRAY
             for neighbor in graph[node]:
                 if not dfs(neighbor):
                     return False
-            color[node] = "black"
+            color[node] = BLACK
             return True
 
         return dfs(source)
