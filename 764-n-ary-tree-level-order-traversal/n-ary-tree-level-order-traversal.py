@@ -21,6 +21,5 @@ class Solution:
                 level.append(node.val)
                 if i == n - 1:
                     level_order.append(level)
-                for child in node.children:
-                    q.append(child)
+                q.extend(node.children)
         return level_order
