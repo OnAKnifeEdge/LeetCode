@@ -4,6 +4,9 @@ class UnionFind:
         self.weight = {}  # Keeps track of the ratio relative to the parent
 
     def find(self, x: str) -> Tuple[str, float]:
+        if x not in self.parent:
+            self.parent[x] = x
+            self.weight[x] = 1.0
         # Path compression with ratio update
         if self.parent[x] != x:
             parent = self.parent[x]
@@ -13,12 +16,6 @@ class UnionFind:
         return self.parent[x], self.weight[x]
 
     def union(self, x: str, y: str, value: float):
-        if x not in self.parent:
-            self.parent[x] = x
-            self.weight[x] = 1.0
-        if y not in self.parent:
-            self.parent[y] = y
-            self.weight[y] = 1.0
 
         root_x, weight_x = self.find(x)
         root_y, weight_y = self.find(y)
