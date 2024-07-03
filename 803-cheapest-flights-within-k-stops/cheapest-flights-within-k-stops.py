@@ -6,7 +6,7 @@ class Solution:
         for fr, to, cost in flights:
             graph[fr].append((to, cost))
 
-        q = [(0, 0, src)]  # cost, stop, src]
+        q = [(0, -1, src)]  # cost, stop, src]
 
         visited = {}  # src: stops
 
@@ -14,6 +14,8 @@ class Solution:
             cost, stop, node = heappop(q)
             if node == dst and stop <= k + 1:
                 return cost
+            if stop == k:
+                continue
             if node in visited and visited[node] < stop:
                 continue
             visited[node] = stop
