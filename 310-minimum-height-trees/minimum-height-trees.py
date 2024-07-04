@@ -23,6 +23,6 @@ class Solution:
                 graph[neighbor].remove(leaf)
                 if len(graph[neighbor]) == 1:
                     leaves.append(neighbor)
-                del graph[leaf]  # Remove the leaf node from the graph
+                # del graph[leaf]  # Remove the leaf node from the graph
 
         return list(leaves)
