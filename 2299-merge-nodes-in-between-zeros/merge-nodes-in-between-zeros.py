@@ -7,33 +7,35 @@
 #     def mergeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
 #         start = head
 #         end = head.next
-#         s = head.val
+#         s = 0
 #         while end:
-#             s += end.val
+#             
 #             if end.val == 0:
 #                 node = ListNode(s)
 #                 node.next = end
 #                 start.next = node
 #                 start = end
-#                 end = end.next
+#                 
 #                 s = 0
 #             else:
-#                 end = end.next
+#                 s += end.val
+            # end = end.next
 #         return head.next
 
 
 class Solution:
     def mergeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # dummy = head
-        start = head
-        s = 0
 
+        start = head
         end = head.next
+        s = 0
+        
 
         while end:
             if end.val == 0:
-                start.next = ListNode(s)
-                start = start.next
+                node = ListNode(s)
+                start.next = node
+                start = node
                 s = 0
             else:
                 s += end.val
