@@ -9,51 +9,62 @@ class Node:
 class LRUCache:
 
     def __init__(self, capacity: int):
+        self.size = 0
+        self.capacity = capacity
         self.head = Node(0, 0)
         self.tail = Node(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
-
-        self.capacity = capacity
-        self.size = 0
-        self.cache = {}  # key: val
-
-    def evict(self):
-        if self.size <= self.capacity:
-            return
-        node = self.head.next
-        self.remove(node)
+        self.cache = {}  # key: node
 
     def remove(self, node):
-        # assume node is not in cache
-        node.prev.next = node.next
-        node.next.prev = node.prev
+        prev_node = node.prev
+        next_node = node.next
+        prev_node.next = next_node
+        next_node.prev = prev_node
         del self.cache[node.key]
-        self.size -= 1
 
-    def add(self, node):
-        # assume node is in cache
-        node.prev = self.tail.prev
+    def add(self, key, val):
+        node = Node(key, val)
+
+        last_node = self.tail.prev
+
+        last_node.next = node
         node.next = self.tail
-        self.tail.prev.next = node
+        node.prev = last_node
+
         self.tail.prev = node
 
-        self.cache[node.key] = node
-        self.size += 1
+        self.cache[key] = node
+        return node
+
+    def evict(self):
+        first_node = self.head.next
+        self.remove(first_node)
 
     def get(self, key: int) -> int:
         if key not in self.cache:
             return -1
         node = self.cache[key]
         self.remove(node)
-        self.add(node)
+        self.add(key, node.val)
         return node.val
 
-    def put(self, key: int, value: int) -> None:
+    def put(self, key: int, val: int) -> None:
         if key in self.cache:
-            self.remove(self.cache[key])
-        self.add(Node(key, value))
-        self.evict()
+            old_node = self.cache[key]
+            self.remove(old_node)
+            node = self.add(key, val)
+            self.cache[key] = node
+        else:
+            if self.size == self.capacity:
+                self.evict()
+                self.add(key, val)
+
+            else:
+                node = self.add(key, val)
+                self.cache[key] = node
+                self.size += 1
 
 
 # Your LRUCache object will be instantiated and called as such:
