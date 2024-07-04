@@ -11,18 +11,13 @@ class Solution:
 
         leaves = deque([i for i in range(n) if len(graph[i]) == 1])
 
-        remaining_nodes = n
-
-        while remaining_nodes > 2:
-            leaves_count = len(leaves)
-            remaining_nodes -= leaves_count
-
-            for _ in range(leaves_count):
+        while len(graph) > 2:
+            for _ in range(len(leaves)):
                 leaf = leaves.popleft()
                 neighbor = graph[leaf].pop()
                 graph[neighbor].remove(leaf)
                 if len(graph[neighbor]) == 1:
                     leaves.append(neighbor)
-                # del graph[leaf]  # Remove the leaf node from the graph
+                del graph[leaf]
 
-        return list(leaves)
+        return list(graph.keys())
