@@ -19,11 +19,10 @@ class Solution:
 
             for _ in range(leaves_count):
                 leaf = leaves.popleft()
-                if leaf in graph:
-                    neighbor = graph[leaf].pop()
-                    graph[neighbor].remove(leaf)
-                    if len(graph[neighbor]) == 1:
-                        leaves.append(neighbor)
-                    del graph[leaf]  # Remove the leaf node from the graph
+                neighbor = graph[leaf].pop()
+                graph[neighbor].remove(leaf)
+                if len(graph[neighbor]) == 1:
+                    leaves.append(neighbor)
+                del graph[leaf]  # Remove the leaf node from the graph
 
         return list(leaves)
