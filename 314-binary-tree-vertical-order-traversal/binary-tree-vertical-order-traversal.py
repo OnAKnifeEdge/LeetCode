@@ -20,10 +20,12 @@ class Solution:
             if node.right:
                 q.append((node.right, col + 1))
 
-        left, right = min(d.keys()), max(d.keys())
+        return [d[x] for x in sorted(d.keys())]
 
-        result = []
-        for i in range(left, right + 1):
-            result.append(d[i])
+        # left, right = min(d.keys()), max(d.keys())
 
-        return result
+        # result = []
+        # for i in range(left, right + 1):
+        #     result.append(d[i])
+
+        # return result
