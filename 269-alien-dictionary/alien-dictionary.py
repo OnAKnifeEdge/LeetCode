@@ -4,16 +4,17 @@ class Solution:
 
         indegree = {c: 0 for word in words for c in word}
 
+        # ["ab", "abc"] is valid, but ["abc", "ab"] is invalid in lexicographic order
+
         for first_word, second_word in pairwise(words):
-            for c, d in zip(first_word, second_word):
-                if c != d:
-                    if d not in graph[c]:
-                        graph[c].add(d)
-                        indegree[d] += 1
+            if len(second_word) < len(first_word) and first_word.startswith(second_word):
+                return ""
+            for a, b in zip(first_word, second_word):
+                if a != b:
+                    if b not in graph[a]:
+                        graph[a].add(b)
+                        indegree[b] += 1
                     break
-            else:  # Check that second word isn't a prefix of first word.
-                if len(second_word) < len(first_word):
-                    return ""  # Invalid order, return ""
 
         order = []
         q = deque([c for c, v in indegree.items() if v == 0])
