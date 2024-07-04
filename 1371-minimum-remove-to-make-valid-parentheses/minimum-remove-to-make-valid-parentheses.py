@@ -1,25 +1,18 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        if not s:
-            return s
-
-        to_remove = set()
         stack = []
+        altered = list(s)
 
-        for i, c in enumerate(s):
-            if c not in "()":
-                continue
+        for i, c in enumerate(altered):
             if c == "(":
                 stack.append(i)
-            elif not stack:
-                to_remove.add(i)
-            else:
-                stack.pop()
+            elif c == ")":
+                if stack:
+                    stack.pop()
+                else:
+                    altered[i] = ""
 
-        to_remove = to_remove.union(set(stack))
-        result = []
-        for i, c in enumerate(s):
-            if i not in to_remove:
-                result.append(c)
+        while stack:
+            altered[stack.pop()] = ""
 
-        return ''.join(result)
+        return "".join(altered)
