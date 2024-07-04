@@ -13,11 +13,18 @@ class Solution:
 
         while len(graph) > 2:
             for _ in range(len(leaves)):
+                # remove the leaf from the leaves
                 leaf = leaves.popleft()
+
+                # remove the leaf from graph
                 neighbor = graph[leaf].pop()
+                del graph[leaf]
+
+                # remove leaf from neighbor dependency
                 graph[neighbor].remove(leaf)
+
+                # if neighbor is leaf
                 if len(graph[neighbor]) == 1:
                     leaves.append(neighbor)
-                del graph[leaf]
 
         return list(graph.keys())
