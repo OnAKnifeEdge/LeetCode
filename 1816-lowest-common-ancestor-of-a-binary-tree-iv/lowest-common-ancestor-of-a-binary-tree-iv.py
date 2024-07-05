@@ -5,21 +5,24 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'TreeNode':
+    def lowestCommonAncestor(
+        self, root: "TreeNode", nodes: "List[TreeNode]"
+    ) -> "TreeNode":
         nodes = set(nodes)
 
-
-        def lca(root, nodes):
-            if root is None:
+        def lca(node, nodes):
+            if node is None:
                 return None
-            if root in nodes:
-                return root
-            left = lca(root.left, nodes)
-            right = lca(root.right, nodes)
+            if node in nodes:
+                return node
+            left = lca(node.left, nodes)
+            right = lca(node.right, nodes)
+
             if left and right:
-                return root
+                return node
+
             return left or right
-        
+
         return lca(root, nodes)
-        
