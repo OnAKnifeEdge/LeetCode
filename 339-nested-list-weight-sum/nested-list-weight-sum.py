@@ -44,14 +44,18 @@
 
 class Solution:
     def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        q = deque(nestedList)
+        depth = 1
+        total = 0
 
-        def dfs(nestedList, depth):
-            total = 0
-            for item in nestedList:
+        while q:
+            n = len(q)
+            for _ in range(n):
+                item = q.popleft()
                 if item.isInteger():
                     total += item.getInteger() * depth
                 else:
-                    total += dfs(item.getList(), depth + 1)
-            return total
+                    q.extend(item.getList())
+            depth += 1
 
-        return dfs(nestedList, 1)
+        return total
