@@ -12,15 +12,12 @@ class Solution:
                 else:
                     balance -= 1
                 if balance < 0:
+                    if c == "(":
+                        print("too many closing parentheses.")
+                    elif c == ")":
+                        print("too many opening parentheses.")
                     return False
+
             return True
 
-        if not check(s, locked, "("):
-            print("( >= )")
-            return False
-
-        if not check(s[::-1], locked[::-1], ")"):
-            print(") >= (")
-            return False
-
-        return True
+        return check(s, locked, "(") and check(s[::-1], locked[::-1], ")")
