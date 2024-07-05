@@ -5,21 +5,17 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if p.val > q.val:
-            p, q = q, p
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
+        val1, val2 = min(p.val, q.val), max(p.val, q.val)
 
-        def lca(root, p, q):
-            if not root:
-                return None
-            if root.val > q.val:
-                return lca(root.left, p, q)
-            if root.val < p.val:
-                return lca(root.right, p, q)
-            return root
-
-        return lca(root, p, q)
-
-        
-        
+        while root:
+            if root.val < val1:
+                root = root.right
+            elif root.val > val2:
+                root = root.left
+            else:
+                return root
