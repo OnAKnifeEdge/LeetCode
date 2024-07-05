@@ -10,10 +10,12 @@ class Employee:
 
 class Solution:
     def getImportance(self, employees: List["Employee"], id: int) -> int:
-        emap = {e.id: e for e in employees}
+        e = {e.id: e for e in employees}
+        employee = e[id]
 
-        def dfs(eid):
-            employee = emap[eid]
-            return employee.importance + sum(dfs(eid) for eid in employee.subordinates)
+        importance = employee.importance
 
-        return dfs(id)
+        for sub in employee.subordinates:
+            importance += self.getImportance(employees, sub)
+
+        return importance
