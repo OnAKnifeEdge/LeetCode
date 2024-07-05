@@ -11,15 +11,12 @@ class Solution:
         self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
     ) -> "TreeNode":
 
-        def dfs(node):
-            if node is None:
-                return None
-            if node.val == p.val or node.val == q.val:
-                return node
-            left = dfs(node.left)
-            right = dfs(node.right)
-            if left and right:
-                return node
-            return left if left else right
-
-        return dfs(root)
+        if root is None:
+            return None
+        if root.val == p.val or root.val == q.val:
+            return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left and right:
+            return root
+        return left if left else right
