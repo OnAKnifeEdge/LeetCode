@@ -1,8 +1,7 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        one_back, two_back = 1, 1
+        # f(n) = f(n - 1) + f(n - 2)
+        one_step, two_step = 1, 1
         for i in reversed(range(n - 1)):
-            one_back, two_back = two_back, one_back + two_back
-        return two_back
-
-        
+            one_step, two_step = two_step, one_step + two_step
+        return two_step
