@@ -1,21 +1,33 @@
+from sortedcontainers import SortedList
+
+
 class Solution:
+    def __init__(self):
+        self.intervals = SortedList()
+
+    def insert(self, interval):
+        start, end = interval
+
+        # Find the insertion point
+        idx = self.intervals.bisect_right((start, float("inf")))
+
+        # Check for merge with previous interval
+        if idx > 0 and self.intervals[idx - 1][1] >= start:
+            idx -= 1
+            start = min(start, self.intervals[idx][0])
+            end = max(end, self.intervals[idx][1])
+            self.intervals.pop(idx)
+
+        # Merge with subsequent intervals
+        while idx < len(self.intervals) and self.intervals[idx][0] <= end:
+            end = max(end, self.intervals[idx][1])
+            self.intervals.pop(idx)
+
+        # Insert the merged interval
+        self.intervals.add((start, end))
+
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if not intervals:
-            return []
-        intervals.sort(key=lambda x: (x[0], -x[1]))
-
-        merged = []
-        start, end = intervals[0]
-
-        for i in range(1, len(intervals)):
-            a, b = intervals[i]
-            if a <= end:
-                end = max(b, end)
-
-            else:
-                merged.append((start, end))
-                start, end = a, b
-
-        merged.append((start, end))
-
-        return merged
+        self.intervals.clear()  # Clear existing intervals
+        for interval in intervals:
+            self.insert(interval)
+        return list(self.intervals)
