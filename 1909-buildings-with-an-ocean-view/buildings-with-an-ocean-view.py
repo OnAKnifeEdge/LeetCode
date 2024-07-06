@@ -1,12 +1,9 @@
 class Solution:
     def findBuildings(self, heights: List[int]) -> List[int]:
         buildings = []
-        q = []
+        tallest_building = 0
         for i in reversed(range(len(heights))):
-            while q and q[-1] < heights[i]:
-                q.pop()
-            if not q:
+            if heights[i] > tallest_building:
+                tallest_building = heights[i]
                 buildings.append(i)
-            q.append(heights[i])
-        buildings.reverse()
-        return buildings
+        return buildings[::-1]
