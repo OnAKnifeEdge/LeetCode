@@ -3,7 +3,10 @@ class Solution:
         if not prices:
             return 0
         buy, sell = float('-inf'), 0
+
         for price in prices:
             buy = max(buy, -price)
-            sell = max(sell, price + buy)
+            sell = max(sell, buy + price)
+
         return sell
+        
