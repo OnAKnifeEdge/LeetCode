@@ -1,37 +1,19 @@
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
         d = {}
-        result = 0
-        diff = 0
+        max_length = 0
+        cumulative_diff = 0
 
-        for idx, num in enumerate(nums):
-            diff += 1 if num else -1  # when num is 1 increment when num is 0 decrement
-
-            if diff == 0:
-                result = max(result, idx + 1)
+        for i, num in enumerate(nums):
+            if num == 1:
+                cumulative_diff += 1
+            elif num == 0:
+                cumulative_diff -= 1
+            if cumulative_diff == 0:  # find a target
+                max_length = max(max_length, i + 1)
             else:
-                if diff in d:
-                    result = max(result, idx - d[diff])
-                if diff not in d:
-                    d[diff] = idx
-
-        return result
-
-        # # generator https://leetcode.com/problems/contiguous-array/solutions/4883501/97-90-short-and-clear-with-generator-of-cumulated-differences
-        # def findMaxLength(self, nums: List[int]) -> int:
-        #     def cumulated_diffs():
-        #         diff = 0
-        #         for num in nums:
-        #             yield diff
-        #             diff += 1 if num else -1
-        #         yield diff
-
-        #     d = {}
-        #     result = 0
-        #     for idx, diff in enumerate(cumulated_diffs()):
-        #         if diff in d:
-        #             result = max(result, idx - d[diff])
-        #         else:
-        #             d[diff] = idx
-
-        #     return result
+                if cumulative_diff in d:
+                    max_length = max(max_length, i - d[cumulative_diff])
+                else:
+                    d[cumulative_diff] = i
+        return max_length
