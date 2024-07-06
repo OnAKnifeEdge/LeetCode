@@ -1,23 +1,22 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        # https://leetcode.com/problems/remove-covered-intervals/description/
         if not intervals:
-            return intervals
-
+            return []
         intervals.sort(key=lambda x: (x[0], -x[1]))
+        print(intervals)
 
         merged = []
-        start, end = intervals[0]
 
-        for i in range(1, len(intervals)):
-            left, right = intervals[i]
+        for a, b in intervals:
+            if not merged:
+                merged.append((a, b))
 
-            if left <= end:
-                end = max(end, right)
+            start, end = merged[-1]
+            if a <= end:
+                b = max(b, end)
+                merged[-1] = (start, b)
+
             else:
-                merged.append((start, end))
-                start, end = left, right
-
-        merged.append((start, end))
+                merged.append((a, b))
 
         return merged
