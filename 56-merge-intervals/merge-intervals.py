@@ -3,20 +3,19 @@ class Solution:
         if not intervals:
             return []
         intervals.sort(key=lambda x: (x[0], -x[1]))
-        print(intervals)
 
         merged = []
+        start, end = intervals[0]
 
-        for a, b in intervals:
-            if not merged:
-                merged.append((a, b))
-
-            start, end = merged[-1]
+        for i in range(1, len(intervals)):
+            a, b = intervals[i]
             if a <= end:
-                b = max(b, end)
-                merged[-1] = (start, b)
+                end = max(b, end)
 
             else:
-                merged.append((a, b))
+                merged.append((start, end))
+                start, end = a, b
+
+        merged.append((start, end))
 
         return merged
