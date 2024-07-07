@@ -15,9 +15,9 @@ class Trie:
             node = node.children[c]
         node.is_end = True
 
-    def has_forbidden_substring(self, prefix):
+    def has_forbidden_substring(self, word):
         node = self.root
-        for c in prefix:
+        for c in word:
             if c not in node.children:
                 return False
             node = node.children[c]
@@ -37,7 +37,7 @@ class Solution:
         right = n
         max_length = 0
 
-        for left in range(n - 1, -1, -1):
+        for left in reversed(range(n)):
             while left < right and trie.has_forbidden_substring(word[left:right]):
                 right -= 1
 
