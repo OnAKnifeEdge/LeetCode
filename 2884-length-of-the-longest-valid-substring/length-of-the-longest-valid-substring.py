@@ -15,9 +15,9 @@ class Trie:
             node = node.children[c]
         node.is_end = True
 
-    def has_forbidden_substring(self, word):
+    def has_forbidden_substring(self, prefix):
         node = self.root
-        for c in word:
+        for c in prefix:
             if c not in node.children:
                 return False
             node = node.children[c]
@@ -38,9 +38,16 @@ class Solution:
         max_length = 0
 
         for left in reversed(range(n)):
-            while left < right and trie.has_forbidden_substring(word[left:right]):
-                right -= 1
+            # Check substrings starting from the current left position up to right
+            # We only need to check substrings up to length 10 (longest forbidden length)
+            for length in range(1, 11):
+                if left + length > right:
+                    break
+                if trie.has_forbidden_substring(word[left:left + length]):
+                    right = left + length - 1
+                    break
 
+            # Update the maximum length of the valid substring
             max_length = max(max_length, right - left)
 
         return max_length
