@@ -6,13 +6,14 @@ class Solution:
         n = len(jobs)
         startTime.sort()
 
-        dp = [0] * (n + 1)
+        dp = [0] * (n + 1)  # dp[i]: max profit from jobs[i:]
 
         for i in reversed(range(n)):
             start, end, p = jobs[i]
-            # identifies the first non-overlapping job
-            # that could potentially be selected after the current job,
-            # ensuring no time conflicts.
-            next_job_idx = bisect_left(startTime, end)
-            dp[i] = max(dp[i + 1], dp[next_job_idx] + p)
+            # find next job that starts after end
+            idx = bisect_left(startTime, end)
+
+            # don't take jobs[i]: dp[i + 1]
+            # take the jobs[i]: dp[idx] + p
+            dp[i] = max(dp[i + 1], dp[idx] + p)
         return dp[0]
