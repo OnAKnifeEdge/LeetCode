@@ -4,6 +4,8 @@ class Solution:
     PMOD = 496822652529863993
 
     def numberOfWays(self, s: str, t: str, k: int) -> int:
+        # https://leetcode.com/problems/string-transformation/
+        # 完全看不懂
         n = len(s)
 
         sHash = 0
