@@ -11,3 +11,7 @@ class Solution:
             else:
                 j -= 1
         return max_area
+        # reasoning:
+        # has to shrink the window to find bigger Container
+        # smaller side won't support larger Container
+        # if equals, it doesn't matter which side shrinks.
