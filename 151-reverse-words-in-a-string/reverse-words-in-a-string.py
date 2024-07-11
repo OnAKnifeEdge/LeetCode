@@ -34,17 +34,15 @@ class Solution:
 
         def reverse_each_word():
             start = 0
-            for end in range(len(s)):
-                if s[end] == " ":
-                    reverse_one_word(start, end)
+            for end in range(len(s) + 1):
+                if end == len(s) or s[end] == " ":
+                    i, j = start, end - 1
+                    while i < j:
+                        s[i], s[j] = s[j], s[i]
+                        i += 1
+                        j -= 1
                     start = end + 1
-            reverse_one_word(start, len(s))
 
-        def reverse_one_word(start, end):
-            i = 0
-            while i < (end - start) // 2:
-                s[start + i], s[end - 1 - i] = s[end - 1 - i], s[start + i]
-                i += 1
 
         trim()
         reverse()
