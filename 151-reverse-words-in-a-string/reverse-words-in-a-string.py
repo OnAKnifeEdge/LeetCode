@@ -1,47 +1,57 @@
 class Solution:
-
-    def trim(self, s: str) -> str:
-        left, right = 0, len(s) - 1
-        while left <= right and s[left] == ' ':
-            left += 1
-        while left <= right and s[right] == ' ':
-            right -= 1
-
-        output = []
-        while left <= right:
-            if s[left] != ' ':
-                output.append(s[left])
-            elif output[-1] != ' ':
-                output.append(s[left])
-            left += 1
-        return output
-
-    def reverse(self, l: list, left: int, right: int) -> None:
-        while left < right:
-            l[left], l[right] = l[right], l[left]
-            left += 1
-            right -= 1
-
-    def reverse_each_word(self, l: list) -> None:
-        start, end  = 0, 0
-        while start < len(l):
-            # go to the end of the word
-            while end < len(l) and l[end] != ' ':
-                end += 1
-            # reverse the word
-            self.reverse(l, start, end - 1)
-            # move to the next word
-            start = end + 1
-            end += 1
-        
     def reverseWords(self, s: str) -> str:
-        l = self.trim(s)
+        s = list(s)
 
-        self.reverse(l, 0, len(l) - 1)
+        def trim():
+            # Remove leading spaces
+            while s and s[0] == " ":
+                s.pop(0)
 
-        self.reverse_each_word(l)
+            # Remove trailing spaces
+            while s and s[-1] == " ":
+                s.pop()
 
-        return ''.join(l)
+            # Merge multiple spaces into one
+            write = 1
+            for read in range(1, len(s)):
+                current_char = s[read]
+                prev_char = s[write - 1]
 
+                if current_char != " " or prev_char != " ":
+                    s[write] = current_char
+                    write += 1
 
-        
+            # Remove extra spaces
+            while len(s) > write:
+                s.pop()
+
+                def reverse():
+                    i, j = 0, len(s) - 1
+                    while i < j:
+                        s[i], s[j] = s[j], s[i]
+
+        def reverse():
+            i, j = 0, len(s) - 1
+            while i < j:
+                s[i], s[j] = s[j], s[i]
+                i += 1
+                j -= 1
+
+        def reverse_each_word():
+            start = 0
+            for end in range(len(s)):
+                if s[end] == " ":
+                    reverse_one_word(start, end)
+                    start = end + 1
+            reverse_one_word(start, len(s))
+
+        def reverse_one_word(start, end):
+            i = 0
+            while i < (end - start) // 2:
+                s[start + i], s[end - 1 - i] = s[end - 1 - i], s[start + i]
+                i += 1
+
+        trim()
+        reverse()
+        reverse_each_word()
+        return "".join(s)
