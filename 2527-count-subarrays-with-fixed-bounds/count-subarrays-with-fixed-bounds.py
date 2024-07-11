@@ -12,8 +12,11 @@ class Solution:
                 min_idx = i
             if num == maxK:
                 max_idx = i
-            if min_idx is not None and max_idx is not None:
-                if min_idx >= start and max_idx >= start:
-                    count += min(min_idx, max_idx) - start + 1
-
+            if (
+                min_idx is not None
+                and max_idx is not None
+                and min_idx >= start
+                and max_idx >= start
+            ):
+                count += min(min_idx, max_idx) - start + 1
         return count
