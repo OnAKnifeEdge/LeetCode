@@ -3,8 +3,10 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        slow = 0
-        for fast in range(len(nums)):
-            if nums[fast] != 0:
-                nums[slow], nums[fast] = nums[fast], nums[slow]
-                slow += 1
+        n = len(nums)
+        non_zero_idx = 0
+        for i, num in enumerate(nums):
+            if num != 0:
+                nums[non_zero_idx] = num
+                non_zero_idx += 1
+        nums[non_zero_idx:n] = [0] * (n - non_zero_idx)
