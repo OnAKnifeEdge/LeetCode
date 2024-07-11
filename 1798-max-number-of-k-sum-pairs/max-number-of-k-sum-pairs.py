@@ -1,15 +1,13 @@
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
-        nums.sort()
-        i, j = 0, len(nums) - 1
         count = 0
-        while i < j:
-            if nums[i] + nums[j] == k:
-                i += 1
-                j -= 1
+        d = defaultdict(int)
+        for num in nums:
+            if k - num in d:
                 count += 1
-            elif nums[i] + nums[j] < k:
-                i += 1
+                d[k - num] -= 1
+                if d[k - num] == 0:
+                    del d[k - num]
             else:
-                j -= 1
+                d[num] += 1
         return count
