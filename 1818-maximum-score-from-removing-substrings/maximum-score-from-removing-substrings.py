@@ -3,24 +3,20 @@ class Solution:
         #  it's optimal to always remove the substring that gives more points first.
         first, second = ("ab", "ba") if x >= y else ("ba", "ab")
         x, y = max(x, y), min(x, y)
-        s = list(s)
+        gain = 0
 
-        def remove_substrings(s, target, points):
-            write_idx = 0
-            gain = 0
-            for read_idx in range(len(s)):
-                s[write_idx] = s[read_idx]
-                if write_idx > 0 and s[write_idx - 1] + s[write_idx] == target:
-                    write_idx -= 1
-                    gain += points
+        def remove(s, target, point):
+            stack = []
+            nonlocal gain
+            for c in s:
+                if stack and stack[-1] + c == target:
+                    gain += point
+                    stack.pop()
                 else:
-                    write_idx += 1
-            return s[:write_idx], gain
+                    stack.append(c)
+            return "".join(stack)
 
-        # First pass: remove the higher point substring
-        s, gain_first = remove_substrings(s, first, x)
+        s = remove(s, first, x)
+        remove(s, second, y)
 
-        # Second pass: remove the lower point substring
-        s, gain_second = remove_substrings(s, second, y)
-
-        return gain_first + gain_second
+        return gain
