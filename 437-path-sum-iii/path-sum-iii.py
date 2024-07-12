@@ -6,24 +6,20 @@
 #         self.right = right
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-        count = 0
-        d = defaultdict(int)  # {prefix_sum: count}
+        d = defaultdict(int)
 
-        def pre_order(node, prefix_sum):
-            nonlocal count
+        def dfs(node, prefix_sum):
             if not node:
-                return
+                return 0
             prefix_sum += node.val
-
+            count = d[prefix_sum - targetSum]
             if prefix_sum == targetSum:
                 count += 1
-            count = d[prefix_sum - targetSum] + count
-            
-            d[prefix_sum] = d[prefix_sum] + 1
+            d[prefix_sum] += 1
 
-            pre_order(node.left, prefix_sum)
-            pre_order(node.right, prefix_sum)
+            count += dfs(node.left, prefix_sum) + dfs(node.right, prefix_sum)
 
-            d[prefix_sum] = d[prefix_sum] - 1
-        pre_order(root, 0)
-        return count
+            d[prefix_sum] -= 1
+            return count
+
+        return dfs(root, 0)
