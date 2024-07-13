@@ -8,8 +8,7 @@ class Solution:
             idx = q.popleft()
             keys = rooms[idx]
             for key in keys:
-                if key in visited:
-                    continue
-                visited.add(key)
-                q.append(key)
+                if key not in visited:
+                    visited.add(key)
+                    q.append(key)
         return len(visited) == n
