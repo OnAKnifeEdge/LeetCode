@@ -5,20 +5,17 @@
 #          otherwise return 0
 # def guess(num: int) -> int:
 
+
 class Solution:
     def guessNumber(self, n: int) -> int:
-        lo = 0
-        hi = n
+        lo, hi = 1, n
 
-        while lo <= hi:
+        while lo < hi:
             mid = (lo + hi) // 2
-            result = guess(mid)
-            if result > 0:
-                lo = mid + 1
-            elif result < 0:
-                hi = mid - 1
-            else:
+            if guess(mid) == 0:
                 return mid
-
-            
-        
+            if guess(mid) == 1:
+                lo = mid + 1
+            if guess(mid) == -1:
+                hi = mid - 1
+        return lo
