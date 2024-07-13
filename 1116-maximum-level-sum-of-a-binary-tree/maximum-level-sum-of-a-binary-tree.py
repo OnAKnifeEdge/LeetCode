@@ -6,27 +6,22 @@
 #         self.right = right
 class Solution:
     def maxLevelSum(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
-
-        q = deque([root])
+        max_sum = float("-inf")
         level = 0
-        max_level_sum = root.val
-        min_level = 1
+
+        q = deque([(root, 1)])
         while q:
-            level += 1
-            total = 0
             n = len(q)
+            s = 0
             for _ in range(n):
-                node = q.popleft()
-                total += node.val
+                node, current_level = q.popleft()
+                s += node.val
                 if node.left:
-                    q.append(node.left)
+                    q.append((node.left, current_level + 1))
                 if node.right:
-                    q.append(node.right)
+                    q.append((node.right, current_level + 1))
+            if s > max_sum:
+                max_sum = s
+                level = current_level
 
-            if total > max_level_sum:
-                max_level_sum = total
-                min_level = level
-
-        return min_level
+        return level
