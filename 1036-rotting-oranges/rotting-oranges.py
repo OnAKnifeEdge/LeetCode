@@ -1,34 +1,32 @@
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
+        if not grid:
+            return 0
         ROWS, COLS = len(grid), len(grid[0])
-        DIRECTIONS = [(0,1), (1, 0), (0, -1), (-1, 0)]
-        fresh = 0
-        time = 0
+        fresh_count = 0
         q = deque([])
+        DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-        for r in range(ROWS):
-            for c in range(COLS):
-                if grid[r][c] == 1:
-                    fresh += 1
-                elif grid[r][c] == 2:
-                    q.append((r, c))
-        
-        while q and fresh > 0:
-            for _ in range(len(q)):
-                x, y = q.popleft()
+        for i in range(ROWS):
+            for j in range(COLS):
+                if grid[i][j] == 1:
+                    fresh_count += 1
+                elif grid[i][j] == 2:
+                    q.append((i, j))
+
+        minutes = 0
+
+        while q and fresh_count > 0:
+            n = len(q)
+            for _ in range(n):
+                i, j = q.popleft()
                 for dx, dy in DIRECTIONS:
-                    r, c = x + dx, y + dy
+                    x, y = i + dx, j + dy
+                    if 0 <= x < ROWS and 0 <= y < COLS and grid[x][y] == 1:
+                        if grid[x][y] == 1:
+                            fresh_count -= 1
+                            grid[x][y] = 2
+                        q.append((x, y))
+            minutes += 1
 
-                    if r < 0 or c < 0 or r == ROWS or c == COLS:
-                        continue
-                    
-                    if grid[r][c] != 1:
-                        continue
-                    
-                    grid[r][c] = 2
-                    q.append((r, c))
-                    fresh -= 1
-
-            time += 1
-
-        return time if fresh == 0 else -1
+        return minutes if fresh_count == 0 else -1
