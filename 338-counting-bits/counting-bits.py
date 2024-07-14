@@ -7,6 +7,5 @@ class Solution:
             if offset * 2 == i:
                 offset = i
             dp[i] = dp[i - offset] + 1
-            
+
         return dp
-        
