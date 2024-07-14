@@ -1,57 +1,22 @@
-class TrieNode:
-    def __init__(self):
-        self.children = [None] * 26
-        self.is_end = False
-
-
-class Trie:
-    def __init__(self):
-        self.root = TrieNode()
-        self.suggestions = []
-
-    def insert(self, word):
-        node = self.root
-        for c in word:
-            idx = ord(c) - ord("a")
-            if not node.children[idx]:
-                node.children[idx] = TrieNode()
-            node = node.children[idx]
-        node.is_end = True
-
-    def dfs_with_prefix(self, node, word):
-        if len(self.suggestions) == 3:
-            return
-        if node.is_end:
-            self.suggestions.append(word)
-        for i in range(26):
-            if node.children[i]:
-                self.dfs_with_prefix(node.children[i], word + chr(i + ord("a")))
-
-    def get_words_starting_with(self, prefix):
-        node = self.root
-        for c in prefix:
-            idx = ord(c) - ord("a")
-            if not node.children[idx]:
-                return []
-            node = node.children[idx]
-        self.suggestions = []
-        self.dfs_with_prefix(node, prefix)
-        return self.suggestions
-
-
 class Solution:
     def suggestedProducts(
         self, products: List[str], searchWord: str
     ) -> List[List[str]]:
-        trie = Trie()
-        for product in products:
-            trie.insert(product)
+        products.sort()
+        start, end = 0, len(products) - 1
+        result = [[] for _ in range(len(searchWord))]
 
-        result = []
-        prefix = ""
+        for i, c in enumerate(searchWord):
+            c = searchWord[i]
 
-        for c in searchWord:
-            prefix += c
-            result.append(trie.get_words_starting_with(prefix))
+            while start <= end and (
+                len(products[start]) <= i or products[start][i] != c
+            ):
+                start += 1
+            while start <= end and (len(products[end]) <= i or products[end][i] != c):
+                end -= 1
+
+            for k in range(start, min(end + 1, start + 3)):
+                result[i].append(products[k])
 
         return result
