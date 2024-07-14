@@ -1,21 +1,30 @@
 class Solution:
-
     def letterCombinations(self, digits: str) -> List[str]:
-        LETTERS = {"2": "abc", "3": "def", "4": "ghi", "5": "jkl", 
-                   "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"}
-        if len(digits) == 0:
+        if not digits:
             return []
 
-        def backtrack(i, path):
-            if len(path) == len(digits):
-                results.append(''.join(path))
+        LETTERS = {
+            "2": "abc",
+            "3": "def",
+            "4": "ghi",
+            "5": "jkl",
+            "6": "mno",
+            "7": "pqrs",
+            "8": "tuv",
+            "9": "wxyz",
+        }
+        n = len(digits)
+        result = []
+
+        def backtrack(path, i):
+            if len(path) == n:
+                result.append("".join(path))
                 return
-            possible_letters = LETTERS[digits[i]]
-            for letter in possible_letters:
-                path.append(letter)
-                backtrack(i + 1, path)
+            letters = LETTERS[digits[i]]
+            for c in letters:
+                path.append(c)
+                backtrack(path, i + 1)
                 path.pop()
-        results = []
-        backtrack(0, [])
-        return results
-        
+
+        backtrack([], 0)
+        return result
