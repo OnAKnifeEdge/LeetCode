@@ -2,16 +2,18 @@ class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         result = []
 
-        def backtrack(current, s, start):
-            if s == n and len(current) == k:
-                result.append(current[:])
+        def backtrack(i, s, path=[]):
+            if s > n:
                 return
-            if s > n or len(current) > k:
+            if len(path) == k and s == n:
+                result.append(path[:])
                 return
-            for i in range(start, 10):
-                current.append(i)
-                backtrack(current, s + i, i + 1)
-                current.pop()
+            for j in range(i + 1, 10):
+                path.append(j)
+                s += j
+                backtrack(j, s, path)
+                s -= j
+                path.pop()
 
-        backtrack([], 0, 1)
+        backtrack(0, 0)
         return result
