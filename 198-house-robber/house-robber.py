@@ -1,7 +1,6 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        one_back, two_back = 0, 0
-
-        for num in nums:
-            one_back, two_back = max(one_back, two_back + num), one_back
-        return one_back
+        a, b = 0, 0
+        for i in range(len(nums)):
+            a, b = b, max(b, a + nums[i])
+        return b
