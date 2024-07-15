@@ -1,10 +1,10 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        dp = [0] * (len(triangle) + 1)
+        n = len(triangle)
+        # triangle[i][j] += min(triangle[i+1][j], triangle[i+1][j+1])
 
-        for row in triangle[::-1]:
-            for i, num in enumerate(row):
-                dp[i] = num + min(dp[i], dp[i + 1])
+        for i in reversed(range(n - 1)):
+            for j in range(len(triangle[i])):
+                triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
 
-        return dp[0]
-        
+        return triangle[0][0]
