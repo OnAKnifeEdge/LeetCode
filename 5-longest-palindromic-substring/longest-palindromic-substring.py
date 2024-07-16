@@ -16,6 +16,9 @@ class Solution:
                 start -= 1
                 end += 1
 
+            if i + dp[i] > right:
+                center, right = i, i + dp[i]
+
         longest, center_idx = max((n, i) for i, n in enumerate(dp))
         start = (center_idx - longest) // 2
         return s[start:start+longest]
