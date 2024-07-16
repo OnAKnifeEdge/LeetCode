@@ -3,7 +3,7 @@ class TrieNode:
 
     def __init__(self):
         self.is_word = False
-        self.children = {}
+        self.children = defaultdict(TrieNode)
 
 
 def buildTrie(wordDict: List[str]) -> TrieNode:
@@ -12,8 +12,6 @@ def buildTrie(wordDict: List[str]) -> TrieNode:
     for word in wordDict:
         node = root
         for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
             node = node.children[char]
         node.is_word = True
     return root
