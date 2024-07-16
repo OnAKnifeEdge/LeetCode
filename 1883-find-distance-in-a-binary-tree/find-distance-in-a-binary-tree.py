@@ -11,6 +11,12 @@ class Solution:
         result = -1
 
         def dfs(node: TreeNode) -> int:
+
+            # -1 if neither p nor q is found in the current subtree
+            # 0 if the current node is p or q
+            # A positive integer representing the distance
+            #   from the current node to either p or q if one is found in its subtree
+
             nonlocal result
             if not node:
                 return -1
@@ -21,6 +27,7 @@ class Solution:
             if node.val == p or node.val == q:
                 # Found either p or q, but neither is a descendant of the current node.
                 if left < 0 and right < 0:
+                    # "I am one of the target nodes, but I don't have the other target in my subtrees".
                     return 0
                 # Found either p or q, and the current node is also the LCA.
                 result = 1 + (left if left >= 0 else right)
