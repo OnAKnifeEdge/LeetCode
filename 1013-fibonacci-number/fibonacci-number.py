@@ -1,9 +1,9 @@
 class Solution:
     def fib(self, n: int) -> int:
+        # f(n) = f(n - 1) + f(n - 2)
         if n < 2:
             return n
-        dp = [0] * (n + 1)
-        dp[1] = 1
+        a, b = 0, 1
         for i in range(2, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
-        return dp[n]
+            a, b = b, a + b
+        return b
