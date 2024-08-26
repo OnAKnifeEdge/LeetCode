@@ -10,11 +10,14 @@ class Solution:
             return []
         d = defaultdict(list)
         q = deque([(root, 0)])
+        min_c, max_c = 0, 0
         while q:
             node, col = q.popleft()
-            d[col].append(node.val)
-            if node.left:
+            if node is not None:
+                min_c = min(min_c, col)
+                max_c = max(max_c, col)
+                d[col].append(node.val)
                 q.append([node.left, col - 1])
-            if node.right:
                 q.append([node.right, col + 1])
-        return [d[col] for col in sorted(d.keys())]
+
+        return [d[col] for col in range(min_c, max_c + 1)]
