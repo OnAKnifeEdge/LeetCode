@@ -27,4 +27,3 @@ class Solution:
         if head.val != root.val:
             return False
         return self.isSame(head.next, root.left) or self.isSame(head.next, root.right)
-        
