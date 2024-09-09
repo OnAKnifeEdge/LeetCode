@@ -8,6 +8,13 @@ class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if root is None:
             return 0
-        left = self.maxDepth(root.left)
-        right = self.maxDepth(root.right)
-        return max(left, right) + 1
+        stack = [(root, 1)]
+        max_depth = 1
+        while stack:
+            node, d = stack.pop()
+            if node.left:
+                stack.append((node.left, d + 1))
+            if node.right:
+                stack.append((node.right, d + 1))
+            max_depth = max(d, max_depth)
+        return max_depth
