@@ -12,9 +12,9 @@ class Solution:
         max_depth = 1
         while stack:
             node, d = stack.pop()
-            if node.left:
+            if node is not None:
+                max_depth = max(d, max_depth)
                 stack.append((node.left, d + 1))
-            if node.right:
                 stack.append((node.right, d + 1))
-            max_depth = max(d, max_depth)
+
         return max_depth
