@@ -9,6 +9,12 @@ class Solution:
     ) -> Optional[ListNode]:
         if head is None or head.next is None:
             return head
+
+        def gcd(a, b):
+            while b != 0:
+                a, b = b, a % b
+            return a
+
         a = head
         while a and a.next:
             b = a.next
@@ -18,4 +24,5 @@ class Solution:
             node.next = b
             a = b
             b = a.next
+
         return head
