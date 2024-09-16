@@ -15,8 +15,8 @@ class Solution:
         max_depth = 0
         while stack:
             node, depth = stack.pop()
-            max_depth = max(max_depth, depth)
-            if node.children:
-                for child in node.children:
-                    stack.append((child, depth + 1))
+            if node is not None:
+                max_depth = max(max_depth, depth)
+            for child in node.children:
+                stack.append((child, depth + 1))
         return max_depth
