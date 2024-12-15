@@ -10,6 +10,6 @@ class Solution:
             if num in window:
                 return True
             window.add(num)
-            if len(window) == k + 1:
+            if len(window) > k:
                 window.remove(nums[idx - k])
         return False
