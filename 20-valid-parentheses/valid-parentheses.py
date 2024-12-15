@@ -1,6 +1,5 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        s = list(s)
         parentheses = {"]": "[", ")": "(", "}": "{"}
         stk = []
         for c in s:
@@ -14,4 +13,4 @@ class Solution:
             else:
                 return False
 
-        return not bool(stk)
+        return not stk
