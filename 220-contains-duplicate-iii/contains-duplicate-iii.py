@@ -1,33 +1,30 @@
-import bisect
-
-
 class Solution:
-    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
-        if t < 0:
+    def containsNearbyAlmostDuplicate(
+        self, nums: List[int], indexDiff: int, valueDiff: int
+    ) -> bool:
+        if valueDiff < 0:
             return False
 
-        window = sorted([])  # This will be our sorted window
+        window = sorted([])
 
-        for i in range(len(nums)):
-            num = nums[i]
-
-            # Use bisect_left to find the insertion point for nums[i] in the window
-            p = bisect.bisect_left(window, num)
-
-            # Check for the ceiling (the next larger element or equal)
-            if p < len(window) and window[p] - num <= t:
+        for idx, num in enumerate(nums):
+            start = bisect.bisect_left(window, num)
+            # [0, 1, 2, 4], 3 start is idx = 3 (value = 4)
+            # window[start] >= num
+            # Check for the ceiling (the next bigger element)
+            if start < len(window) and window[start] - num <= valueDiff:
                 return True
 
             # Check for the floor (the next smaller element)
-            if p > 0 and num - window[p - 1] <= t:
+            if start > 0 and num - window[start - 1] <= valueDiff:
                 return True
 
             # Add the current element to the window
             bisect.insort(window, num)
 
-            # Keep the window size fixed to k
-            if len(window) > k:
+            # Keep the window size fixed to indexDiff
+            if len(window) > indexDiff:
                 # Remove the element that is now out of the window
-                window.remove(nums[i - k])
+                window.remove(nums[idx - indexDiff])
 
         return False
