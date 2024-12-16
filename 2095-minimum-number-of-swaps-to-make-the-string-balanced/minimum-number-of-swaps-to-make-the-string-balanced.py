@@ -7,4 +7,4 @@ class Solution:
             elif c == "]":
                 if unmatched_open_brackets > 0:
                     unmatched_open_brackets -= 1
-        return ceil(unmatched_open_brackets / 2)
+        return (unmatched_open_brackets + 1) // 2  # 也可以用 ceil
