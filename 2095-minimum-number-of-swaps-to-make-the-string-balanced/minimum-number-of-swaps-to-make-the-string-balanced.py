@@ -1,11 +1,10 @@
 class Solution:
     def minSwaps(self, s: str) -> int:
-        count = 0
-        for bracket in s:
-            if bracket == "[":
-                count += 1
-            else:
-                if count > 0:
-                    # decrement only if count is positive.
-                    count -= 1
-        return (count + 1) // 2
+        unmatched_open_brackets = 0
+        for c in s:
+            if c == "[":
+                unmatched_open_brackets += 1
+            elif c == "]":
+                if unmatched_open_brackets > 0:
+                    unmatched_open_brackets -= 1
+        return ceil(unmatched_open_brackets / 2)
