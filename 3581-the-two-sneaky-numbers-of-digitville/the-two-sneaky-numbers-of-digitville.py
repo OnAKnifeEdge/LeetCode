@@ -4,9 +4,9 @@ class Solution:
             nums[i] += 1
         sneaky = []
         for i, num in enumerate(nums):
-            idx = abs(num)
+            idx = abs(num) - 1
             if nums[idx] > 0:
                 nums[idx] = -nums[idx]
             else:
-                sneaky.append(idx - 1)
+                sneaky.append(idx)
         return sneaky
