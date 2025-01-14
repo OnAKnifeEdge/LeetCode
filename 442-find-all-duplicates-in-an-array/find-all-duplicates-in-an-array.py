@@ -3,12 +3,13 @@ class Solution:
         # https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
         # https://leetcode.com/problems/find-all-duplicates-in-an-array/
         # https://leetcode.com/problems/first-missing-positive/
-
-        seen = [False] * len(nums)
-        result = []
+        duplicates = []
+        frequency = [False] * (len(nums) + 1)
         for num in nums:
-            if not seen[num - 1]:
-                seen[num - 1] = True
+            if frequency[num]:
+                duplicates.append(num)
             else:
-                result.append(num)
-        return result
+                frequency[num] = True
+        return duplicates
+
+     
