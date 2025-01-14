@@ -1,6 +1,6 @@
 class Solution:
     def findThePrefixCommonArray(self, A: List[int], B: List[int]) -> List[int]:
-        frequency = defaultdict(int)
+        frequency = [0] * (len(A) + 1)
         prefix = []
         count = 0
         for a, b in zip(A, B):
