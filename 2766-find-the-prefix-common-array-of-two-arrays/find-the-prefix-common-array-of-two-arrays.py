@@ -1,10 +1,14 @@
 class Solution:
     def findThePrefixCommonArray(self, A: List[int], B: List[int]) -> List[int]:
-        s1, s2 = set(), set()
+        frequency = defaultdict(int)
         prefix = []
+        count = 0
         for a, b in zip(A, B):
-            s1.add(a)
-            s2.add(b)
-            count = len(s1 & s2)
+            frequency[a] += 1
+            if frequency[a] == 2:
+                count += 1
+            frequency[b] += 1
+            if frequency[b] == 2:
+                count += 1
             prefix.append(count)
         return prefix
