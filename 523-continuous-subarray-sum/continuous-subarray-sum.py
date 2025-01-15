@@ -4,18 +4,14 @@ class Solution:
         # https://leetcode.com/problems/contiguous-array/description/
         # 325
         n = len(nums)
-        prefix_sum = [0] * (n + 1)
-        d = {}  # prefix_sum[i] % k: i
-        for i in range(1, n + 1):
-            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1]
+        prefix_mod = 0
+        mod_seen = {0: -1}
 
-        for i in range(n + 1):
-            val = prefix_sum[i] % k
-            if val not in d:
-                d[val] = i
+        for i in range(n):
+            prefix_mod = (prefix_mod + nums[i]) % k
 
-        for i in range(1, n + 1):
-            target = prefix_sum[i] % k
-            if target in d and i - d[target] >= 2:
+            if prefix_mod not in mod_seen:
+                mod_seen[prefix_mod] = i
+            elif i - mod_seen[prefix_mod] >= 2:
                 return True
         return False
