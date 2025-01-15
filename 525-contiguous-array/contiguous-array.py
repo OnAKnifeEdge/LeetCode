@@ -1,16 +1,20 @@
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
         n = len(nums)
-        prefix_sum = [0] * (n + 1)
-        d = {}
-        max_length = 0
-        for i in range(n):
-            prefix_sum[i + 1] = prefix_sum[i] + (-1 if nums[i] == 0 else 1)
+        prefix_sum = 0
+        d = {0: -1}
 
-        for i in range(n + 1):
-            s = prefix_sum[i]
-            if s in d:
-                max_length = max(max_length, i - d[s])
+        max_length = 0
+
+        for i in range(n):
+            if nums[i] == 1:
+                prefix_sum += 1
             else:
-                d[s] = i
+                prefix_sum -= 1
+
+            if prefix_sum in d:
+                max_length = max(max_length, i - d[prefix_sum])
+            else:
+                d[prefix_sum] = i
+
         return max_length
