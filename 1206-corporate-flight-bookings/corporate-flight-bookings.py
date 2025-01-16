@@ -2,16 +2,13 @@ class Solution:
     # https://leetcode.com/problems/range-addition/ 370
     def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
         diff = [0] * n
-        
         for booking in bookings:
-            i, j, val = booking[0] - 1, booking[1] - 1, booking[2]
-            diff[i] += val
-            if j + 1 < n:
-                diff[j + 1] -= val
-
+            first, last, seats = booking[0] - 1, booking[1] - 1, booking[2]
+            diff[first] += seats
+            if last + 1 < n:
+                diff[last + 1] -= seats
         s = 0
-        for idx, num in enumerate(diff):
+        for i, num in enumerate(diff):
             s += num
-            diff[idx] = s
+            diff[i] = s
         return diff
-        
