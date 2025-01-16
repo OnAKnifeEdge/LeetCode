@@ -19,13 +19,12 @@ class Solution:
                     return False
             return True
 
-
         left, right = 0, len(queries)
 
         while left <= right:
             mid = (left + right) // 2
-            if helper(mid):
+            if helper(mid):  # 如果能，向左缩小窗口
                 right = mid - 1
-            else:
+            else:  # 如果不能，向右缩小窗口
                 left = mid + 1
         return left if left <= len(queries) else -1
