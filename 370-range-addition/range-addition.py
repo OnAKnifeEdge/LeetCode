@@ -20,22 +20,17 @@
 #             res[i] = res[i - 1] + self.diff[i]
 #         return res
 
+
 class Solution:
+    # https://leetcode.com/problems/corporate-flight-bookings/ 1109
     def getModifiedArray(self, length: int, updates: List[List[int]]) -> List[int]:
-
         diff = [0] * length
-
-        
-        for update in updates:
-            i, j, val = update[0], update[1], update[2]
+        for i, j, val in updates:
             diff[i] += val
             if j + 1 < length:
                 diff[j + 1] -= val
-                
         s = 0
-        for idx, num in enumerate(diff):
+        for i, num in enumerate(diff):
             s += num
-            diff[idx] = s
+            diff[i] = s
         return diff
-
-            
