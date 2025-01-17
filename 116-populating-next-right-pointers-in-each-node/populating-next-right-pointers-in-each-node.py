@@ -11,16 +11,14 @@ class Node:
 
 class Solution:
     def connect(self, root: "Optional[Node]") -> "Optional[Node]":
-        if not root or not root.left:
-            return root
+        if root is None:
+            return None
 
-        def traverse(left, right):
-            if not left or not right:
-                return
-            left.next = right
-            traverse(left.left, left.right)
-            traverse(left.right, right.left)
-            traverse(right.left, right.right)
+        if root.left is not None and root.right is not None:
+            root.left.next = root.right 
+            if root.next is not None:
+                root.right.next = root.next.left  
+        self.connect(root.left)
+        self.connect(root.right)
 
-        traverse(root.left, root.right)
         return root
