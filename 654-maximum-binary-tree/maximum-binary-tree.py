@@ -5,42 +5,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-
     def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
-        if not nums:
-            return None
 
-        def build(start, end):
-            if start > end:
-                return None
 
-            idx = start
+        def build(lo, hi):
+            if not nums:
+                return
 
-            for i in range(start + 1, end + 1):
-                if nums[i] > nums[idx]:
+            if lo > hi:
+                return
+            
+            idx = -1
+            max_val = float('-inf')
+            for i in range(lo, hi + 1):
+                if nums[i] > max_val:
+                    max_val = nums[i]
                     idx = i
-
-            root_val = nums[idx]
-            root = TreeNode(root_val)
-
-            root.left = build(start, idx - 1)
-            root.right = build(idx + 1, end)
+            
+            root = TreeNode(max_val)
+            root.left = build(lo, idx - 1)
+            root.right = build(idx + 1, hi)
             return root
 
         return build(0, len(nums) - 1)
 
-    def constructMaximumBinaryTreeOptimal(self, nums: List[int]) -> Optional[TreeNode]:
-        node_stack = []
-        for num in nums:
-            current_node = TreeNode(num)
-            while (
-                node_stack and node_stack[-1].val < num
-            ):  # when num is the max value, put everything before on the left
-                current_node.left = node_stack.pop()
-
-            if node_stack:
-                node_stack[-1].right = current_node
-
-            node_stack.append(current_node)
-
-        return node_stack[0]
+            
