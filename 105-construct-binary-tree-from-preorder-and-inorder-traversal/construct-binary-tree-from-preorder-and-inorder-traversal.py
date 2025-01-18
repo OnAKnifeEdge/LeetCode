@@ -7,21 +7,20 @@
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         if not preorder or not inorder:
-            return None
+            return
 
-        d = {v: i for i, v in enumerate(inorder)} # inorder val: index dictionary
+        inorder_map = {v: i for i, v in enumerate(inorder)}
 
-        def build(start, end):
-            if start > end:
-                return None
-            root_val = preorder.pop(0)
-            root_idx = d[root_val]
+        def build(idx, lo, hi):
+            if lo > hi:
+                return
+            root_val = preorder[idx]
             root = TreeNode(root_val)
-            root.left = build(start, root_idx - 1)
-            root.right = build(root_idx + 1, end)
+            inorder_root_idx = inorder_map[root_val]
+            left_size = inorder_root_idx - lo
+            root.left = build(idx + 1, lo, inorder_root_idx - 1)
+            root.right = build(idx + left_size + 1, inorder_root_idx + 1, hi)
             return root
+        return build(0, 0, len(preorder)- 1)
 
-        return build(0, len(preorder) - 1)
-        
-
-        
+     
