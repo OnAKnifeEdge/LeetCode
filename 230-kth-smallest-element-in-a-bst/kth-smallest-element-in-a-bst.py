@@ -11,11 +11,11 @@ class Solution:
         def inorder(node):
             if node is None:
                 return
-            if len(result) >= k:
-                return
             inorder(node.left)
             result.append(node.val)
+            if len(result) >= k:
+                return
             inorder(node.right)
 
         inorder(root)
-        return result[k-1]
+        return result[k - 1]
