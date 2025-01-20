@@ -41,20 +41,19 @@ class Codec:
             return None
         if data == NULL:
             return None
-        nodes = iter(data.split(SEP))
-        root_val = next(nodes)
+        nodes = deque(data.split(SEP))
+        root_val = nodes.popleft()
         root = TreeNode(int(root_val))
 
         q = deque([root])
         while q:
             node = q.popleft()
-            if not node:
-                continue
-            left_val, right_val = next(nodes), next(nodes)
+            left_val = nodes.popleft()
             if left_val != NULL:
                 left_node = TreeNode(int(left_val))
                 node.left = left_node
                 q.append(left_node)
+            right_val = nodes.popleft()
             if right_val != NULL:
                 right_node = TreeNode(int(right_val))
                 node.right = right_node
