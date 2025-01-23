@@ -10,37 +10,24 @@ class Solution:
     def lowestCommonAncestor(
         self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
     ) -> "TreeNode":
-        has_p = False
-        has_q = False
 
-        def lca(root, p, q):
-            nonlocal has_p, has_q  # To modify the outer variables
-            if root is None:
-                return None
-            left = lca(root.left, p, q)
-            right = lca(root.right, p, q)
+        found_p, found_q = False, False
 
+        def find(node):
+            if node is None:
+                return
+            left = find(node.left)
+            right = find(node.right)
             if left and right:
-                return root
-
-            
-            if root == p:
-                has_p = True
-                return root
-            if root == q:
-                has_q = True
-                return root
-
-            # if root.val == p.val or root.val == q.val:
-            #     if root.val == p.val:
-            #         has_p = True
-            #     if root.val == q.val:
-            #         has_q = True
-            #     return root
-
+                return node
+            nonlocal found_p, found_q
+            if node.val == p.val:
+                found_p = True
+                return node
+            if node.val == q.val:
+                found_q = True
+                return node
             return left or right
 
-        node = lca(root, p, q)
-        if not has_p or not has_q:
-            return None
-        return node
+        possible_lca = find(root)
+        return possible_lca if found_p and found_q else None
