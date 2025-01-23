@@ -21,13 +21,14 @@ class Solution:
             is_right_bst, right_min, right_max, right_sum = dfs(node.right)
 
             if not is_left_bst or not is_right_bst:
-                return False, 0, 0, 0
+                return False, float("inf"), float("-inf"), 0
 
             if left_max < node.val < right_min:
                 sum_val = node.val + left_sum + right_sum
                 max_sum = max(max_sum, sum_val)
                 return True, min(left_min, node.val), max(right_max, node.val), sum_val
-            return False, 0, 0, 0
+
+            return False, float("inf"), float("-inf"), 0
 
         dfs(root)
         return max(max_sum, 0)
