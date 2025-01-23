@@ -6,16 +6,19 @@
 #         self.right = right
 class Solution:
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
-        if root is None:
-            return []
-        stack = [(root, [str(root.val)])]  # node, path
-        result = []
-        while stack:
-            node, path = stack.pop()
-            if node.left is None and node.right is None:  # if leaf
-                result.append("->".join(path))
-            if node.left is not None:
-                stack.append((node.left, path + [str(node.left.val)]))
-            if node.right is not None:
-                stack.append((node.right, path + [str(node.right.val)]))
-        return result
+        paths = []
+
+        def traverse(node, path=[]):
+            if node is None:
+                return
+
+            path.append(str(node.val))
+            if node.left is None and node.right is None:
+                paths.append('->'.join(path))
+            else:
+                traverse(node.left, path)
+                traverse(node.right, path)
+            path.pop()
+
+        traverse(root)
+        return paths
