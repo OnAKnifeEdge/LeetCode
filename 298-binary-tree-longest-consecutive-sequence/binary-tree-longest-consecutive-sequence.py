@@ -6,20 +6,24 @@
 #         self.right = right
 class Solution:
     def longestConsecutive(self, root: Optional[TreeNode]) -> int:
-        max_length = 0
+        longest = 0
 
-        def traverse(node, parent_val, l):
-            nonlocal max_length
-            if not node:
-                return
-            if node.val == parent_val + 1:
-                l += 1
-            else:
-                l = 1
-            max_length = max(max_length, l)
-            traverse(node.left, node.val, l)
-            traverse(node.right, node.val, l)
+        def dfs(node):
+            if node is None:
+                return 0
+            nonlocal longest
+            left_length = dfs(node.left)
+            right_length = dfs(node.right)
+            current = 1
+            if node.left:
+                if node.left.val == node.val + 1:
+                    current = max(current, left_length + 1)
+            if node.right:
+                if node.right.val == node.val + 1:
+                    current = max(current, right_length + 1)
+            longest = max(longest, current)
+            return current
+        dfs(root)
+        return longest
 
-        traverse(root, 0, 0)
-        return max_length
         
