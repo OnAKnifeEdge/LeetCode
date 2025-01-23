@@ -14,21 +14,25 @@ class Solution:
         def dfs(node):  # isBST, min, max, sum
             nonlocal max_sum
 
+            min_val = float('inf')
+            max_val = float('-inf')
+            sum_val = 0
+
             if node is None:
-                return True, float("inf"), float("-inf"), 0
+                return True, min_val, max_val, sum_val
 
             is_left_bst, left_min, left_max, left_sum = dfs(node.left)
             is_right_bst, right_min, right_max, right_sum = dfs(node.right)
 
             if not is_left_bst or not is_right_bst:
-                return False, float("inf"), float("-inf"), 0
+                return False, min_val, max_val, sum_val
 
             if left_max < node.val < right_min:
                 sum_val = node.val + left_sum + right_sum
                 max_sum = max(max_sum, sum_val)
                 return True, min(left_min, node.val), max(right_max, node.val), sum_val
 
-            return False, float("inf"), float("-inf"), 0
+            return False, min_val, max_val, sum_val
 
         dfs(root)
         return max(max_sum, 0)
