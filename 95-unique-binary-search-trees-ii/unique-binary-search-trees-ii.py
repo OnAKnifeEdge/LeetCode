@@ -5,29 +5,26 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    
-    def generate(self, start, end, memo):
-        result = []
-        if start > end:
-            result.append(None)
-            return result
-        if (start, end) in memo:
-            return memo[(start, end)]
-        
-        for i in range(start, end + 1):
-            left = self.generate(start, i - 1, memo)
-            right = self.generate(i + 1, end, memo)
-
-            for l in left:
-                for r in right:
-                    root = TreeNode(i, l, r)
-                    result.append(root)
-
-        memo[(start, end)] = result
-        return result
-
-
     def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
-        memo = {}
-        return self.generate(1, n, memo)
+
+        @cache
+        def generate(lo, hi):
+            result = []
+            if lo > hi:
+                result.append(None)
+                return result
+            for i in range(lo, hi + 1):
+                
+                left_trees = generate(lo, i - 1)
+                right_trees = generate(i + 1, hi)
+
+                for left in left_trees:
+                    for right in right_trees:
+                        root = TreeNode(i, left, right)
+                        result.append(root)
+            return result
+
+        return generate(1, n)
         
+
+
