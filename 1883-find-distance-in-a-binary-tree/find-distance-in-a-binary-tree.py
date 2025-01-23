@@ -18,16 +18,29 @@ class Solution:
 
         lca = find_lca(root, p, q)
 
-        def find_distance(root, target, depth):
-            if not root:
-                return -1
-            if root.val == target:
-                return depth
-            left = find_distance(root.left, target, depth + 1)
-            if left != -1:
-                return left
-            return find_distance(root.right, target, depth + 1)
+        def bfs(root, p, q):
+            queue = deque([(root, 0)])  # (node, depth)
+            distances = {p: -1, q: -1}  # To store distances to p and q
+            while queue:
+                node, depth = queue.popleft()
 
+                # If we've already found both distances, we can return the result
+                if distances[p] != -1 and distances[q] != -1:
+                    return distances[p] + distances[q]
 
+                # Update the distance if we find p or q
+                if node.val == p:
+                    distances[p] = depth
+                elif node.val == q:
+                    distances[q] = depth
 
-        return find_distance(lca, p, 0) + find_distance(lca, q, 0)
+                # Continue with the BFS
+                if node.left:
+                    queue.append((node.left, depth + 1))
+                if node.right:
+                    queue.append((node.right, depth + 1))
+
+            # In case we exit without finding both nodes, return their combined distance
+            return distances[p] + distances[q]
+
+        return bfs(lca, p, q)
