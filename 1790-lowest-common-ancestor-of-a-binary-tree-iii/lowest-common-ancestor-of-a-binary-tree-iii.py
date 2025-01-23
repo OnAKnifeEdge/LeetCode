@@ -8,18 +8,12 @@ class Node:
         self.parent = None
 """
 
+
 class Solution:
-    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
-        a, b = p, q
-        while a != b:
-            if a:
-                a = a.parent
-            else:
-                a = q
-            if b:
-                b = b.parent
-            else:
-                b = p
-            
-        return a
-        
+    def lowestCommonAncestor(self, p: "Node", q: "Node") -> "Node":
+        p_pointer, q_pointer = p, q
+        while p_pointer != q_pointer:
+            p_pointer = p_pointer.parent if p_pointer else q
+            q_pointer = q_pointer.parent if q_pointer else p
+
+        return p_pointer
