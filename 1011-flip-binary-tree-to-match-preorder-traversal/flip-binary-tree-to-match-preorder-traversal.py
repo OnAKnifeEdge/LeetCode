@@ -8,15 +8,16 @@ class Solution:
     def flipMatchVoyage(self, root: Optional[TreeNode], voyage: List[int]) -> List[int]:
         flipped = []
         idx = 0
+        can_flip = True
 
         def dfs(node):
-            nonlocal idx, flipped
+            nonlocal idx, flipped, can_flip
             if not node:
                 return
-            if flipped and flipped[0] == -1:
+            if not can_flip:
                 return
             if node.val != voyage[idx]:
-                flipped = [-1]
+                can_flip = False
                 return
             idx += 1
             if idx < len(voyage) and node.left and node.left.val != voyage[idx]:
@@ -27,4 +28,4 @@ class Solution:
                 dfs(node.left)
                 dfs(node.right)
         dfs(root)
-        return flipped
+        return flipped if can_flip else [-1]
