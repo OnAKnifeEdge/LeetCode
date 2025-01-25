@@ -5,22 +5,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def addOneRow(
-        self, root: Optional[TreeNode], val: int, depth: int
-    ) -> Optional[TreeNode]:
-
+    def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
         if depth == 1:
-            return TreeNode(val, left=root)
+            node = TreeNode(val)
+            node.left = root
+            return node
 
-        def dfs(node, d):
+        def insert(node, current_depth):
             if not node:
                 return
-            # if we're currently at the nodes directly above where the new row should be.
-            if depth - 1 == d:
-                node.left = TreeNode(val, left=node.left)
-                node.right = TreeNode(val, right=node.right)
-            dfs(node.left, d + 1)
-            dfs(node.right, d + 1)
+            if current_depth == depth - 1:
+                left = node.left
+                node.left = TreeNode(val)
+                node.left.left = left
 
-        dfs(root, 1)
+                right = node.right
+                node.right = TreeNode(val)
+                node.right.right = right
+
+            else:
+                insert(node.left, current_depth + 1)
+                insert(node.right, current_depth + 1)
+
+        insert(root, 1)
         return root
+        
