@@ -6,24 +6,25 @@
 #         self.right = right
 class Solution:
     def isCousins(self, root: Optional[TreeNode], x: int, y: int) -> bool:
-        parent_x, parent_y = None, None
-        depth_x, depth_y = None, None
+        x_depth, x_parent = float("-inf"), None
+        y_depth, y_parent = float("-inf"), None
 
         def dfs(node, parent, depth):
-            nonlocal parent_x, parent_y, depth_x, depth_y
+            nonlocal x_parent, y_parent, x_depth, y_depth
             if not node:
                 return
-            if depth_x and depth_y:
+            if x_parent and y_parent:
                 return
             if node.val == x:
-                parent_x = parent
-                depth_x = depth
+                x_parent = parent
+                x_depth = depth
             if node.val == y:
-                parent_y = parent
-                depth_y = depth
+                y_parent = parent
+                y_depth = depth
             dfs(node.left, node, depth + 1)
             dfs(node.right, node, depth + 1)
 
         dfs(root, None, 0)
-
-        return (depth_x == depth_y) and (parent_x != parent_y)
+        if x_depth == y_depth and x_parent != y_parent:
+            return True
+        return False
