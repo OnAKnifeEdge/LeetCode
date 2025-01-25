@@ -7,10 +7,20 @@
 class Solution:
     def closestValue(self, root: Optional[TreeNode], target: float) -> int:
         closest = root.val
-        while root:
-            if abs(root.val - target) < abs(closest - target) or (
-                abs(root.val - target) == abs(closest - target) and root.val < closest
-            ):
-                closest = root.val
-            root = root.left if target < root.val else root.right
+
+        def dfs(node):
+            if node is None:
+                return
+            if node.val < target:
+                dfs(node.right)
+            else:
+                dfs(node.left)
+
+            nonlocal closest
+            if abs(node.val - target) < abs(closest - target):
+                closest = node.val
+            elif abs(node.val - target) == abs(closest - target):
+                closest = min(closest, node.val)
+
+        dfs(root)
         return closest
