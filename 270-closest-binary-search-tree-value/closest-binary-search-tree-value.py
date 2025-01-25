@@ -6,25 +6,11 @@
 #         self.right = right
 class Solution:
     def closestValue(self, root: Optional[TreeNode], target: float) -> int:
-        if root is None:
-            return None
-        if root.val == target:
-            return root.val
-        if root.val < target:
-            candidate = self.closestValue(root.right, target)
-            if candidate is None:
-                return root.val
-
-            if abs(candidate - target) < abs(root.val - target):
-                return candidate
-            else:
-                return root.val
-
-        candidate = self.closestValue(root.left, target)
-        if candidate is None:
-            return root.val
-
-        if abs(candidate - target) <= abs(root.val - target):
-            return candidate
-        else:
-            return root.val
+        closest = root.val
+        while root:
+            if abs(root.val - target) < abs(closest - target) or (
+                abs(root.val - target) == abs(closest - target) and root.val < closest
+            ):
+                closest = root.val
+            root = root.left if target < root.val else root.right
+        return closest
