@@ -6,22 +6,23 @@
 #         self.right = right
 class Solution:
     def findNearestRightNode(self, root: TreeNode, u: TreeNode) -> Optional[TreeNode]:
-        target_depth = None
-        result = None
+        self.target_depth = None
+        self.target_node = None
 
         def dfs(node, depth):
-            nonlocal target_depth, result
-            if not node or result:
+            if not node:
+                return
+            if self.target_node:
+                return
+            if depth == self.target_depth:
+                self.target_node = node
                 return
             if node.val == u.val:
-                target_depth = depth
-            elif depth == target_depth:
-                result = node
-                return
+                self.target_depth = depth
+            
             dfs(node.left, depth + 1)
             dfs(node.right, depth + 1)
-            
-        dfs(root, 0)
-        return result
 
-        
+
+        dfs(root, 0)
+        return self.target_node
