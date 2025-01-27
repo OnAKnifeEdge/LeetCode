@@ -18,7 +18,10 @@ class Solution:
             left = dfs(node.left, prefix_sum)
             right = dfs(node.right, prefix_sum)
             count += left + right
+            # After processing the left and right subtrees, 
+            # we decrement the frequency of the current prefix_sum in d
+            # to ensure that the d only contains prefix sums for the current path.
             d[prefix_sum] -= 1
             return count
-        
+
         return dfs(root, 0)
