@@ -1,7 +1,7 @@
 class Solution:
     def maximumSum(self, nums: List[int]) -> int:
         max_sum = -1
-        lookup = defaultdict(list)
+        lookup = [0] * 82
 
         def calculate_digit_sum(num):
             digit_sum = 0
@@ -12,13 +12,9 @@ class Solution:
 
         for num in nums:
             digit_sum = calculate_digit_sum(num)
-            heappush(lookup[digit_sum], num)
-            if len(lookup[digit_sum]) > 2:
-                heappop(lookup[digit_sum])
+            if lookup[digit_sum] > 0:
+                max_sum = max(max_sum, lookup[digit_sum] + num)
 
-        for max_heap in lookup.values():
-            if len(max_heap) == 2:
-                a = heappop(max_heap)
-                b = heappop(max_heap)
-                max_sum = max(max_sum, a + b)
+            lookup[digit_sum] = max(lookup[digit_sum], num)
+
         return max_sum
