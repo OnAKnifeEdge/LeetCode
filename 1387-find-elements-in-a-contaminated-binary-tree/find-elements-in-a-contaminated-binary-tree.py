@@ -7,34 +7,22 @@
 class FindElements:
 
     def __init__(self, root: Optional[TreeNode]):
-        self.values = set()
-        self.traverse(root, 0)
-
-    def traverse(self, node: Optional[TreeNode], val: int):
-        if not node:
+        self.nodes = set()
+        if not root:
             return
-        node.val = val
-        self.values.add(val)
-        self.traverse(node.left, 2 * val + 1)
-        self.traverse(node.right, 2 * val + 2)
 
-    def recover(self, node: Optional[TreeNode], val: int):
-        if not node:
-            return
-        q = deque([(node, 0)])
-        while q:
-            current, val = q.popleft()
-            if not current:
-                continue
-            current.val = val
-            self.values.add(val)
-            if current.left:
-                q.append([(current.left, 2 * val + 1)])
-            if current.right:
-                q.append([(current.right, 2 * val + 2)])
+        def build(node, val):
+            if not node:
+                return
+            node.val = val
+            self.nodes.add(val)
+            build(node.left, 2 * val + 1)
+            build(node.right, 2 * val + 2)
+
+        build(root, 0)
 
     def find(self, target: int) -> bool:
-        return target in self.values
+        return target in self.nodes
 
 
 # Your FindElements object will be instantiated and called as such:
