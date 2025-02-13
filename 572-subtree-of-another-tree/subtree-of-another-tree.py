@@ -16,11 +16,8 @@ class Solution:
                 return False
             return is_same_tree(p1.left, p2.left) and is_same_tree(p1.right, p2.right)
 
-        if not root and not subRoot:
-            return True
-
-        if not root and subRoot:
-            return False
+        if not root:
+            return not subRoot
 
         if is_same_tree(root, subRoot):
             return True
