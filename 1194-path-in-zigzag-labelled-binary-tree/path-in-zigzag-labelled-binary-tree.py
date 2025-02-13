@@ -13,9 +13,8 @@ class Solution:
 
         # Step 2: Traverse up the tree while flipping labels at each level
         while x:
-            res.appendleft(
-                x
-            )  # Store current label at the front (since we go bottom-up)
+            res.appendleft(x)
+            # Store current label at the front (since we go bottom-up)
             x >>= 1  # Move to parent
             mask >>= 1  # Reduce the mask for the next level
             x ^= mask  # Flip the label in the zigzag order
