@@ -1,38 +1,44 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def getDirections(
         self, root: Optional[TreeNode], startValue: int, destValue: int
     ) -> str:
 
-        def lca(node):
+        def find_lca(node, startValue, destValue):
             if not node:
-                return
+                return None
             if node.val == startValue or node.val == destValue:
                 return node
-            left = lca(node.left)
-            right = lca(node.right)
+            left = find_lca(node.left, startValue, destValue)
+            right = find_lca(node.right, startValue, destValue)
             if left and right:
                 return node
-            return left if left else right
+            return left or right
 
-        lca_node = lca(root)
-
-        def build_path(node, target, path):  # from target to node
-            if not node:
+        def build_path(lca, val, path):  # from val to lca
+            if not lca:
                 return False
-            if node.val == target:
+            if lca.val == val:
                 return True
-            if build_path(node.left, target, path):
+            if build_path(lca.left, val, path):
                 path.append("L")
                 return True
-            if build_path(node.right, target, path):
+            if build_path(lca.right, val, path):
                 path.append("R")
                 return True
-            return False
 
-        start_to_node = []
-        build_path(lca_node, startValue, start_to_node)
+        lca = find_lca(root, startValue, destValue)
+        path = []
+        start_to_lca, end_to_lca = [], []
+        build_path(lca, startValue, start_to_lca)
 
-        end_to_node = []
-        build_path(lca_node, destValue, end_to_node)
+        path.extend("U" * len(start_to_lca))
+        build_path(lca, destValue, end_to_lca)
 
-        return len(start_to_node) * "U" + "".join(reversed(end_to_node))
+        path.extend(list(reversed(end_to_lca)))
+        return ''.join(path)
