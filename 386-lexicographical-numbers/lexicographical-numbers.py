@@ -6,7 +6,7 @@ class Solution:
             if node > n:
                 return
             result.append(node)
-            for i in range(0, 10):
+            for i in range(10):
                 dfs(10 * node + i)
 
         for i in range(1, 10):
