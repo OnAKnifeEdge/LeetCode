@@ -11,19 +11,16 @@
 #         self.right = right
 class Solution:
     def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
-        if not head:
-            return True
-        if not root:
-            return False
-        if head.val == root.val and self.isSame(head, root):
-            return True
-        return self.isSubPath(head, root.left) or self.isSubPath(head, root.right)
 
-    def isSame(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
-        if not head:
-            return True
-        if not root:
+        def is_sub_tree(head, node):
+            if head is None:
+                return True
+            if node is None:
+                return False
+            if head.val != node.val:
+                return False
+            return is_sub_tree(head.next, node.left) or is_sub_tree(head.next, node.right)
+
+        if not root or not head:
             return False
-        if head.val != root.val:
-            return False
-        return self.isSame(head.next, root.left) or self.isSame(head.next, root.right)
+        return is_sub_tree(head, root) or self.isSubPath(head, root.left) or self.isSubPath(head, root.right)
