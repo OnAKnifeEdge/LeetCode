@@ -7,14 +7,14 @@
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
 
-        def is_same_tree(p1, p2):
-            if not p1 and not p2:
-                return True
-            if not p1 or not p2:
+        def is_same_tree(a, b):
+            if not a:
+                return not b
+            if not b:
+                return not a
+            if a.val != b.val:
                 return False
-            if p1.val != p2.val:
-                return False
-            return is_same_tree(p1.left, p2.left) and is_same_tree(p1.right, p2.right)
+            return is_same_tree(a.left, b.left) and is_same_tree(a.right, b.right)
 
         if not root:
             return not subRoot
