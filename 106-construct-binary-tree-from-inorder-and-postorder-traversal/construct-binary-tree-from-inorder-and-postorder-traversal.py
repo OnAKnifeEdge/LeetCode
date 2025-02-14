@@ -6,30 +6,25 @@
 #         self.right = right
 class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
-        inorder_map = {v: i for i, v in enumerate(inorder)}
+        inorder_map = {v: idx for idx, v in enumerate(inorder)}
 
-        def build(postorder_start, postorder_end, inorder_start, inorder_end):
+        def build(postorder_end, inorder_start, inorder_end):
+
+            # root is at post_end.
+
+            # right subtree's root is at post_end -1.
+
+            # left subtree's root is at post_end - right_size - 1
+            # right_size is the size of the right subtree (in_end - in_root_idx).
+
             if inorder_start > inorder_end:
-                return
+                return None
             root_val = postorder[postorder_end]
-            root = TreeNode(root_val)
             inorder_root_idx = inorder_map[root_val]
-            left_size = inorder_root_idx - inorder_start
-            
-
-            root.left = build(
-                postorder_start,
-                postorder_start + left_size - 1,
-                inorder_start,
-                inorder_root_idx - 1,
-            )
-
-            root.right = build(
-                postorder_start + left_size,
-                postorder_end - 1,
-                inorder_root_idx + 1,
-                inorder_end,
-            )
+            right_side = inorder_end - inorder_root_idx
+            root = TreeNode(root_val)
+            root.right = build(postorder_end - 1, inorder_root_idx + 1, inorder_end)
+            root.left = build(postorder_end - 1 - right_side, inorder_start, inorder_root_idx - 1)
             return root
 
-        return build(0, len(inorder) - 1, 0, len(inorder) - 1)
+        return build(len(postorder) - 1, 0, len(postorder) - 1)
