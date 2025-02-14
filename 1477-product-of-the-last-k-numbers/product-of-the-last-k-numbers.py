@@ -9,12 +9,12 @@ class ProductOfNumbers:
             self.product = [1]
         else:
             self.product.append(self.product[-1] * num)
-        
 
     def getProduct(self, k: int) -> int:
         if len(self.product) <= k:
-            return 0
-        return self.product[-1]//self.product[-1-k]
+            return 0 # found 0
+        else:
+            return self.product[-1] // self.product[-1-k]
         
 
 
