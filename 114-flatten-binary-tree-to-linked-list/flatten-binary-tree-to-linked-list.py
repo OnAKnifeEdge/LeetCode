@@ -9,18 +9,17 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        if root is None:
-            return
-
-        self.flatten(root.left)
-        self.flatten(root.right)
-        left = root.left
-        right = root.right
+        if not root:
+            return None
+        left = self.flatten(root.left)
         root.left = None
-        root.right = left
-        p = root
+        right = self.flatten(root.right)
+        if not left:
+            root.right = right
+            return root
+        p = left
         while p.right:
             p = p.right
         p.right = right
-
+        root.right = left
         return root
