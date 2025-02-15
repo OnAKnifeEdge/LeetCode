@@ -11,12 +11,7 @@ class Solution:
     def maxDepth(self, root: "Node") -> int:
         if root is None:
             return 0
-        stack = [(root, 1)]
-        max_depth = 0
-        while stack:
-            node, depth = stack.pop()
-            if node is not None:
-                max_depth = max(max_depth, depth)
-            for child in node.children:
-                stack.append((child, depth + 1))
-        return max_depth
+        sub_max_depth = 0
+        for node in root.children:
+            sub_max_depth = max(sub_max_depth, self.maxDepth(node))
+        return sub_max_depth + 1
