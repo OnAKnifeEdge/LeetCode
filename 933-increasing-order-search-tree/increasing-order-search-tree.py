@@ -5,12 +5,18 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def increasingBST(self, root: TreeNode) -> TreeNode:
-        def inorder(node, tail):
-            if not node:
-                return tail
-            left = inorder(node.left, node)
-            node.left = None
-            node.right = inorder(node.right, tail)
-            return left
-        return inorder(root, None)
+    def increasingBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+
+        left = self.increasingBST(root.left)
+        root.left = None
+        right = self.increasingBST(root.right)
+        root.right = right
+        if not left:
+            return root
+        p = left
+        while p.right:
+            p = p.right
+        p.right = root
+        return left
