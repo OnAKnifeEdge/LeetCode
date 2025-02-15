@@ -5,16 +5,12 @@
 #         self.left = None
 #         self.right = None
 
-
 class Solution:
-    def getTargetCopy(
-        self, original: TreeNode, cloned: TreeNode, target: TreeNode
-    ) -> TreeNode:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
         if not original:
             return None
         if original is target:
             return cloned
-
         left = self.getTargetCopy(original.left, cloned.left, target)
         if left:
             return left
