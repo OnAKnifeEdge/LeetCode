@@ -1,53 +1,41 @@
 class Solution:
-    def __init__(self):
-        self.tree = []
-        self.distance_from_bob = []
-        self.n = 0
-
     def mostProfitablePath(self, edges, bob, amount):
-        self.n = len(amount)
-        self.tree = [[] for _ in range(self.n)]
-        self.distance_from_bob = [0] * self.n
-
-        # Form tree with edges
-        for edge in edges:
-            self.tree[edge[0]].append(edge[1])
-            self.tree[edge[1]].append(edge[0])
-
-        return self.find_paths(0, 0, 0, bob, amount)
-
-    # Depth-first Search
-    def find_paths(self, source_node, parent_node, time, bob, amount):
-        max_income = 0
-        max_child = float("-inf")
-
-        # Find the node distances from Bob
-        if source_node == bob:
-            self.distance_from_bob[source_node] = 0
-        else:
-            self.distance_from_bob[source_node] = self.n
-
-        for adjacent_node in self.tree[source_node]:
-            if adjacent_node != parent_node:
-                max_child = max(
-                    max_child,
-                    self.find_paths(
-                        adjacent_node, source_node, time + 1, bob, amount
-                    ),
-                )
-                self.distance_from_bob[source_node] = min(
-                    self.distance_from_bob[source_node],
-                    self.distance_from_bob[adjacent_node] + 1,
-                )
-
-        # Alice reaches the node first
-        if self.distance_from_bob[source_node] > time:
-            max_income += amount[source_node]
-        # Alice and Bob reach the node at the same time
-        elif self.distance_from_bob[source_node] == time:
-            max_income += amount[source_node] // 2
-
-        # Return max income of leaf node
-        return (
-            max_income if max_child == float("-inf") else max_income + max_child
-        )
+        n = len(amount)
+        tree = [[] for _ in range(n)]
+        for u, v in edges:
+            tree[u].append(v)
+            tree[v].append(u)
+        
+        # Pre-compute Bob's path times
+        bob_time = {}
+        def trace_bob(node, parent):
+            bob_time[node] = len(bob_time)
+            if node == 0:
+                return True
+            for nei in tree[node]:
+                if nei != parent and trace_bob(nei, node):
+                    return True
+            del bob_time[node]  # Backtrack if not on path to 0
+            return False
+        
+        trace_bob(bob, -1)
+        
+        def dfs(node, parent, time):
+            income = amount[node]
+            if node in bob_time:
+                if bob_time[node] == time:
+                    income //= 2
+                elif bob_time[node] < time:
+                    income = 0
+            
+            if len(tree[node]) == 1 and parent != -1:
+                return income
+                
+            max_child = float('-inf')
+            for nei in tree[node]:
+                if nei != parent:
+                    max_child = max(max_child, dfs(nei, node, time + 1))
+            
+            return income + max_child if max_child != float('-inf') else income
+        
+        return dfs(0, -1, 0)
