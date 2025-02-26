@@ -8,12 +8,11 @@ class Solution:
         for num in nums:
             if num > 0:
                 positive_cnt += 1
-                negative_cnt += 1 if negative_cnt > 0 else 0
+                negative_cnt += 1 if negative_cnt else 0
             elif num < 0:
                 positive_cnt_copy, negative_cnt_copy = positive_cnt, negative_cnt
-                positive_cnt = negative_cnt_copy + 1 if negative_cnt > 0 else 0
+                positive_cnt = negative_cnt_copy + 1 if negative_cnt else 0
                 negative_cnt = positive_cnt_copy + 1
-
             else:
                 positive_cnt = negative_cnt = 0
 
