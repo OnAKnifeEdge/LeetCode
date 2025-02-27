@@ -6,20 +6,19 @@
 #         self.right = right
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        diff = 0
+        self.max_diff = 0
 
-        def dfs(node) -> Tuple[int, int]:
-            nonlocal diff
+        def dfs(node):
             if not node:
                 return float("inf"), float("-inf")
             left_min, left_max = dfs(node.left)
             right_min, right_max = dfs(node.right)
-            # Current values to compare with.
-            current_min = min(left_min, right_min, node.val)
-            current_max = max(left_max, right_max, node.val)
-            diff = max(diff, abs(node.val - current_min), abs(current_max - node.val))
-
+            current_min = min(left_min, node.val, right_min)
+            current_max = max(left_max, node.val, right_max)
+            self.max_diff = max(
+                self.max_diff, abs(node.val - current_min), abs(current_max - node.val)
+            )
             return current_min, current_max
 
         dfs(root)
-        return diff
+        return self.max_diff
