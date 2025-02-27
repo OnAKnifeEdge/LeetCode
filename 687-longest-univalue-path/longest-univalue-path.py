@@ -12,7 +12,7 @@ class Solution:
         def dfs(node):
             if not node:
                 return 0
-            path = 1
+
             left = dfs(node.left)
             right = dfs(node.right)
             if node.left and node.val == node.left.val:
