@@ -5,28 +5,29 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def maxProduct(self, root: Optional[TreeNode]) -> int:
-        max_product = 0
-        MOD = 10**9 + 7
 
-        def get_sum(node: Optional[TreeNode]) -> int:
+    def maxProduct(self, root: Optional[TreeNode]) -> int:
+        self.product = 0
+        self.MOD = 10**9 + 7
+
+        def get_sum(node):
             if not node:
                 return 0
             left = get_sum(node.left)
             right = get_sum(node.right)
             return left + right + node.val
 
-        total_sum = get_sum(root)
+        self.total = get_sum(root)
 
-        def dfs(node: Optional[TreeNode]):
-            nonlocal max_product
+        def dfs(node):
             if not node:
                 return 0
             left = dfs(node.left)
             right = dfs(node.right)
-            node_sum = left + right + node.val
-            max_product = max(max_product, node_sum * (total_sum - node_sum))
-            return node_sum
+            val = left + right + node.val
+            p = val * (self.total - val)
+            self.product = max(self.product, p)
+            return val
 
         dfs(root)
-        return max_product % MOD
+        return self.product % self.MOD
