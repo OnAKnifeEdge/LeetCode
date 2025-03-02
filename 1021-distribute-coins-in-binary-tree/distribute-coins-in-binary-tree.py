@@ -6,21 +6,15 @@
 #         self.right = right
 class Solution:
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
-        steps = 0
+        self.moves = 0
 
         def dfs(node):
-            nonlocal steps
             if not node:
                 return 0
-            left, right = dfs(node.left), dfs(node.right)
-            steps += abs(left) + abs(right)
-
-            # After adjusting the subtree rooted at the current node, 
-            # this line calculates the net excess or deficit of coins
-            # taking into account the current node's initial coins, 
-            # adjustments made in its subtrees, and ensuring it itself ends up with one coin.
-
-            return node.val + left + right - 1
+            left = dfs(node.left)
+            right = dfs(node.right)
+            self.moves += abs(left) + abs(right)
+            return left + right + node.val - 1
 
         dfs(root)
-        return steps
+        return self.moves
