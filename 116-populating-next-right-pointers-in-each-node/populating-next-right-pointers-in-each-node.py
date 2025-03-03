@@ -8,17 +8,18 @@ class Node:
         self.next = next
 """
 
-
 class Solution:
-    def connect(self, root: "Optional[Node]") -> "Optional[Node]":
-        if root is None:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
             return None
-
-        if root.left is not None and root.right is not None:
-            root.left.next = root.right 
-            if root.next is not None:
-                root.right.next = root.next.left  
-        self.connect(root.left)
-        self.connect(root.right)
-
+        if root.left and root.right: 
+            root.left.next = root.right
+            if root.next:
+                root.right.next = root.next.left
+        left = self.connect(root.left)
+        right = self.connect(root.right)
+        root.left = left
+        root.right = right
         return root
+
+        
