@@ -1,38 +1,37 @@
 class Solution:
     def countHighestScoreNodes(self, parents: List[int]) -> int:
-        n = len(parents)
-        subtree_sizes = [0] * n
-        tree = defaultdict(list)  # parent: children
-        for child, parent in enumerate(parents):
-            if parent != -1:  # Skip the root node with parent -1
-                tree[parent].append(child)
+        tree = defaultdict(list)
+        for idx, parent in enumerate(parents):
+            if parent != -1:
+                tree[parent].append(idx)
 
-        def dfs(node) -> int:
-            size = 1
+        n = len(parents)
+        sizes = [0] * n # sizes of subtree containing the node itself
+
+        def dfs(node): # return the size
+            total = 0
             for child in tree[node]:
-                size += dfs(child)
-            subtree_sizes[node] = size
-            return size
+                total += dfs(child)
+            sizes[node] = total + 1
+            return sizes[node]
 
         dfs(0)
 
-        max_score = 0
+        highest_score = 0
         count = 0
 
         for node in range(n):
             score = 1
             for child in tree[node]:
-                score *= subtree_sizes[child]
-
-            # If the node is not root, multiply by the size of the remaining subtree.
-            if node != 0:
-                remaining_tree_size = n - subtree_sizes[node]
-                score *= remaining_tree_size
-
-            if score > max_score:
-                max_score = score
+                score *= sizes[child]
+            upper_tree_cnt = n - sizes[node]
+            if upper_tree_cnt > 0:
+                score *= upper_tree_cnt
+            if score > highest_score:
+                highest_score = score
                 count = 1
-            elif score == max_score:
+            elif score == highest_score:
                 count += 1
-
         return count
+
+
