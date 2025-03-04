@@ -8,23 +8,24 @@ class Node:
         self.next = next
 """
 
+
 class Solution:
-    def connect(self, root: 'Node') -> 'Node':
+    def connect(self, root: "Node") -> "Node":
         if not root:
-            return root
+            return
         q = deque([root])
         while q:
             n = len(q)
-            pre = None
-            for i in range(n):
-                current = q.popleft()
-                if pre:
-                    pre.next = current
-                pre = current
-                if current.left:
-                    q.append(current.left)
-                if current.right:
-                    q.append(current.right)
+            level = []
+            for _ in range(n):
+                node = q.popleft()
+                level.append(node)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            for i in range(len(level) - 1):
+                first_node = level[i]
+                next_node = level[i + 1]
+                first_node.next = next_node
         return root
-
-        
