@@ -9,14 +9,15 @@ class Solution:
         if not root:
             return 0
         q = deque([root])
-
         while q:
+            n = len(q)
             total = 0
-            for _ in range(len(q)):
+            for _ in range(n):
                 node = q.popleft()
-                total += node.val
                 if node.left:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
+                if not node.left and not node.right:
+                    total += node.val
         return total
