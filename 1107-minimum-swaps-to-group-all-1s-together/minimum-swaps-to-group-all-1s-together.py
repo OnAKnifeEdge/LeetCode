@@ -8,7 +8,7 @@ class Solution:
         max_ones_in_window = 0
         while right < n:
             ones_in_window += data[right]
-            if right - left + 1 > ones:
+            if right - left == ones:
                 ones_in_window -= data[left]
                 left += 1
             max_ones_in_window = max(max_ones_in_window, ones_in_window)
