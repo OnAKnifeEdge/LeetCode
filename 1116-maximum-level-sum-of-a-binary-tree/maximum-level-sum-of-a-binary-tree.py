@@ -8,21 +8,22 @@ class Solution:
     def maxLevelSum(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        q = deque([(root, 1)])
+        q = deque([root])
         max_sum = float("-inf")
         max_level_sum = 0
-
+        level = 1
         while q:
             level_sum = 0
             n = len(q)
             for _ in range(n):
-                node, level = q.popleft()
+                node = q.popleft()
                 level_sum += node.val
                 if node.left:
-                    q.append((node.left, level + 1))
+                    q.append(node.left)
                 if node.right:
-                    q.append((node.right, level + 1))
+                    q.append(node.right)
             if level_sum > max_sum:
                 max_sum = level_sum
                 max_level_sum = level
+            level += 1
         return max_level_sum
