@@ -16,16 +16,15 @@ class Solution:
         q = deque([root])
         while q:
             n = len(q)
-            level = []
+            pointer = None
             for _ in range(n):
                 node = q.popleft()
-                level.append(node)
+                if pointer:
+                    pointer.next = node
+                pointer = node
                 if node.left:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
-            for i in range(len(level) - 1):
-                first_node = level[i]
-                next_node = level[i + 1]
-                first_node.next = next_node
+
         return root
