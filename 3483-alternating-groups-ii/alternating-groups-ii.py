@@ -1,28 +1,24 @@
 class Solution:
     def numberOfAlternatingGroups(self, colors: List[int], k: int) -> int:
-        length = len(colors)
-        result = 0
-        alternating_elements_count = 1  # Length of current alternating sequence
-        last_color = colors[0]  # Previous color
+        if not colors:
+            return 0
+        n = len(colors)
+        count = 0
+        alternating_cnt = 1
+        last_color = colors[0]
 
-        # Loop through array with circular traversal
-        for i in range(1, length + k - 1):
-            index = i % length  # Wrap around using modulo
+        for i in range(1, n + k - 1):
+            idx = i % n
 
-            # Check if current color is the same as the last color
-            if colors[index] == last_color:
-                # Pattern breaks, reset sequence length
-                alternating_elements_count = 1
-                last_color = colors[index]
+            if colors[idx] == last_color:
+                alternating_cnt = 1
+                last_color = colors[idx]
                 continue
 
-            # Extend sequence
-            alternating_elements_count += 1
+            alternating_cnt += 1
+            if alternating_cnt >= k:
+                count += 1
 
-            # If sequence length reaches at least k, count it
-            if alternating_elements_count >= k:
-                result += 1
+            last_color = colors[idx]
 
-            last_color = colors[index]
-
-        return result
+        return count
