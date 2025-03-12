@@ -7,40 +7,33 @@
 
 
 class Solution:
-    def __init__(self):
-        self.parent = {}  # {node.val: parent_node}
-
-    def traverse(self, node: TreeNode, parent: TreeNode):
-        if not node:
-            return
-        self.parent[node.val] = parent
-        self.traverse(node.left, node)
-        self.traverse(node.right, node)
-
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        if not root:
-            return []
-        self.traverse(root, None)
-        q = deque([target])
+        graph = defaultdict(list)
+
+        def build_tree(node, parent):
+            if node and parent:
+                graph[parent.val].append(node.val)
+                graph[node.val].append(parent.val)
+            if node.left:
+                build_tree(node.left, node)
+            if node.right:
+                build_tree(node.right, node)
+
+        build_tree(root, None)
+
+        q = deque([(target.val, 0)])
         visited = {target.val}
-        distance = 0
-        l = []
+        answer = []
 
         while q:
-            n = len(q)
-            for _ in range(n):
-                node = q.popleft()
-                if distance == k:
-                    l.append(node.val)
-                parent_node = self.parent[node.val]
-                if parent_node and parent_node.val not in visited:
-                    q.append(parent_node)
-                    visited.add(parent_node.val)
-                if node.left and node.left.val not in visited:
-                    q.append(node.left)
-                    visited.add(node.left.val)
-                if node.right and node.right.val not in visited:
-                    q.append(node.right)
-                    visited.add(node.right.val)
-            distance += 1
-        return l
+            node, distance = q.popleft()
+            if distance == k:
+                answer.append(node)
+                continue
+
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    q.append((neighbor, distance + 1))
+
+        return answer
