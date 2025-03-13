@@ -13,11 +13,10 @@ class Solution:
         result = []
 
         while stack or node:
-            if node:
+            while node:
                 stack.append(node)
                 node = node.left
-            else:
-                node = stack.pop()
-                result.append(node.val)
-                node = node.right
+            node = stack.pop()
+            result.append(node.val)
+            node = node.right
         return result
