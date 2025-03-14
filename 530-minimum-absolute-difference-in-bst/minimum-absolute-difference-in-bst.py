@@ -15,11 +15,13 @@ class Solution:
                 return
             # Traverse left subtree
             inorder(node.left)
+
+
             if prev_val is not None:
                 min_diff = min(min_diff, node.val - prev_val)
-
             # Update previous value to current node's value
             prev_val = node.val
+            
             # Traverse right subtree
             inorder(node.right)
 
