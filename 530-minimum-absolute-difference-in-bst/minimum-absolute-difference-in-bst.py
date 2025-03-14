@@ -12,7 +12,7 @@ class Solution:
         min_diff = float("inf")
         prev_val = None
 
-        result = []
+        # result = []
         current = root
 
         while current:
