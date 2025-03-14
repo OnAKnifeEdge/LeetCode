@@ -4,19 +4,22 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+
 class Solution:
     def findSecondMinimumValue(self, root: Optional[TreeNode]) -> int:
         if not root:
             return -1
-        if not root.left and not root.right:
-            return -1
-        left, right = root.left.val, root.right.val
-        if root.left.val == root.val:
-            left = self.findSecondMinimumValue(root.left)
-        if root.right.val == root.val:
-            right = self.findSecondMinimumValue(root.right)
-        if left == -1:
-            return right
-        if right == -1:
-            return left
-        return min(left, right)
+        min1 = root.val
+        min2 = float("inf")
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node.val == min1:
+                if node.right:
+                    stack.append(node.right)
+                if node.left:
+                    stack.append(node.left)
+            elif node.val > min1:
+                min2 = min(min2, node.val)
+        return min2 if min2 != float("inf") else -1
