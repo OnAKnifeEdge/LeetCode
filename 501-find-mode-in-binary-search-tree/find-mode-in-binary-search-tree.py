@@ -6,21 +6,57 @@
 #         self.right = right
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
-        stack = []
-        node = root
-        result = []
-        while stack or node:
-            while node:
-                stack.append(node)
-                node = node.left
-            node = stack.pop()
-            result.append(node.val)
-            node = node.right  # Move to right subtree
-        if not result:
-            return []
+        # result = []
+        current = root
 
-        # Use Counter to find mode frequency
-        freq = Counter(result)
-        max_freq = max(freq.values())
+        prev_val = None
+        streak = 0
+        max_streak = 0
+        modes = []
 
-        return [k for k, v in freq.items() if v == max_freq]
+        while current:
+            if not current.left:
+                # result.append(current.val)
+
+                ###
+                if current.val == prev_val:
+                    streak += 1
+                else:
+                    streak = 1
+                    prev_val = current.val
+
+                if streak > max_streak:
+                    modes = [current.val]
+                    max_streak = streak
+                elif streak == max_streak:
+                    modes.append(current.val)
+                ###
+
+                current = current.right
+            else:
+                pre = current.left
+                while pre.right and pre.right != current:
+                    pre = pre.right
+                if not pre.right:
+                    pre.right = current
+                    current = current.left
+                else:
+                    # result.append(current.val)
+
+                    ### duplicate as before ###
+                    if current.val == prev_val:
+                        streak += 1
+                    else:
+                        streak = 1
+                        prev_val = current.val
+
+                    if streak > max_streak:
+                        modes = [current.val]
+                        max_streak = streak
+                    elif streak == max_streak:
+                        modes.append(current.val)
+                    ###
+
+                    pre.right = None
+                    current = current.right
+        return modes
