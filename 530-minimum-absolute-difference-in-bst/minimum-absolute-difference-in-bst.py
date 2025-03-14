@@ -12,19 +12,35 @@ class Solution:
         min_diff = float("inf")
         prev_val = None
 
-        stack = []
-        node = root
-        
-        while stack or node:
-            while node:
-                stack.append(node)
-                node = node.left
-            node = stack.pop()
+        result = []
+        current = root
 
-            if prev_val is not None:
-                min_diff = min(abs(prev_val - node.val), min_diff)
-            prev_val = node.val
+        while current:
 
-            node = node.right
-        
+            if not current.left:
+                # result.append(current.val)
+
+                if prev_val is not None:
+                    min_diff = min(abs(current.val - prev_val), min_diff)
+                prev_val = current.val
+
+                current = current.right
+            else:
+                prev = current.left
+                while prev.right and prev.right != current:
+                    prev = prev.right
+
+                if not prev.right:
+                    prev.right = current
+                    current = current.left
+                else:
+                    prev.right = None
+
+                    # result.append(current.val)
+                    if prev_val is not None:
+                        min_diff = min(abs(current.val - prev_val), min_diff)
+                    prev_val = current.val
+
+                    current = current.right
+
         return min_diff
